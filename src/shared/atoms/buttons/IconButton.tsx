@@ -13,7 +13,7 @@ interface IconButtonProps
 const IconButton: React.FC<IconButtonProps> = ({
   icon,
   iconSize = "40px",
-  size = "70px",
+  size,
   ...buttonProps
 }) => {
   return (
@@ -21,8 +21,8 @@ const IconButton: React.FC<IconButtonProps> = ({
       {...buttonProps}
       icon={icon}
       iconSize={iconSize}
-      width={size}
-      height={size}
+      width={size || iconSize}
+      height={size || iconSize}
       borderRadius="40%"
     />
   );

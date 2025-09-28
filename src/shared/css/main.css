@@ -5,3 +5,12 @@
     --main-text-black: #1E1E22;
     --main-warn-color: #E81414;
 }
+
+header {
+
+}
+
+.main-page-container {
+    background: linear-gradient(to bottom, #050021, #292F8A);
+    height: 100vh;
+}

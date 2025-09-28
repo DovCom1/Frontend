@@ -1,5 +1,5 @@
 import React from "react";
-import renderIcon from "../utils/renderIcon";
+import renderIcon from "../../utils/renderIcon";
 import classes from "./Button.module.css";
 
 interface ButtonProps {
