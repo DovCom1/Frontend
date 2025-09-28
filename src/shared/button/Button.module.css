@@ -1,0 +1,52 @@
+.customButton {
+    border: none;
+    border-radius: 1px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease-in-out;
+
+    box-sizing: border-box;
+}
+
+.defaultButtonOrange {
+    background-color: var(--main-color-orange);
+    color: var(--main-text-black);
+    width: min(500px, 25vw);
+    height: auto;
+}
+
+.defaultButtonBlue {
+    background-color: var(--main-color-blue);
+    color: #fff;
+    width: min(300px, 15vw);
+    height: auto;
+}
+
+.defaultWarningButton {
+    background-color: var(--main-warn-color);
+    width: min(300px, 15vw);
+    color: #fff;
+    height: auto;
+}
+
+
+.customButton:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.customButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.buttonIcon {
+    display: flex;
+}

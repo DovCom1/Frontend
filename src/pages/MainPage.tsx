@@ -1,41 +1,40 @@
-import Button from "../shared/Button/Button";
-import IconButton from "../shared/IconButton";
+import Button from "../shared/button/Button";
+import IconButton from "../shared/button/IconButton";
+import classes from "../shared/button/Button.module.css";
 export function MainPage() {
   return (
     <div>
-      <Button label="Войти" width="200px" borderRadius="15px" />
-      <Button
+      <Button className={classes.defaultButtonBlue} label="Войти" width="200px" />
+      <Button className={classes.defaultButtonOrange}
         label="Войти/зарегистрироваться "
         icon="/icons/login.svg"
         iconPosition="right"
-        borderRadius="15px"
-        backgroundColor="#FF9500"
-        textColor="#1E1E22"
-        width="300px"
       />
       <IconButton
+          className={classes.defaultButtonOrange}
         icon="/icons/cameraBlack.svg"
-        backgroundColor="#FF9500"
         onClick={() => console.log("Clicked!")}
       />
       <IconButton
-        icon="/icons/login.svg"
+          className={`${classes.defaultButtonOrange}`}
+
+          icon="/icons/login.svg"
         size="70px"
         iconSize="40px"
-        backgroundColor="#FF9500"
         onClick={() => console.log("Clicked!")}
       />
       <IconButton
-        icon="/icons/link.svg"
+          className={classes.defaultButtonBlue}
+          icon="/icons/link.svg"
         onClick={() => console.log("Clicked!")}
       />
       <Button
+          className={classes.defaultWarningButton}
         label="Опасное действие"
-        backgroundColor="#E81414"
-        textColor="#fff"
-        width="100%"
       />
-      <Button label="Недоступно" disabled={true} />
+      <Button
+          className={classes.defaultButtonBlue} label="Недоступно" disabled={true}
+      />
     </div>
   );
 }
