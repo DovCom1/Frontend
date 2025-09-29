@@ -4,6 +4,8 @@ import App from './app/App';
 
 // Важный импорт! Подгружаются константы стилей.
 import '../src/shared/css/main.css';
+import '../src/shared/css/default.css';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
