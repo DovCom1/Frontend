@@ -1,29 +1,28 @@
 import React from "react";
 import Button from "./Button";
+import Icon from "../icons/Icon";
 
 interface IconButtonProps
   extends Omit<
     React.ComponentProps<typeof Button>,
-    "label" | "width" | "height" | "borderRadius" | "iconPosition"
+    "width" | "height" | "borderRadius" | "labelPosition" | "backgroundColor" | "label" | "gap"
   > {
-  icon: string;
-  size?: string;
+  icon: React.ReactElement<typeof Icon>,
+    size?: string;
 }
 
+// Кнопка в виде картинки (иконки), либо кнопка внутри которой картинка
+// Если не указывать size, то иконка займет все место кнопки!
 const IconButton: React.FC<IconButtonProps> = ({
-  icon,
-  iconSize = "40px",
-  size,
-  ...buttonProps
-}) => {
+   icon,
+   size,
+   ...buttonProps}) => {
   return (
     <Button
       {...buttonProps}
       icon={icon}
-      iconSize={iconSize}
-      width={size || iconSize}
-      height={size || iconSize}
-      borderRadius="40%"
+      width={size}
+      height={size}
     />
   );
 };

@@ -1,9 +1,18 @@
 import React from "react";
 import MainPage from "../pages/MainPage";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+
+// TODO: Сделать молекулу кнопка + текст -> кнопка
+//  Сделать молекулу сетка объектов: колонка, строчка, таблица
+//  Подумать над стилями для стандартных кнопок
 
 function App() {
   return (
-        <MainPage />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+        </Routes>
+      </BrowserRouter>
   );
 }
 

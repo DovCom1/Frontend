@@ -1,13 +1,16 @@
 .customButton {
     border: none;
     border-radius: 1px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease-in-out;
 
     box-sizing: border-box;
+}
+
+.label {
+
 }
 
 .defaultButtonOrange {
@@ -28,7 +31,6 @@
     padding-top: 10px;
     padding-bottom: 10px;
     font-size: 17px;
-
 }
 
 .defaultWarningButton {

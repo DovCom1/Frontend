@@ -1,56 +1,57 @@
 import React from "react";
-import renderIcon from "../../utils/renderIcon";
 import classes from "./Button.module.css";
+import {getFlexConfig} from "../../utils/setlabelPosition";
+import Label, {LabelProps} from "../labels/Label";
+import Icon from "../icons/Icon";
 
 interface ButtonProps {
-  label?: string;
-  icon?: string;
-  iconPosition?: "left" | "right"; // Положение иконки относительно текста
-  iconSize?: string;
+  label?: React.ReactElement<typeof Label>;
+  icon?: React.ReactElement<typeof Icon>;
+  labelPosition?: "left" | "right" | "top" | "bottom";// Положение текста относительно иконки
 
   width?: string;
   height?: string;
   borderRadius?: string;
 
-  color?: string;
   backgroundColor?: string;
-  textColor?: string;
 
   disabled?: boolean;
   onClick?: () => void;
-
   className?: string;
+  gap?: string;
 }
 
+// Базовый класс кнопки
 const Button: React.FC<ButtonProps> = ({
-  label,
-  icon,
-  iconSize = "18px",
-  iconPosition = "left",
-  width,
-  height,
-  borderRadius = "6px",
-  backgroundColor,
-  textColor,
-  disabled = false,
-  onClick,
-  className = "",
-}) => {
+      label,
+      icon,
+      labelPosition = "left",
+      width,
+      height,
+      borderRadius = "6px",
+      backgroundColor,
+      disabled = false,
+      onClick,
+      className = "",
+    gap = "10px"
+    }) => {
 
-  const buttonStyle: React.CSSProperties = {
+    const { flexDirection, orderLabel, orderButton } = getFlexConfig(labelPosition);
+
+    const buttonStyle: React.CSSProperties = {
     width: width,
     height: height,
     borderRadius: borderRadius,
     backgroundColor: backgroundColor,
-    color: textColor,
+    display: "flex",
+    flexDirection: flexDirection,
+    alignItems: "center",
+    gap: gap
   };
 
   const iconStyle: React.CSSProperties = {
-    width: iconSize,
-    height: iconSize,
-    fontSize: iconSize,
+    order: orderButton
   };
-
 
   return (
     <button
@@ -60,9 +61,8 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {icon && iconPosition === "left" && renderIcon(icon, iconStyle)}
-      {label && <div className="button-label">{label}</div>}
-      {icon && iconPosition === "right" && renderIcon(icon, iconStyle)}
+      {icon && <div style={{ order: orderButton }}>{icon}</div>}
+      {<div style={{order: orderLabel }}>{label}</div>}
     </button>
   );
 };
