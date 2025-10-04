@@ -1,0 +1,93 @@
+.inputField {
+  width: 100%;
+  position: relative;
+}
+
+.inputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 1.5rem 0.75rem 0.5rem 0.75rem;
+  border: 1px solid #82848A;
+  border-radius: 0.375rem;
+  background-color: #3E3F46;
+  color: #F6F6F6;
+  font-size: 1rem;
+  transition: all 0.2s;
+  height: 56px;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: transparent;
+}
+
+.inputError {
+  border-color: #E81414;
+  background-color: #E8141480;
+  box-shadow: 0 0 0 2px #E81414;
+}
+
+.inputError:focus {
+  border-color: #E81414;
+  box-shadow: 0 0 0 2px #E81414;
+}
+
+.inputDisabled {
+  background-color: #374151;
+  cursor: not-allowed;
+  color: #9CA3AF;
+  border-color: #4B5563;
+}
+
+.label {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #F6F6F6;
+  transition: all 0.2s;
+  pointer-events: none;
+  background: transparent;
+  padding: 0 0.25rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.labelFloating {
+  top: 0.5rem;
+  font-size: 0.75rem;
+  color: #F6F6F6;
+  transform: translateY(0);
+}
+
+.labelError {
+  color: #F6F6F6;
+}
+
+.input:focus + .label {
+  top: 0.5rem;
+  font-size: 0.75rem;
+  color: #F6F6F6;
+  transform: translateY(0);
+}
+
+.inputError:focus + .label {
+  color: #F6F6F6;
+}
+
+.required {
+  color: #E81414;
+  margin-left: 0.125rem;
+}
+
+.error {
+  color: #E81414;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
