@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./app/App";
 
 // Важный импорт! Подгружаются константы стилей.
-import "../public/css/main.css";
-import "../public/css/default.css";
+import "./css/main.css";
+import "./css/default.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
