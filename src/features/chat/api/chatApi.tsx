@@ -1,4 +1,4 @@
-import { baseApi } from "../../../shared/api/http/baseApi";
+//import { baseApi } from "../../../shared/api/http/baseApi";
 
 export const chatApi = {
   // getMessages: (chatId: string): Promise<Message[]> =>

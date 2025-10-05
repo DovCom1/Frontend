@@ -1,35 +1,39 @@
-import React, { useState } from 'react';
-import { InputField } from '../../shared/atoms/input-fields/InputField';
-import Button from '../../shared/atoms/buttons/Button';
-import Label from '../../shared/atoms/labels/Label';
-import classes from './MeetingScheduler.module.css';
-import { DateInput } from '../../shared/atoms/input-fields/DateInput';
+import React, { useState } from "react";
+import { InputField } from "../../shared/atoms/input-fields/InputField";
+import Button from "../../shared/atoms/buttons/Button";
+import Label from "../../shared/atoms/labels/Label";
+import classes from "./MeetingScheduler.module.css";
+import { DateInput } from "../../shared/atoms/input-fields/DateInput";
 
 interface MeetingSchedulerProps {
   onSuccess?: () => void;
 }
 
-export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({ 
-  onSuccess 
+export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
+  onSuccess,
 }) => {
-  const [title, setTitle] = useState('');
-  const [maxParticipants, setMaxParticipants] = useState('');
-  const [date, setDate] = useState('');
+  const [title, setTitle] = useState("");
+  const [maxParticipants, setMaxParticipants] = useState("");
+  const [date, setDate] = useState("");
 
   const handleSubmit = () => {
     const meetingData = {
       title,
       maxParticipants: parseInt(maxParticipants),
-      date: new Date(date)
+      date: new Date(date),
     };
-    
-    console.log('Создаем встречу:', meetingData);
-    alert(`Встреча "${title}" успешно создана!\nУчастников: ${maxParticipants}\nДата: ${new Date(date).toLocaleString()}`);
-    
-    setTitle('');
-    setMaxParticipants('');
-    setDate('');
-    
+
+    console.log("Создаем встречу:", meetingData);
+    alert(
+      `Встреча "${title}" успешно создана!\nУчастников: ${maxParticipants}\nДата: ${new Date(
+        date
+      ).toLocaleString()}`
+    );
+
+    setTitle("");
+    setMaxParticipants("");
+    setDate("");
+
     onSuccess?.();
   };
 
@@ -38,7 +42,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   return (
     <div className={classes.scheduler}>
       <h3 className={classes.title}>Запланировать встречу</h3>
-      
+
       <div className={classes.form}>
         <InputField
           label="Название встречи"
@@ -47,7 +51,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
           onChange={setTitle}
           required
         />
-        
+
         <InputField
           label="Максимальное количество участников"
           type="number"
@@ -56,12 +60,9 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
           onChange={setMaxParticipants}
           required
         />
-        
-        <DateInput
-          value={date}
-          onChange={setDate}
-        />
-        
+
+        <DateInput value={date} onChange={setDate} />
+
         <Button
           label={<Label text="Запланировать встречу" />}
           onClick={handleSubmit}

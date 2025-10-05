@@ -1,5 +1,5 @@
-import React from 'react';
-import classes from './Modal.module.css';
+import React from "react";
+import classes from "./Modal.module.css";
 
 interface ModalProps {
   isOpen: boolean;
@@ -33,9 +33,15 @@ export const Modal: React.FC<ModalProps> = ({
             </button>
           </div>
         )}
-        <div className={classes.content}>
-          {children}
-        </div>
+        {!title && (
+          <div className={classes.header}>
+            <button className={classes.closeButton} onClick={onClose}>
+              ×
+            </button>
+          </div>
+        )}
+
+        <div className={classes.content}>{children}</div>
       </div>
     </div>
   );
