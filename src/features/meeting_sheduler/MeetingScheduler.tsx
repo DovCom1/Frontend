@@ -4,6 +4,9 @@ import Button from '../../shared/atoms/buttons/Button';
 import Label from '../../shared/atoms/labels/Label';
 import classes from './MeetingScheduler.module.css';
 import { DateInput } from '../../shared/atoms/input-fields/DateInput';
+import { Dropdown } from '../../shared/atoms/dropdown/Dropdown';
+import { createIconTextOption, createIconTextOptions } from '../../shared/atoms/dropdown/options/IconTextOption';
+import Icon from '../../shared/atoms/icons/Icon';
 
 interface MeetingSchedulerProps {
   onSuccess?: () => void;
@@ -15,6 +18,8 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   const [title, setTitle] = useState('');
   const [maxParticipants, setMaxParticipants] = useState('');
   const [date, setDate] = useState('');
+
+  const [selectedValue, setSelectedValue] = useState('');
 
   const handleSubmit = () => {
     const meetingData = {
@@ -58,6 +63,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
         />
         
         <DateInput
+          label="Дата встречи"
           value={date}
           onChange={setDate}
         />
