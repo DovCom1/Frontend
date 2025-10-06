@@ -16,6 +16,7 @@ import { DateTimeInput } from '../../shared/atoms/input-fields/DateTimeInput';
 import { Dropdown } from '../../shared/atoms/dropdown/Dropdown';
 import { createIconTextOptions, renderFirstNIcons } from '../../shared/atoms/dropdown/options/IconTextOption';
 import { MultipleDropdown } from '../../shared/atoms/dropdown/MultipleDropdown';
+import { createTextOptions } from '../../shared/atoms/dropdown/options/TextOption';
 
 export const TestPage: React.FC = () => {
   const [meetingTitle, setMeetingTitle] = useState("");
@@ -154,13 +155,13 @@ export const TestPage: React.FC = () => {
           <h2>Выпадающие списки</h2>
           <div className={classes.componentsGrid}>
             <Dropdown
-              label='Участники'
-              options={createIconTextOptions([
-                { value: '1', icon: <Icon path="https://i.pravatar.cc/" size='100px' />, text: 'Name1'},
-                { value: '2', icon: <Icon path="https://i.pravatar.cc/100" size='100px' />, text: 'Name2'},
-                { value: '3', icon: <Icon path="https://i.pravatar.cc/101" size='100px' />, text: 'Name3'},
-                { value: '4', icon: <Icon path="https://i.pravatar.cc/102" size='100px' />, text: 'Name4'},
-                { value: '5', icon: <Icon path="https://i.pravatar.cc/103" size='100px' />, text: 'Name5'},
+              label='Микрофон'
+              options={createTextOptions([
+                { value: '1', text: 'Встроеный микрофон'},
+                { value: '2', text: 'Микрофон гарнитуры'},
+                { value: '3', text: 'Петличка'},
+                { value: '4', text: 'Бумажный стаканчик'},
+                { value: '5', text: 'Буду сам записывать и передавать в двоичном коде'},
               ])}
               onChange={setSelectedValue}
               value={selectedValue}

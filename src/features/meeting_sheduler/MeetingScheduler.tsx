@@ -5,8 +5,11 @@ import Label from '../../shared/atoms/labels/Label';
 import classes from './MeetingScheduler.module.css';
 import { DateInput } from '../../shared/atoms/input-fields/DateInput';
 import { Dropdown } from '../../shared/atoms/dropdown/Dropdown';
-import { createIconTextOption, createIconTextOptions } from '../../shared/atoms/dropdown/options/IconTextOption';
+import { createIconTextOption, createIconTextOptions, renderFirstNIcons } from '../../shared/atoms/dropdown/options/IconTextOption';
 import Icon from '../../shared/atoms/icons/Icon';
+import { MultipleDropdown } from '../../shared/atoms/dropdown/MultipleDropdown';
+import { getFriends } from './model/Utills';
+import { DateTimeInput } from '../../shared/atoms/input-fields/DateTimeInput';
 
 interface MeetingSchedulerProps {
   onSuccess?: () => void;
@@ -19,7 +22,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   const [maxParticipants, setMaxParticipants] = useState('');
   const [date, setDate] = useState('');
 
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const handleSubmit = () => {
     const meetingData = {
@@ -41,7 +44,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   const isFormValid = title.trim() && maxParticipants && date;
 
   return (
-    <div className={classes.scheduler}>
+    <div className={classes.scheduler} style={{padding: 10, margin: 40}}>
       <h3 className={classes.title}>Запланировать встречу</h3>
       
       <div className={classes.form}>
@@ -62,10 +65,17 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
           required
         />
         
-        <DateInput
+        <DateTimeInput
           label="Дата встречи"
           value={date}
           onChange={setDate}
+        />
+
+        <MultipleDropdown 
+          options={getFriends()}
+          renderSelected={(selected) => renderFirstNIcons(selected, 3)}
+          onChange={setSelectedValues}
+          value={selectedValues}
         />
         
         <Button
@@ -74,6 +84,7 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
           disabled={!isFormValid}
           width="100%"
           backgroundColor={isFormValid ? "#FF9500" : "#54565C"}
+          height='1cm'
         />
       </div>
     </div>
