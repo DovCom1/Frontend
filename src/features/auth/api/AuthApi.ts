@@ -11,7 +11,7 @@ export interface RegisterData {
   name: string;
   username: string;
   birthDate: string;
-  gender: "мужщина" | "женщина" | "витя";
+  gender: "мужщина" | "женщина";
 }
 
 export interface User {
@@ -20,7 +20,7 @@ export interface User {
   name: string;
   username: string;
   birthDate: string;
-  gender: "мужщина" | "женщина" | "витя";
+  gender: "мужщина" | "женщина";
   avatar?: string;
 }
 

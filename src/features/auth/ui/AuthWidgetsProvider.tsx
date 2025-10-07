@@ -1,11 +1,11 @@
 import { LoginWidget } from "./LoginWidget";
-//import { RegisterWidget } from './register-widget';
+import { RegisterWidget } from "./RegisterWidget";
 
 export const AuthWidgetsProvider = () => {
   return (
     <>
       <LoginWidget />
-      {/* <RegisterWidget /> */}
+      <RegisterWidget />
     </>
   );
 };
