@@ -8,22 +8,35 @@ import LinkButton from "../shared/atoms/buttons/LinkButton";
 import Icon from "../shared/atoms/icons/Icon";
 
 const Header = () => {
-    return <header>
-        <div className={headerClasses.headerContainer}>
-            <LinkButton label={<Label text={"DovCom"} color={"#fff"} fontSize={"34px"} />}
-                        icon={<Icon path={"/icons/logo.svg"} size={"70px"}/>}
-                        url={"/"}
-                        labelPosition={"right"}
+  return (
+    <header className={headerClasses.header}>
+      <div className={headerClasses.headerContainer}>
+        <LinkButton
+          label={<Label text={"DovCom"} color={"#fff"} fontSize={"24px"} />}
+          icon={
+            <Icon
+              path={"/icons/base_dove.svg"}
+              height={"43px"}
+              width={"51px"}
             />
+          }
+          gap={"10px"}
+          url={"/"}
+          labelPosition={"right"}
+        />
 
-            <Button className={buttonClasses.defaultButtonOrange}
-                    label={<Label text={"Войти/зарегистрироваться"}/>}
-                    icon={<Icon path={"/icons/login.svg"}/>}
-                    labelPosition="left"
-                    borderRadius="15px"
-            />
-        </div>
+        <Button
+          className={buttonClasses.defaultButtonOrange}
+          label={<Label text={"Войти/зарегистрироваться"} fontSize={"18px"} />}
+          icon={<Icon path={"/icons/login.svg"} size={"22px"} />}
+          width={"323px"}
+          height={"42px"}
+          labelPosition="left"
+          borderRadius="15px"
+        />
+      </div>
     </header>
+  );
 };
 
 export default Header;
