@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useWebSocketStore } from "../../../shared/api/websocket/model/WebsocketStore";
+import { useWebSocketStore } from "../../../shared/api/websocket/model/websocketStore";
 
 export const useChat = (chatId: string) => {
   const { subscribe, isConnected } = useWebSocketStore();

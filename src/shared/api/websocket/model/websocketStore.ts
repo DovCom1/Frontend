@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { WebSocketClient } from "../lib/WebsocketClient";
+import { WebSocketClient } from "../lib/websocketClient";
 
 interface WebSocketState {
   client: WebSocketClient | null;

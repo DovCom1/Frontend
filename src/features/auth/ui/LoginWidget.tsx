@@ -10,9 +10,12 @@ import { useAuthStore } from "../model/AuthStore";
 import { useAuthWidgetStore } from "../model/AuthWidgetStore";
 import { validatePasswordDetailed } from "../model/Validation";
 import LabeledIconButton from "../../../shared/atoms/buttons/LabeledIconButton";
+
 export const LoginWidget: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const { login, isLoading, clearError } = useAuthStore();
   const { isLoginOpen, closeAll, switchToRegister } = useAuthWidgetStore();
@@ -23,11 +26,51 @@ export const LoginWidget: React.FC = () => {
     if (isLoginOpen) {
       setEmail("");
       setPassword("");
+      setEmailError("");
+      setPasswordError("");
       clearError();
     }
   }, [isLoginOpen, clearError]);
+
+
+  const isFormValid = () => {
+    const isEmailValid = email.trim() !== "" && emailRegex.test(email);
+    
+    const isPasswordValid = password.trim() !== "" && validatePasswordDetailed(password);
+    
+    return isEmailValid && isPasswordValid;
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    
+    if (value.trim() === "") {
+      setEmailError("");
+    } else if (!emailRegex.test(value)) {
+      setEmailError("Неверный формат email");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+    
+    if (value.trim() === "") {
+      setPasswordError("Пароль обязателен для заполнения");
+    } else if (!validatePasswordDetailed(value)) {
+      setPasswordError("Пароль должен быть сложнее");
+    } else {
+      setPasswordError("");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isFormValid()) {
+      return;
+    }
 
     try {
       await login({ email, password });
@@ -36,6 +79,8 @@ export const LoginWidget: React.FC = () => {
       console.error("Login error:", error);
     }
   };
+
+  const isButtonDisabled = isLoading || !isFormValid();
 
   return (
     <Modal isOpen={isLoginOpen} onClose={closeAll}>
@@ -66,10 +111,8 @@ export const LoginWidget: React.FC = () => {
             label="Email"
             placeholder="your@email.com"
             value={email}
-            onChange={setEmail}
-            error={
-              email && !emailRegex.test(email) ? "Неверный формат email" : ""
-            }
+            onChange={handleEmailChange}
+            error={emailError}
             required
           />
         </div>
@@ -79,12 +122,8 @@ export const LoginWidget: React.FC = () => {
             label="Пароль"
             placeholder="Введите пароль"
             value={password}
-            onChange={setPassword}
-            error={
-              password && !validatePasswordDetailed(password)
-                ? "Пароль должен быть сложнее"
-                : ""
-            }
+            onChange={handlePasswordChange}
+            error={passwordError}
             required
           />
         </div>
@@ -93,7 +132,7 @@ export const LoginWidget: React.FC = () => {
           <Button
             className={buttonClasses.defaultButtonOrange}
             label={<Label text={isLoading ? "Вход..." : "Войти"} />}
-            disabled={isLoading}
+            disabled={isButtonDisabled}
             width="100%"
             borderRadius="18px"
             icon={isLoading ? <Icon path="/icons/loading.svg" /> : undefined}
