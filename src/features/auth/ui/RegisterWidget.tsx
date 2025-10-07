@@ -10,6 +10,7 @@ import { EmailInput } from "../../../shared/atoms/input-fields/EmailInput";
 import { PasswordInput } from "../../../shared/atoms/input-fields/PasswordInput";
 import { DateInput } from "../../../shared/atoms/input-fields/DateInput";
 import buttonClasses from "../../../shared/atoms/buttons/Button.module.css";
+import LabeledIconButton from "../../../shared/atoms/buttons/LabeledIconButton";
 
 export const RegisterWidget: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +26,6 @@ export const RegisterWidget: React.FC = () => {
   const { register, isLoading, error, clearError } = useAuthStore();
   const { isRegisterOpen, closeAll, switchToLogin } = useAuthWidgetStore();
 
-  // Сброс формы при открытии/закрытии
   useEffect(() => {
     if (isRegisterOpen) {
       setFormData({
@@ -48,6 +48,7 @@ export const RegisterWidget: React.FC = () => {
     }));
   };
 
+
   const calculateAge = (birthDate: string): number => {
     const today = new Date();
     const birth = new Date(birthDate);
@@ -69,7 +70,7 @@ export const RegisterWidget: React.FC = () => {
 
     try {
       await register({
-        name: formData.uid,
+        uid: formData.uid,
         username: formData.username,
         email: formData.email,
         password: formData.password,
@@ -96,9 +97,9 @@ export const RegisterWidget: React.FC = () => {
     <Modal isOpen={isRegisterOpen} onClose={closeAll}>
       <form
         onSubmit={handleSubmit}
-        style={{ padding: "20px", maxHeight: "70vh", overflowY: "auto" }}
+        style={{ maxHeight: "90vh", overflowY: "auto", paddingRight : 20, paddingLeft : 20}}
       >
-        {/* Общая ошибка формы */}
+        {/* Общая ошибка формы
         {error && (
           <div
             style={{
@@ -114,16 +115,21 @@ export const RegisterWidget: React.FC = () => {
             <div style={{ fontWeight: "600" }}>Ошибка регистрации</div>
             <div style={{ marginTop: "4px" }}>{error}</div>
           </div>
-        )}
+        )} */}
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {/* Имя */}
-          <TextInput
-            label="Имя *"
-            placeholder="Ваше настоящее имя"
-            value={formData.uid}
-            onChange={(value) => handleChange("name", value)}
-            required
+
+        <div style={{ display: "flex", marginBottom: "10px", flexDirection: "column", gap: "10px", alignItems: "center"}}>
+          <LabeledIconButton
+          label={<Label text={"DovCom"} color={"#fff"} fontSize={"20px"} />}
+          icon={<Icon path={"/icons/logo.svg"} size={"55px"} />}
+          labelPosition={"bottom"}
+          gap={"0px"}
+          />
+
+          <Label
+          text={"Регистрация"}
+          fontSize={"30px"}
+          color={"#fff"}
           />
 
           {/* Никнейм */}
@@ -132,6 +138,15 @@ export const RegisterWidget: React.FC = () => {
             placeholder="your_nickname"
             value={formData.username}
             onChange={(value) => handleChange("username", value)}
+            required
+          />
+
+          {/* Uid */}
+          <TextInput
+            label="UID из 10 Символов"
+            placeholder="Ваше настоящее имя"
+            value={formData.uid}
+            onChange={(value) => handleChange("name", value)}
             required
           />
 
@@ -170,41 +185,6 @@ export const RegisterWidget: React.FC = () => {
             max={getMaxBirthDate()}
             required
           />
-
-          {/* Пол */}
-          <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "8px",
-                fontSize: "14px",
-                fontWeight: "500",
-                color: "#374151",
-              }}
-            >
-              Пол *
-            </label>
-            <select
-              value={formData.gender}
-              onChange={(e) => handleChange("gender", e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px 12px",
-                border: `1px solid ${"#d1d5db"}`,
-                borderRadius: "8px",
-                fontSize: "14px",
-                backgroundColor: "#fef2f2",
-                outline: "none",
-                transition: "border-color 0.2s",
-              }}
-              required
-            >
-              <option value="">Выберите пол</option>
-              <option value="male">Мужской</option>
-              <option value="female">Женский</option>
-            </select>
-            {}
-          </div>
         </div>
 
         {/* Кнопка регистрации */}

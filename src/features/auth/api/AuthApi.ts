@@ -8,7 +8,7 @@ export interface LoginData {
 export interface RegisterData {
   email: string;
   password: string;
-  name: string;
+  uid: string;
   username: string;
   birthDate: string;
   gender: "мужщина" | "женщина";
@@ -17,7 +17,7 @@ export interface RegisterData {
 export interface User {
   id: string;
   email: string;
-  name: string;
+  uid: string;
   username: string;
   birthDate: string;
   gender: "мужщина" | "женщина";
