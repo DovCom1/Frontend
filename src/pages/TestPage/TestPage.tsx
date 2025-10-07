@@ -157,11 +157,11 @@ export const TestPage: React.FC = () => {
             <Dropdown
               label='Микрофон'
               options={createTextOptions([
-                { value: '1', text: <Label text='Встроеный микрофон' color='white' />},
-                { value: '2', text: <Label text='Расстроенный микрофон' color='white' />},
-                { value: '3', text: <Label text='Другой микрофон' color='white' />},
-                { value: '4', text: <Label text='Макрофон' color='white' />},
-                { value: '5', text: <Label text='Мегафон' color='white' />},
+                { value: '1', text: 'Встроеный микрофон' },
+                { value: '2', text: 'Расстроенный микрофон' },
+                { value: '3', text: 'Другой микрофон' },
+                { value: '4', text: 'Макрофон' },
+                { value: '5', text: 'Мегафон' },
               ])}
               onChange={setSelectedValue}
               value={selectedValue}
