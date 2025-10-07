@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import classes from './Dropdown.module.css';
+import Label from '../labels/Label';
 
-// Максимально абстрактный тип - можно передать ЛЮБОЙ React элемент
 export interface DropdownOption<T = any> {
   value: T;
-  content: React.ReactNode; // ЛЮБОЙ React компонент или элемент
-  key?: string; // Уникальный ключ для React
+  content: React.ReactNode;
+  key?: string;
 }
 
 interface DropdownProps<T = any> {
@@ -24,7 +24,7 @@ export const Dropdown = <T,>({
   options,
   value,
   onChange,
-  placeholder = 'Выберите вариант',
+  placeholder = <Label text='Выберите вариант' color='white' />,
   label,
   error,
   required = false,
