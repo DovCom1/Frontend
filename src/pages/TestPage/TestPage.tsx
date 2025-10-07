@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Button from "../../shared/atoms/buttons/Button";
 import Label from "../../shared/atoms/labels/Label";
 import Icon from "../../shared/atoms/icons/Icon";
@@ -13,6 +13,10 @@ import { EmailInput } from '../../shared/atoms/input-fields/EmailInput';
 import { PasswordInput } from '../../shared/atoms/input-fields/PasswordInput';
 import { DateInput } from '../../shared/atoms/input-fields/DateInput';
 import { DateTimeInput } from '../../shared/atoms/input-fields/DateTimeInput';
+import { Dropdown } from '../../shared/atoms/dropdown/Dropdown';
+import { createIconTextOptions, renderFirstNIcons } from '../../shared/atoms/dropdown/options/IconTextOption';
+import { MultipleDropdown } from '../../shared/atoms/dropdown/MultipleDropdown';
+import { createTextOptions } from '../../shared/atoms/dropdown/options/TextOption';
 
 export const TestPage: React.FC = () => {
   const [meetingTitle, setMeetingTitle] = useState("");
@@ -24,6 +28,9 @@ export const TestPage: React.FC = () => {
   const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false);
   const [isSimpleModalOpen, setIsSimpleModalOpen] = useState(false);
 
+  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+
   return (
     <div className={classes.testPage}>
       <header className={classes.header}>
@@ -32,7 +39,6 @@ export const TestPage: React.FC = () => {
       </header>
 
       <div className={classes.content}>
-        
         <section className={classes.section}>
           <h2>📝 Текстовые поля (TextField)</h2>
           <div className={classes.componentsGrid}>
@@ -42,22 +48,24 @@ export const TestPage: React.FC = () => {
               value={textValue}
               onChange={setTextValue}
             />
-            
+
             <EmailInput
               label="Email поле"
               placeholder="user@example.com"
               value={email}
               onChange={setEmail}
-              error={email && !email.includes('@') ? 'Неверный формат email' : ''}
+              error={
+                email && !email.includes("@") ? "Неверный формат email" : ""
+              }
             />
-            
+
             <PasswordInput
               label="Пароль"
               placeholder="Введите пароль"
               value={password}
               onChange={setPassword}
             />
-            
+
             <InputField
               label="Числовое поле"
               type="number"
@@ -65,7 +73,7 @@ export const TestPage: React.FC = () => {
               value={participants}
               onChange={setParticipants}
             />
-            
+
             <InputField
               label="Обязательное поле"
               placeholder="Это поле обязательно"
@@ -73,7 +81,7 @@ export const TestPage: React.FC = () => {
               onChange={setMeetingTitle}
               required
             />
-            
+
             <InputField
               label="Отключенное поле"
               value="Это поле нельзя изменить"
@@ -87,13 +95,9 @@ export const TestPage: React.FC = () => {
               onChange={setTextValue}
             />
 
-            <DateInput
-              label="Поле выбора даты"
-            />
+            <DateInput label="Поле выбора даты" />
 
-            <DateTimeInput
-              label="Поле выбора даты и времени"
-            />
+            <DateTimeInput label="Поле выбора даты и времени" />
           </div>
         </section>
 
@@ -105,19 +109,19 @@ export const TestPage: React.FC = () => {
               label={<Label text="Обычная кнопка" />}
               onClick={() => console.log("Клик!")}
             />
-            
+
             <Button
               className={buttonClasses.defaultButtonOrange}
               label={<Label text="Кнопка с иконкой" />}
               icon={<Icon path="/icons/star.svg" />}
               labelPosition="right"
             />
-            
+
             <Button
               className={buttonClasses.defaultWarningButton}
               label={<Label text="Опасное действие" />}
             />
-            
+
             <Button
               className={buttonClasses.defaultButtonBlue}
               label={<Label text="Неактивная" />}
@@ -135,11 +139,52 @@ export const TestPage: React.FC = () => {
               icon={<Icon path="/icons/calendar.svg" />}
               onClick={() => setIsMeetingModalOpen(true)}
             />
-            
+
             <Button
               className={buttonClasses.defaultButtonOrange}
               label={<Label text="Простая модалка" />}
               onClick={() => setIsSimpleModalOpen(true)}
+            />
+          </div>
+        </section>
+
+        <section className={classes.section}>
+          <h2>Выпадающие списки</h2>
+          <div className={classes.componentsGrid}>
+            <Dropdown
+              label='Микрофон'
+              options={createTextOptions([
+                { value: '1', text: 'Встроеный микрофон' },
+                { value: '2', text: 'Расстроенный микрофон' },
+                { value: '3', text: 'Другой микрофон' },
+                { value: '4', text: 'Макрофон' },
+                { value: '5', text: 'Мегафон' },
+              ])}
+              onChange={setSelectedValue}
+              value={selectedValue}
+            />
+            <MultipleDropdown
+              label='Участники'
+              options={createIconTextOptions([
+                { value: '1', icon: <Icon path="https://i.pravatar.cc/" size='100px' />, text: 'Name1'},
+                { value: '2', icon: <Icon path="https://i.pravatar.cc/100" size='100px' />, text: 'Name2'},
+                { value: '3', icon: <Icon path="https://i.pravatar.cc/101" size='100px' />, text: 'Name3'},
+                { value: '4', icon: <Icon path="https://i.pravatar.cc/102" size='100px' />, text: 'Name4'},
+                { value: '5', icon: <Icon path="https://i.pravatar.cc/103" size='100px' />, text: 'Name5'},
+                { value: '6', icon: <Icon path="https://i.pravatar.cc/104" size='100px' />, text: 'Name6'},
+                { value: '7', icon: <Icon path="https://i.pravatar.cc/105" size='100px' />, text: 'Name7'},
+                { value: '8', icon: <Icon path="https://i.pravatar.cc/106" size='100px' />, text: 'Name8'},
+                { value: '9', icon: <Icon path="https://i.pravatar.cc/107" size='100px' />, text: 'Name9'},
+                { value: '10', icon: <Icon path="https://i.pravatar.cc/108" size='100px' />, text: 'Name10'},
+                { value: '11', icon: <Icon path="https://i.pravatar.cc/109" size='100px' />, text: 'Name11'},
+                { value: '12', icon: <Icon path="https://i.pravatar.cc/110" size='100px' />, text: 'Name12'},
+                { value: '13', icon: <Icon path="https://i.pravatar.cc/111" size='100px' />, text: 'Name13'},
+                { value: '14', icon: <Icon path="https://i.pravatar.cc/112" size='100px' />, text: 'Name14'},
+                { value: '15', icon: <Icon path="https://i.pravatar.cc/113" size='100px' />, text: 'Name15'},
+              ])}
+              onChange={setSelectedValues}
+              value={selectedValues}
+              renderSelected={(selected) => renderFirstNIcons(selected, 6)}
             />
           </div>
         </section>
@@ -178,7 +223,7 @@ export const TestPage: React.FC = () => {
         onClose={() => setIsSimpleModalOpen(false)}
         title="Простая модалка"
       >
-        <div style={{ padding: '20px', textAlign: 'center' }}>
+        <div style={{ padding: "20px", textAlign: "center" }}>
           <p>Это простая модалка для тестирования!</p>
           <Button
             className={buttonClasses.defaultButtonBlue}

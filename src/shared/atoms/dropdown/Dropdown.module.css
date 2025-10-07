@@ -1,0 +1,137 @@
+.dropdownWrapper {
+  width: 100%;
+  position: relative;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #F6F6F6;
+  margin-bottom: 0.25rem;
+}
+
+.required {
+  color: #E81414;
+  margin-left: 0.125rem;
+}
+
+.dropdown {
+  position: relative;
+  width: 100%;
+  background-color: #3E3F46;
+  border: 1px solid #82848A;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dropdown:hover:not(.dropdownDisabled) {
+  border-color: #F6F6F6;
+}
+
+.dropdownOpen {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.dropdownError {
+  border-color: #E81414;
+  background-color: #E8141480;
+  box-shadow: 0 0 0 2px #E81414;
+}
+
+.dropdownDisabled {
+  background-color: #374151;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0.75rem;
+  min-height: 56px;
+  box-sizing: border-box;
+}
+
+.selectedValue {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.selectedContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.placeholder {
+  color: #9CA3AF;
+}
+
+.dropdownArrow {
+  transition: transform 0.2s;
+  margin-left: 0.5rem;
+}
+
+.dropdownOpen .dropdownArrow {
+  transform: rotate(180deg);
+}
+
+.dropdownList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #3E3F46;
+  border: 1px solid #82848A;
+  border-radius: 0.375rem;
+  margin-top: 0.25rem;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownItem {
+  padding: 0.75rem;
+  border-bottom: 1px solid #4B5563;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:hover {
+  background-color: #4B5563;
+}
+
+.dropdownItemSelected {
+  background-color: #1E40AF;
+}
+
+.optionContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.optionImage {
+  width: 24px;
+  height: 24px;
+  border-radius: 0.25rem;
+  object-fit: cover;
+}
+
+.error {
+  color: #E81414;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
