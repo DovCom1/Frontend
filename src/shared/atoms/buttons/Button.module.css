@@ -19,6 +19,7 @@
     width: min(500px, 25vw);
     height: auto;
     padding-top: 10px;
+    padding-inline: 15px;
     padding-bottom: 10px;
     font-size: 17px;
 }

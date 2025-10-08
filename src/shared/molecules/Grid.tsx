@@ -31,6 +31,7 @@ const Grid: React.FC<GridProps> = ({
     gridTemplateColumns: `repeat(${cols}, 1fr)`,
     columnGap: horizontalGap,
     rowGap: verticalGap,
+    alignItems: "center",
     ...style,
   };
 

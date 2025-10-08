@@ -9,11 +9,9 @@ const Middle = () => {
       <Grid
         cols={2}
         rows={1}
-        width={"900px"}
-        horizontalGap={"70px"}
-        // className={}
+        horizontalGap={"85px"}
         elements={[
-          <Icon path={"/images/neuro_dove.png"} size={"400px"} />,
+          <Icon path={"/images/neuro_dove.png"} size={"450px"} scale />,
           <Label
             verticalAlign={"center"}
             color={"#fff"}
@@ -21,7 +19,8 @@ const Middle = () => {
             text={
               "Ваше пространство для общения.\nЗдесь встречаются ваши идеи, друзья и сообщества."
             }
-            fontSize={"34px"}
+            fontSize={"38px"}
+            scale
           />,
         ]}
       />

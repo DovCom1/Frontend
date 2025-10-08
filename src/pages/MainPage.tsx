@@ -9,7 +9,6 @@ const MainPage = () => {
       <main>
         <Middle />
         <MeetButtons />
-        main_page
       </main>
     </div>
   );

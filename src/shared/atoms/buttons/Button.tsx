@@ -3,6 +3,7 @@ import classes from "./Button.module.css";
 import { getFlexConfig } from "../../utils/setlabelPosition";
 import Label from "../labels/Label";
 import Icon from "../icons/Icon";
+import { scaleSize } from "../../utils/setScaling";
 
 interface ButtonProps {
   label?: React.ReactElement<typeof Label>;
@@ -19,6 +20,7 @@ interface ButtonProps {
   onClick?: () => void;
   className?: string;
   gap?: string;
+  scale?: boolean;
 }
 
 // Базовый класс кнопки
@@ -34,7 +36,12 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   className = "",
   gap = "10px",
+  scale,
 }) => {
+  if (scale) {
+    width = scaleSize(width, "x");
+  }
+
   const { flexDirection, orderLabel, orderButton } =
     getFlexConfig(labelPosition);
 

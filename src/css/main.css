@@ -79,7 +79,8 @@ header {
 /*}*/
 
 .main-page-container {
+    /*padding-inline: 40px;*/
     background: linear-gradient(to bottom, #050021, #292F8A);
-    height: 100vh;
+    min-height: 100vh;
 }
 

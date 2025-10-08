@@ -9,17 +9,11 @@ import Icon from "../shared/atoms/icons/Icon";
 
 const Header = () => {
   return (
-    <header className={headerClasses.header}>
+    <header>
       <div className={headerClasses.headerContainer}>
         <LinkButton
-          label={<Label text={"DovCom"} color={"#fff"} fontSize={"24px"} />}
-          icon={
-            <Icon
-              path={"/icons/base_dove.svg"}
-              height={"43px"}
-              width={"51px"}
-            />
-          }
+          label={<Label text={"DovCom"} color={"#fff"} fontSize={"26px"} />}
+          icon={<Icon path={"/icons/base_dove.svg"} width={"66px"} scale />}
           gap={"10px"}
           url={"/"}
           labelPosition={"right"}
@@ -27,12 +21,15 @@ const Header = () => {
 
         <Button
           className={buttonClasses.defaultButtonOrange}
-          label={<Label text={"Войти/зарегистрироваться"} fontSize={"18px"} />}
+          label={
+            <Label text={"Войти/зарегистрироваться"} fontSize={"20px"} scale />
+          }
           icon={<Icon path={"/icons/login.svg"} size={"22px"} />}
-          width={"323px"}
-          height={"42px"}
+          width={"380px"}
+          height={"43px"}
           labelPosition="left"
           borderRadius="15px"
+          scale
         />
       </div>
     </header>
