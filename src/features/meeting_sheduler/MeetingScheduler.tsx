@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { InputField } from '../../shared/atoms/input-fields/InputField';
 import Button from '../../shared/atoms/buttons/Button';
@@ -16,12 +17,12 @@ interface MeetingSchedulerProps {
   onSuccess?: () => void;
 }
 
-export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({ 
-  onSuccess 
+export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
+  onSuccess,
 }) => {
-  const [title, setTitle] = useState('');
-  const [maxParticipants, setMaxParticipants] = useState('');
-  const [date, setDate] = useState('');
+  const [title, setTitle] = useState("");
+  const [maxParticipants, setMaxParticipants] = useState("");
+  const [date, setDate] = useState("");
 
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
@@ -29,16 +30,20 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
     const meetingData = {
       title,
       maxParticipants: parseInt(maxParticipants),
-      date: new Date(date)
+      date: new Date(date),
     };
-    
-    console.log('Создаем встречу:', meetingData);
-    alert(`Встреча "${title}" успешно создана!\nУчастников: ${maxParticipants}\nДата: ${new Date(date).toLocaleString()}`);
-    
-    setTitle('');
-    setMaxParticipants('');
-    setDate('');
-    
+
+    console.log("Создаем встречу:", meetingData);
+    alert(
+      `Встреча "${title}" успешно создана!\nУчастников: ${maxParticipants}\nДата: ${new Date(
+        date
+      ).toLocaleString()}`
+    );
+
+    setTitle("");
+    setMaxParticipants("");
+    setDate("");
+
     onSuccess?.();
   };
 
