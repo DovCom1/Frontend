@@ -1,18 +1,18 @@
 import React from 'react';
 import classes from './Modal.module.css';
+import IconButton from '../buttons/IconButton';
+import Icon from '../icons/Icon';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  title?: string;
 }
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   children,
-  title,
 }) => {
   if (!isOpen) return null;
 
@@ -25,12 +25,9 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <div className={classes.overlay} onClick={handleOverlayClick}>
       <div className={classes.modal}>
-        {title && (
+        {(
           <div className={classes.header}>
-            <h2 className={classes.title}>{title}</h2>
-            <button className={classes.closeButton} onClick={onClose}>
-              ×
-            </button>
+            <IconButton icon={<Icon path='/icons/arrowLeftWhite.svg' size='80' />} onClick={onClose} />
           </div>
         )}
         <div className={classes.content}>

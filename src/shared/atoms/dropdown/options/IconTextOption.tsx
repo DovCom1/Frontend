@@ -49,9 +49,9 @@ const extractIconFromContent = (content: React.ReactNode): React.ReactElement<ty
     return null;
 }
 
-export const renderFirstNIcons = (selected: DropdownOption[], maxVisible: number) => {
+export const renderFirstNIcons = (selected: DropdownOption[], placeholder: React.ReactNode, maxVisible: number) => {
     if (selected.length === 0) {
-    return <span style={{ color: '#9CA3AF' }}>⚪ Не выбрано</span>;
+    return placeholder;
   }
 
   const visibleOptions = selected.slice(0, maxVisible);

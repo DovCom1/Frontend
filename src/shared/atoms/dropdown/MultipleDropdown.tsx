@@ -12,7 +12,6 @@ interface MultipleDropdownProps<T = any> {
   required?: boolean;
   disabled?: boolean;
   className?: string;
-  // Новый пропс для кастомного отображения
   renderSelected?: (selectedOptions: DropdownOption<T>[]) => React.ReactNode;
 }
 
@@ -26,7 +25,7 @@ export const MultipleDropdown = <T,>({
   required = false,
   disabled = false,
   className = '',
-  renderSelected, // Новый пропс
+  renderSelected,
 }: MultipleDropdownProps<T>): React.ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -66,14 +65,11 @@ export const MultipleDropdown = <T,>({
     className,
   ].join(' ');
 
-  // Функция для отображения выбранных элементов
   const getDisplayContent = () => {
-    // Если передан кастомный рендер, используем его
     if (renderSelected) {
       return renderSelected(selectedOptions);
     }
     
-    // Стандартное поведение
     if (selectedOptions.length === 0) {
       return <span className={classes.placeholder}>{placeholder}</span>;
     }
