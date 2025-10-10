@@ -27,7 +27,7 @@ const Grid: React.FC<GridProps> = ({
     display: "grid",
     width: width,
     height: height,
-    gridTemplateRows: `repeat(${rows}, 1fr)`,
+    gridTemplateRows: `repeat(auto-fill, ${rows}, 1fr)`,
     gridTemplateColumns: `repeat(${cols}, 1fr)`,
     columnGap: horizontalGap,
     rowGap: verticalGap,

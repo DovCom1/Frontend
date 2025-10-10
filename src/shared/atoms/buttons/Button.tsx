@@ -30,12 +30,12 @@ const Button: React.FC<ButtonProps> = ({
   labelPosition = "left",
   width,
   height,
-  borderRadius = "6px",
+  borderRadius,
   backgroundColor,
   disabled = false,
   onClick,
   className = "",
-  gap = "10px",
+  gap,
   scale,
 }) => {
   if (scale) {

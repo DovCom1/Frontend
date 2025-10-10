@@ -10,28 +10,34 @@ const MeetButtons = () => {
     <div className={classes.container}>
       {/*<LabeledButton labelPosition={"top"} label={"text"} button={IconButton} />*/}
       <LabeledIconButton
-        icon={<Icon path={"/icons/linkBig.svg"} size="92px" scale />}
+        className={classes.buttonWrapper}
+        icon={
+          <Icon
+            path={"/icons/linkBig.svg"}
+            className={classes.buttonIconWrapper}
+          />
+        }
         labelPosition={"bottom"}
         label={
           <Label
+            className={classes.buttonLabelWrapper}
             text={"Подключиться к видеовстрече"}
-            color={"#fff"}
-            width={"180px"}
-            fontSize={"21px"}
-            scale
           />
         }
       />
       <LabeledIconButton
-        icon={<Icon path={"/icons/camWhite.svg"} size="92px" scale />}
+        className={classes.buttonWrapper}
+        icon={
+          <Icon
+            path={"/icons/camWhite.svg"}
+            className={classes.buttonIconWrapper}
+          />
+        }
         labelPosition={"bottom"}
         label={
           <Label
+            className={classes.buttonLabelWrapper}
             text={"Создать видеовстречу"}
-            color={"#fff"}
-            width={"180px"}
-            fontSize={"21px"}
-            scale
           />
         }
       />

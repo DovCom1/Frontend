@@ -1,35 +1,47 @@
-import React from "react";
 import headerClasses from "./Header.module.css";
 import buttonClasses from "../shared/atoms/buttons/Button.module.css";
-
+import { useAuthWidgetStore } from "../features/auth/model/AuthWidgetStore";
 import Button from "../shared/atoms/buttons/Button";
 import Label from "../shared/atoms/labels/Label";
 import LinkButton from "../shared/atoms/buttons/LinkButton";
 import Icon from "../shared/atoms/icons/Icon";
 
 const Header = () => {
+  const { openLogin } = useAuthWidgetStore();
   return (
     <header>
-      <div className={headerClasses.headerContainer}>
+      <div className={headerClasses.headerContentWrapper}>
         <LinkButton
-          label={<Label text={"DovCom"} color={"#fff"} fontSize={"26px"} />}
-          icon={<Icon path={"/icons/base_dove.svg"} width={"66px"} scale />}
-          gap={"10px"}
+          className={headerClasses.logoButtonWrapper}
+          label={
+            <Label className={headerClasses.logoLabelWrapper} text={"DovCom"} />
+          }
+          icon={
+            <Icon
+              className={headerClasses.logoIconWrapper}
+              path={"/icons/base_dove.svg"}
+            />
+          }
           url={"/"}
           labelPosition={"right"}
         />
 
         <Button
-          className={buttonClasses.defaultButtonOrange}
+          className={`${buttonClasses.defaultButtonOrange} ${headerClasses.authButtonWrapper}`}
           label={
-            <Label text={"Войти/зарегистрироваться"} fontSize={"20px"} scale />
+            <Label
+              className={headerClasses.authButtonLabelWrapper}
+              text={"Войти/зарегистрироваться"}
+            />
           }
-          icon={<Icon path={"/icons/login.svg"} size={"22px"} />}
-          width={"380px"}
-          height={"43px"}
+          icon={
+            <Icon
+              className={headerClasses.authButtonIconWrapper}
+              path={"/icons/login.svg"}
+            />
+          }
+          onClick={openLogin}
           labelPosition="left"
-          borderRadius="15px"
-          scale
         />
       </div>
     </header>

@@ -38,7 +38,8 @@ export const InputField: React.FC<InputFieldProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const hasValue = Boolean(value);
-  const shouldFloat = isFocused || hasValue;
+  const isDateType = type === 'date' || type === 'datetime-local'
+  const shouldFloat = isFocused || hasValue || isDateType;
 
   const handleFocus = () => {
     setIsFocused(true);

@@ -1,6 +1,5 @@
 .customButton {
     border: none;
-    border-radius: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,15 +12,18 @@
 
 }
 
+.bigButton {
+    width: 500px;
+}
+
 .defaultButtonOrange {
     background-color: var(--main-color-orange);
     color: var(--main-text-black);
-    width: min(500px, 25vw);
-    height: auto;
-    padding-top: 10px;
-    padding-inline: 15px;
-    padding-bottom: 10px;
-    font-size: 17px;
+    /*height: 45px;*/
+    /*padding: 10px 15px 10px 15px;*/
+    /*padding-top: 10px;*/
+    /*padding-inline: 15px;*/
+    /*padding-bottom: 10px;*/
 }
 
 .defaultButtonBlue {

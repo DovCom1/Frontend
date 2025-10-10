@@ -1,4 +1,3 @@
-// shared/api/websocket/lib/websocket-client.ts
 export class WebSocketClient {
   private socket: WebSocket | null = null;
   private listeners = new Map<string, Set<Function>>();

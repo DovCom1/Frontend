@@ -1,6 +1,22 @@
 .container {
-    margin-top: 60px;
+    margin-top: max(50px, 2vh);
     display: flex;
+    flex-wrap: wrap;
+    gap: min(100px, 7vw);
     width: 100%;
+    padding-inline: 40px;
     justify-content: center;
 }
+
+.labelWrapper {
+    color: var(--white-color);
+    display: flex;
+    align-items: center;
+    font-size: min(34px, 4.5vw);
+    width: 420px;
+}
+
+.iconWrapper {
+    width: max(400px, 35vh);
+}
+
