@@ -1,4 +1,5 @@
 import React from "react";
+import { scaleSize } from "../../utils/setScaling";
 
 interface IconProps {
   path: string;
@@ -7,20 +8,26 @@ interface IconProps {
   height?: string;
   className?: string;
   style?: React.CSSProperties;
+  scale?: boolean;
 }
 
 const Icon: React.FC<IconProps> = ({
   path,
-  size = "18px",
+  size,
   width,
   height,
   className = "",
   style,
+  scale,
 }) => {
+  if (scale) {
+    width = scaleSize(width, "x");
+    size = scaleSize(size, "x");
+  }
+
   const iconStyle: React.CSSProperties = {
     width: width || size,
     height: height || size,
-    fontSize: size,
     ...style,
   };
 

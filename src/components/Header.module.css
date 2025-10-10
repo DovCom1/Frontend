@@ -1,15 +1,65 @@
-.headerContainer {
+.headerContentWrapper {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-between;
     padding-inline: 40px;
     padding-top: 15px;
-    max-width: 1440px;
+    max-width: 1700px;
     margin: auto;
 }
 
+/*.linkLabel {*/
+/*    display: inline-flex;*/
+/*    align-items: center;*/
+/*}*/
 
 .logo {
     width: 70px;
 }
+
+.authButtonLabelWrapper {
+    font-size: 18px;
+}
+
+.logoButtonWrapper {
+    gap: 10px;
+}
+
+.authButtonWrapper {
+    height: 45px;
+    padding: 10px 15px 10px 15px;
+    gap: 10px;
+    border-radius: 15px;
+}
+
+.logoIconWrapper {
+    width: 50px;
+
+}
+
+.authButtonIconWrapper {
+    width: 22px;
+}
+
+.logoLabelWrapper {
+    font-size: 26px;
+    color: var(--white-color);
+}
+
+@media (max-width: 600px) {
+    .logoLabelWrapper {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .authButtonLabelWrapper {
+        display: none;
+    }
+
+    .authButtonWrapper {
+        gap: 0;
+    }
+}
+
