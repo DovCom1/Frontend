@@ -184,7 +184,7 @@ export const TestPage: React.FC = () => {
               ])}
               onChange={setSelectedValues}
               value={selectedValues}
-              renderSelected={(selected) => renderFirstNIcons(selected, 6)}
+              renderSelected={(selected) => renderFirstNIcons(selected, <span style={{ color: '#9CA3AF' }}>⚪ Не выбрано</span>, 6)}
             />
           </div>
         </section>
@@ -221,7 +221,6 @@ export const TestPage: React.FC = () => {
       <Modal
         isOpen={isSimpleModalOpen}
         onClose={() => setIsSimpleModalOpen(false)}
-        title="Простая модалка"
       >
         <div style={{ padding: "20px", textAlign: "center" }}>
           <p>Это простая модалка для тестирования!</p>
