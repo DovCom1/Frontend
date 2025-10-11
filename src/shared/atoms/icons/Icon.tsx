@@ -7,6 +7,7 @@ interface IconProps {
   height?: string;
   className?: string;
   style?: React.CSSProperties;
+  onClick?: () => void;
 }
 
 const Icon: React.FC<IconProps> = ({
@@ -16,6 +17,7 @@ const Icon: React.FC<IconProps> = ({
   height,
   className = "",
   style,
+  onClick,
 }) => {
   const iconStyle: React.CSSProperties = {
     width: width || size,
@@ -35,7 +37,7 @@ const Icon: React.FC<IconProps> = ({
     );
   } else {
     return (
-      <div className={`icon ${className}`} style={iconStyle}>
+      <div className={`icon ${className}`} style={iconStyle} onClick={onClick}>
         {path}
       </div>
     );

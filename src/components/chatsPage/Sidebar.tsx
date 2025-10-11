@@ -15,18 +15,18 @@ const Sidebar: React.FC = () => {
     {
       label: <Label text={"Друзья и враги"} color={"#fff"} fontSize={"16px"} />,
       icon: (
-        <Icon path={"/icons/friendsWhite.svg"} height={"16px"} width={"16px"} />
+        <Icon path={"/icons/friendsWhite.svg"} height={"18px"} width={"18px"} />
       ),
-      url: "/friends",
+      function: () => {},
     },
     {
       label: (
         <Label text={"Видеоконференции"} color={"#fff"} fontSize={"16px"} />
       ),
       icon: (
-        <Icon path={"/icons/cameraWhite.svg"} height={"16px"} width={"16px"} />
+        <Icon path={"/icons/cameraWhite.svg"} height={"18px"} width={"18px"} />
       ),
-      url: "/video",
+      function: () => {},
     },
     {
       label: (
@@ -35,19 +35,19 @@ const Sidebar: React.FC = () => {
       icon: (
         <Icon
           path={"/icons/createChatWhite.svg"}
-          height={"16px"}
-          width={"16px"}
+          height={"18px"}
+          width={"18px"}
         />
       ),
-      url: "/new-chat",
+      function: () => {},
     },
     {
       label: <Label text={"Настройки"} color={"#fff"} fontSize={"16px"} />,
       icon: (
         <Icon
           path={"/icons/settingsWhite.svg"}
-          height={"16px"}
-          width={"16px"}
+          height={"18px"}
+          width={"18px"}
         />
       ),
       url: "/settings",
@@ -57,7 +57,7 @@ const Sidebar: React.FC = () => {
   return (
     <div
       style={{
-        width: isOpen ? "250px" : "50px",
+        width: isOpen ? "250px" : "60px",
         height: "100vh",
         backgroundColor: "#1E1E22",
         padding: "20px 0px",
@@ -72,14 +72,15 @@ const Sidebar: React.FC = () => {
         style={{
           display: "flex",
           justifyContent: isOpen ? "flex-start" : "center",
+          marginBottom: "12px",
         }}
       >
         <Button
           icon={
             <Icon
               path={"/icons/revealWhite.svg"}
-              height={"24px"}
-              width={"24px"}
+              height={"20px"}
+              width={"20px"}
             />
           }
           labelPosition={"right"}
@@ -93,12 +94,13 @@ const Sidebar: React.FC = () => {
           style={{
             display: "flex",
             justifyContent: isOpen ? "flex-start" : "center",
+            marginBottom: "5px",
           }}
         >
-          <LinkButton
+          <Button
             label={isOpen ? button.label : <Label text={""} color={"#fff"} />}
             icon={button.icon}
-            url={button.url}
+            onClick={button.function}
             labelPosition={"right"}
           />
         </div>
