@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import classes from './MultipleDropdown.module.css';
 import { DropdownOption } from './Dropdown';
 
@@ -29,18 +30,36 @@ export const MultipleDropdown = <T,>({
 }: MultipleDropdownProps<T>): React.ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownListRef = useRef<HTMLDivElement>(null);
 
   const selectedOptions = options.filter(option => value.includes(option.value));
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      const isClickInsideDropdown = dropdownRef.current?.contains(target);
+      const isClickInsideList = dropdownListRef.current?.contains(target);
+      
+      if (!isClickInsideDropdown && !isClickInsideList) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleScroll = (event: Event) => {
+      const isScrollInsideList = dropdownListRef.current?.contains(event.target as Node);
+      
+      if (!isScrollInsideList) {
         setIsOpen(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('scroll', handleScroll, true);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', handleScroll, true);
+    };
   }, []);
 
   const handleToggle = () => {
@@ -79,6 +98,60 @@ export const MultipleDropdown = <T,>({
     return `Выбрано: ${selectedOptions.length}`;
   };
 
+  const renderDropdownList = () => {
+    if (!isOpen || !dropdownRef.current) return null;
+
+    const rect = dropdownRef.current.getBoundingClientRect();
+    
+    const dropdownStyle: React.CSSProperties = {
+      position: 'fixed',
+      top: `${rect.bottom}px`,
+      left: `${rect.left}px`,
+      width: `${rect.width}px`,
+      zIndex: 9999,
+    };
+
+    return ReactDOM.createPortal(
+      <div 
+        className={classes.dropdownList} 
+        style={dropdownStyle}
+        ref={dropdownListRef}
+      >
+        {options.map((option, index) => {
+          const isSelected = value.includes(option.value);
+          
+          return (
+            <div
+              key={option.key || index}
+              className={`${classes.dropdownItem} ${
+                isSelected ? classes.dropdownItemSelected : ''
+              }`}
+              onClick={() => handleSelect(option.value)}
+            >
+              <div className={classes.tickBox}>
+                {isSelected && (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                    <path 
+                      d="M20 6L9 17L4 12" 
+                      stroke="#F6F6F6" 
+                      strokeWidth="2" 
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                )}
+              </div>
+              
+              <div className={classes.optionContent}>
+                {option.content}
+              </div>
+            </div>
+          );
+        })}
+      </div>,
+      document.body
+    );
+  };
+
   return (
     <div className={classes.dropdownWrapper}>
       {label && (
@@ -108,43 +181,9 @@ export const MultipleDropdown = <T,>({
             </svg>
           </div>
         </div>
-
-        {isOpen && (
-          <div className={classes.dropdownList}>
-            {options.map((option, index) => {
-              const isSelected = value.includes(option.value);
-              
-              return (
-                <div
-                  key={option.key || index}
-                  className={`${classes.dropdownItem} ${
-                    isSelected ? classes.dropdownItemSelected : ''
-                  }`}
-                  onClick={() => handleSelect(option.value)}
-                >
-                
-                  <div className={classes.optionContent}>
-                    {option.content}
-                  </div>
-                  
-                   <div className={classes.tickBox}>
-                    {isSelected && (
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                        <path 
-                          d="M20 6L9 17L4 12" 
-                          stroke="#F6F6F6" 
-                          strokeWidth="2" 
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
+
+      {renderDropdownList()}
 
       {error && (
         <p className={classes.error}>{error}</p>
