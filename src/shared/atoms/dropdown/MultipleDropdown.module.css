@@ -76,18 +76,13 @@
 }
 
 .dropdownList {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
   background-color: #3E3F46;
   border: 1px solid #82848A;
   border-radius: 0.375rem;
-  margin-top: 0.25rem;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 1000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
 }
 
 .dropdownItem {
@@ -97,6 +92,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  cursor: pointer;
 }
 
 .dropdownItem:last-child {

@@ -9,31 +9,39 @@ import Icon from "../shared/atoms/icons/Icon";
 const Header = () => {
   const { openLogin } = useAuthWidgetStore();
   return (
-    <header className={headerClasses.header}>
-      <div className={headerClasses.headerContainer}>
+    <header>
+      <div className={headerClasses.headerContentWrapper}>
         <LinkButton
-          label={<Label text={"DovCom"} color={"#fff"} fontSize={"24px"} />}
+          className={headerClasses.logoButtonWrapper}
+          label={
+            <Label className={headerClasses.logoLabelWrapper} text={"DovCom"} />
+          }
           icon={
             <Icon
+              className={headerClasses.logoIconWrapper}
               path={"/icons/base_dove.svg"}
-              height={"43px"}
-              width={"51px"}
             />
           }
-          gap={"10px"}
           url={"/"}
           labelPosition={"right"}
         />
 
         <Button
-          className={buttonClasses.defaultButtonOrange}
-          label={<Label text={"Войти/зарегистрироваться"} fontSize={"18px"} />}
-          icon={<Icon path={"/icons/login.svg"} size={"22px"} />}
+          className={`${buttonClasses.defaultButtonOrange} ${headerClasses.authButtonWrapper}`}
+          label={
+            <Label
+              className={headerClasses.authButtonLabelWrapper}
+              text={"Войти/зарегистрироваться"}
+            />
+          }
+          icon={
+            <Icon
+              className={headerClasses.authButtonIconWrapper}
+              path={"/icons/login.svg"}
+            />
+          }
           onClick={openLogin}
-          width={"323px"}
-          height={"42px"}
           labelPosition="left"
-          borderRadius="15px"
         />
       </div>
     </header>

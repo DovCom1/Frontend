@@ -1,7 +1,21 @@
 .container {
-    margin-top: 55px;
+    margin-top: max(50px, 2vh);
     display: flex;
     width: 100%;
     justify-content: center;
-    gap: 50px;
+    gap: min(50px, 5vw);
+}
+
+.buttonWrapper {
+    gap: 10px;
+}
+
+.buttonIconWrapper {
+    width: min(80px, 18vw);
+}
+
+.buttonLabelWrapper {
+    color: var(--white-color);
+    font-size: min(18px, 3.5vw);
+    width: min(180px, 40vw);
 }
