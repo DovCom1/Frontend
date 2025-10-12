@@ -1,0 +1,6 @@
+.container {
+    background-image: url("/public/backgrounds/chat_background.svg");
+    flex: 1 1 auto; /* занимает всё оставшееся пространство */
+    /*min-height: 0; !* критично для корректного overflow внутри flex-контейнера *!*/
+    overflow: auto;
+}
