@@ -1,4 +1,3 @@
-import Sidebar from "../components/chatsPage/Sidebar";
 import Header from "../components/Header";
 
 import MeetButtons from "../components/mainPage/MeetButtons";

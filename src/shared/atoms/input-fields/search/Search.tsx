@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React from "react";
 import Icon from "../../icons/Icon";
-import "./Search.css"; // Импорт CSS файла
+import "./Search.css";
 
 export interface SearchProps {
   value?: string;

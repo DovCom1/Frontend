@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Label from "../../shared/atoms/labels/Label";
 import Icon from "../../shared/atoms/icons/Icon";
-import LinkButton from "../../shared/atoms/buttons/LinkButton";
 import Button from "../../shared/atoms/buttons/Button";
 
 const Sidebar: React.FC = () => {

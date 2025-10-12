@@ -1,5 +1,4 @@
-// src/pages/dima-test-page/ui/DimaTestPage.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import Sidebar from "../components/chatsPage/Sidebar";
 import { ChatsSidebar } from "../components/chatsPage/chatsSidebar/ui/ChatsSidebar";
 
@@ -25,15 +24,9 @@ const DimaTestPage = () => {
     { id: "18", name: "Пуджик", icon: "" },
   ];
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const [chatId, setChatId] = useState("");
+  const isSidebarOpen = false;
   const handleChatChange = (chatId: string) => {
     console.log("Выбран чат:", chatId);
-  };
-
-  const handleSidebarToggle = (isOpen: boolean) => {
-    setIsSidebarOpen(isOpen);
   };
 
   return (
