@@ -1,4 +1,4 @@
-import { baseApi } from "../../../shared/api/http/baseApi";
+import { baseApi } from "../../../shared/api/http/BaseApi";
 
 export interface LoginData {
   email: string;

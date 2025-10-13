@@ -4,8 +4,6 @@ import classes from "./UserDialogInfo.module.css";
 import Label from "../atoms/labels/Label";
 import buttonClasses from "../atoms/buttons/Button.module.css";
 
-import LabeledIconButton from "../atoms/buttons/LabeledIconButton";
-
 interface UserDialogInfoProps {
   avatarSrc: string;
   userName: string;

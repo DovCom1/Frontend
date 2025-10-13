@@ -1,17 +1,13 @@
-
-import React, { useState } from 'react';
-import { InputField } from '../../shared/atoms/input-fields/InputField';
-import Button from '../../shared/atoms/buttons/Button';
-import Label from '../../shared/atoms/labels/Label';
-import classes from './MeetingScheduler.module.css';
-import { DateInput } from '../../shared/atoms/input-fields/DateInput';
-import { Dropdown } from '../../shared/atoms/dropdown/Dropdown';
-import { createIconTextOption, createIconTextOptions, renderFirstNIcons } from '../../shared/atoms/dropdown/options/IconTextOption';
-import Icon from '../../shared/atoms/icons/Icon';
-import { MultipleDropdown } from '../../shared/atoms/dropdown/MultipleDropdown';
-import { getFriends } from './model/Utills';
-import { DateTimeInput } from '../../shared/atoms/input-fields/DateTimeInput';
-import Grid from '../../shared/molecules/Grid';
+import React, { useState } from "react";
+import { InputField } from "../../shared/atoms/input-fields/InputField";
+import Button from "../../shared/atoms/buttons/Button";
+import Label from "../../shared/atoms/labels/Label";
+import classes from "./MeetingScheduler.module.css";
+import { renderFirstNIcons } from "../../shared/atoms/dropdown/options/IconTextOption";
+import { MultipleDropdown } from "../../shared/atoms/dropdown/MultipleDropdown";
+import { getFriends } from "./model/Utills";
+import { DateTimeInput } from "../../shared/atoms/input-fields/DateTimeInput";
+import Grid from "../../shared/molecules/Grid";
 
 interface MeetingSchedulerProps {
   onSuccess?: () => void;
@@ -50,23 +46,25 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
   const isFormValid = title.trim() && maxParticipants && date;
 
   return (
-    <div className={classes.scheduler} style={{padding: 10, margin: 20, marginBottom: 25, marginTop: 0}}>
+    <div
+      className={classes.scheduler}
+      style={{ padding: 10, margin: 20, marginBottom: 25, marginTop: 0 }}
+    >
       <Grid
         cols={1}
         rows={6}
         verticalGap={15}
         elements={[
-
           <h3 className={classes.title}>Запланировать встречу</h3>,
 
           <InputField
-          label="Название встречи"
-          placeholder="Созвон по КРПО"
-          value={title}
-          onChange={setTitle}
-          required
+            label="Название встречи"
+            placeholder="Созвон по КРПО"
+            value={title}
+            onChange={setTitle}
+            required
           />,
-        
+
           <InputField
             label="Максимальное количество участников"
             type="number"
@@ -75,28 +73,39 @@ export const MeetingScheduler: React.FC<MeetingSchedulerProps> = ({
             onChange={setMaxParticipants}
             required
           />,
-          
+
           <DateTimeInput
             label="Дата встречи"
             value={date}
             onChange={setDate}
           />,
 
-          <MultipleDropdown 
+          <MultipleDropdown
             options={getFriends()}
-            renderSelected={(selected) => renderFirstNIcons(selected, <Label text='Добавить участников' color='white'/>, 3)}
+            renderSelected={(selected) =>
+              renderFirstNIcons(
+                selected,
+                <Label text="Добавить участников" color="white" />,
+                3
+              )
+            }
             onChange={setSelectedValues}
             value={selectedValues}
           />,
-          
+
           <Button
-            label={<Label text="Запланировать встречу" color={isFormValid ? "#1e1e22" : "#82848a"} />}
+            label={
+              <Label
+                text="Запланировать встречу"
+                color={isFormValid ? "#1e1e22" : "#82848a"}
+              />
+            }
             onClick={handleSubmit}
             disabled={!isFormValid}
             width="100%"
             backgroundColor={isFormValid ? "#FF9500" : "#54565C"}
-            height='1cm'
-          />
+            height="1cm"
+          />,
         ]}
       />
     </div>
