@@ -5,7 +5,7 @@ export const baseApi = axios.create({
   withCredentials: true, // Важно для куков
   timeout: 10000,
 });
-
+//jrqwdfasdasdasd
 // Интерцептор для обработки ошибок
 baseApi.interceptors.response.use(
   (response) => response,
