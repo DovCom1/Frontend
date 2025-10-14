@@ -62,7 +62,7 @@ const Sidebar: React.FC = () => {
         padding: "20px 0px",
         transition: "width 0.3s ease",
         display: "flex",
-        paddingLeft: "10px",
+        paddingLeft: isOpen ? "10px" : "0px",
         flexDirection: "column",
         gap: "20px",
       }}
