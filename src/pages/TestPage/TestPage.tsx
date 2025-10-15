@@ -19,7 +19,6 @@ import { MultipleDropdown } from '../../shared/atoms/dropdown/MultipleDropdown';
 import { createTextOptions } from '../../shared/atoms/dropdown/options/TextOption';
 import { VideoDisplay } from "../../shared/atoms/media/VideoDisplay";
 import { useUserMedia } from "../../shared/hooks/UseUserMedia";
-import { MediaController } from "../../features/calls/MediaController";
 import { MediaControls } from "../../features/calls/MediaControls";
 import { AudioPlayer } from "../../shared/atoms/media/AudioPlayer";
 
