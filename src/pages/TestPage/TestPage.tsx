@@ -17,6 +17,11 @@ import { Dropdown } from '../../shared/atoms/dropdown/Dropdown';
 import { createIconTextOptions, renderFirstNIcons } from '../../shared/atoms/dropdown/options/IconTextOption';
 import { MultipleDropdown } from '../../shared/atoms/dropdown/MultipleDropdown';
 import { createTextOptions } from '../../shared/atoms/dropdown/options/TextOption';
+import { VideoDisplay } from "../../shared/atoms/media/VideoDisplay";
+import { useUserMedia } from "../../shared/hooks/UseUserMedia";
+import { MediaController } from "../../features/calls/MediaController";
+import { MediaControls } from "../../features/calls/MediaControls";
+import { AudioPlayer } from "../../shared/atoms/media/AudioPlayer";
 
 export const TestPage: React.FC = () => {
   const [meetingTitle, setMeetingTitle] = useState("");
@@ -30,6 +35,22 @@ export const TestPage: React.FC = () => {
 
   const [selectedValue, setSelectedValue] = useState('');
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
+
+  const {
+      stream,
+      error,
+      isLoading,
+      isCameraOn,
+      isMicrophoneOn,
+      startStream,
+      stopStream,
+      toggleCamera,
+      toggleMicrophone,
+    } = useUserMedia({
+      video: true,
+      audio: true,
+      autoStart: false
+    });
 
   return (
     <div className={classes.testPage}>
@@ -127,6 +148,31 @@ export const TestPage: React.FC = () => {
               label={<Label text="Неактивная" />}
               disabled={true}
             />
+          </div>
+        </section>
+
+        <section className={classes.section}>
+          <h2>Video display testing</h2>
+          <div style={{maxWidth: '600px', margin: '20px'}}>            
+            <VideoDisplay
+              stream={stream}
+              width="100%"
+              height="auto"
+              objectFit="fill"
+            />
+            <AudioPlayer
+              stream={stream}
+            />
+            <MediaControls
+                stream={stream}
+                isLoading={isLoading}
+                isCameraOn={isCameraOn}
+                isMicrophoneOn={isMicrophoneOn}
+                onStartStream={startStream}
+                onStopStream={stopStream}
+                onToggleCamera={toggleCamera}
+                onToggleMicrophone={toggleMicrophone}
+              />
           </div>
         </section>
 
