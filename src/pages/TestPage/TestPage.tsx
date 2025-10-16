@@ -21,6 +21,7 @@ import { useUserMedia } from "../../shared/hooks/UseUserMedia";
 import { MediaControls } from "../../features/calls/MediaControls";
 import { AudioPlayer } from "../../shared/atoms/media/AudioPlayer";
 import { VideoChatParticipant } from "../../features/calls/ui/VideoChatParticipant";
+import { ControlButtons } from "../../features/calls/ui/calls-mini/ControlButtons";
 
 export const TestPage: React.FC = () => {
   const [meetingTitle, setMeetingTitle] = useState("");
@@ -46,8 +47,8 @@ export const TestPage: React.FC = () => {
       toggleCamera,
       toggleMicrophone,
     } = useUserMedia({
-      video: true,
-      audio: true,
+      video: false,
+      audio: false,
       autoStart: false
     });
 
@@ -182,6 +183,23 @@ export const TestPage: React.FC = () => {
             stream={stream}
             avatarUrl="https://i.pravatar.cc/200"
             userName="Kontur's Director"
+          />
+
+          <div>{error}</div>
+
+        </section>
+
+        <section className={classes.section}>
+          <h2>Call mini controls</h2>
+
+          <ControlButtons 
+            onToggleCamera={toggleCamera} 
+            onToggleMicrophone={toggleMicrophone} 
+            onEmotionsButtonClick={() => alert("Emotions button clicked.")} 
+            onFullscreenClick={() => alert("Going to fullscreen") } 
+            onEndCallClick={ () => alert("Ending the call")}
+            isCameraOn={isCameraOn}
+            isMicroOn={isMicrophoneOn}
           />
 
         </section>

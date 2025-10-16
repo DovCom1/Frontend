@@ -35,6 +35,19 @@ export const useUserMedia = ({
     audio: audio || false
   });
 
+  const handlePermissionError = useCallback((err: any, deviceType: 'video' | 'audio') => {
+    if (err?.name === 'NotAllowedError' || err?.name === 'PermissionDeniedError') {
+      if (constraintsRef.current.audio) {
+        constraintsRef.current.audio = false;
+      }
+      if (constraintsRef.current.video) {
+        constraintsRef.current.video = false;
+      }
+      return true;
+    }
+    return false;
+  }, []);
+
   const startStream = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -53,11 +66,16 @@ export const useUserMedia = ({
       
       setIsLoading(false);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
-      setError(errorMessage);
       setIsLoading(false);
+      
+      if (handlePermissionError(err, 'video') || handlePermissionError(err, 'audio')) {
+        setError('Доступ к камере или микрофону запрещен');
+      } else {
+        const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
+        setError(errorMessage);
+      }
     }
-  }, []);
+  }, [handlePermissionError]);
 
   const stopStream = useCallback(() => {
     if (streamRef.current) {
@@ -72,6 +90,9 @@ export const useUserMedia = ({
   }, []);
 
   const toggleCamera = useCallback(async () => {
+    if (!constraintsRef.current.video) {
+      constraintsRef.current.video = true;
+    }
     if (!streamRef.current) {
       await startStream();
       return;
@@ -100,16 +121,22 @@ export const useUserMedia = ({
         });
         setIsCameraOn(true);
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Ошибка включения камеры';
-        setError(errorMessage);
+        console.warn('Failed to enable camera:', err);
+        constraintsRef.current.video = false;
       }
     }
     
     setStream(streamRef.current ? new MediaStream(streamRef.current.getTracks()) : null);
   }, [startStream]);
 
-  const toggleMicrophone = useCallback(() => {
-    if (!streamRef.current) return;
+  const toggleMicrophone = useCallback(async () => {
+    if (!constraintsRef.current.audio) {
+      constraintsRef.current.audio = true;
+    }
+    if (!streamRef.current) {
+      await startStream();
+      return;
+    }
 
     const audioTracks = streamRef.current.getAudioTracks();
     if (audioTracks.length > 0) {
@@ -120,8 +147,24 @@ export const useUserMedia = ({
       });
       
       setIsMicrophoneOn(newMicrophoneState);
+    } else {
+      try {
+        const audioStream = await navigator.mediaDevices.getUserMedia({
+          video: false,
+          audio: constraintsRef.current.audio
+        });
+
+        const newAudioTracks = audioStream.getAudioTracks();
+        newAudioTracks.forEach(track => {
+          streamRef.current!.addTrack(track);
+        });
+        setIsMicrophoneOn(true);
+      } catch (err) {
+        console.warn('Failed to enable microphone:', err);
+        constraintsRef.current.audio = false;
+      }
     }
-  }, []);
+  }, [startStream]);
 
   useEffect(() => {
     if (autoStart) {
