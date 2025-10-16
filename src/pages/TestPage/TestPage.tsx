@@ -7,7 +7,6 @@ import { Modal } from "../../shared/atoms/modal/Modal";
 import { MeetingScheduler } from "../../features/meeting_sheduler/MeetingScheduler";
 import buttonClasses from "../../shared/atoms/buttons/Button.module.css";
 import classes from './TestPage.module.css';
-import { text } from 'stream/consumers';
 import { TextInput } from '../../shared/atoms/input-fields/TextInput';
 import { EmailInput } from '../../shared/atoms/input-fields/EmailInput';
 import { PasswordInput } from '../../shared/atoms/input-fields/PasswordInput';
@@ -21,6 +20,7 @@ import { VideoDisplay } from "../../shared/atoms/media/VideoDisplay";
 import { useUserMedia } from "../../shared/hooks/UseUserMedia";
 import { MediaControls } from "../../features/calls/MediaControls";
 import { AudioPlayer } from "../../shared/atoms/media/AudioPlayer";
+import { VideoChatParticipant } from "../../features/calls/ui/VideoChatParticipant";
 
 export const TestPage: React.FC = () => {
   const [meetingTitle, setMeetingTitle] = useState("");
@@ -153,7 +153,7 @@ export const TestPage: React.FC = () => {
         <section className={classes.section}>
           <h2>Video display testing</h2>
           <div style={{maxWidth: '600px', margin: '20px'}}>            
-            <VideoDisplay
+            {/* <VideoDisplay
               stream={stream}
               width="100%"
               height="auto"
@@ -161,7 +161,7 @@ export const TestPage: React.FC = () => {
             />
             <AudioPlayer
               stream={stream}
-            />
+            /> */}
             <MediaControls
                 stream={stream}
                 isLoading={isLoading}
@@ -173,6 +173,17 @@ export const TestPage: React.FC = () => {
                 onToggleMicrophone={toggleMicrophone}
               />
           </div>
+        </section>
+
+        <section className={classes.section}>
+          <h2>Video-chat participant</h2>
+
+          <VideoChatParticipant
+            stream={stream}
+            avatarUrl="https://i.pravatar.cc/200"
+            userName="Kontur's Director"
+          />
+
         </section>
 
         <section className={classes.section}>

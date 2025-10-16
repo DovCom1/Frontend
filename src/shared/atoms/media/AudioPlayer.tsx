@@ -8,7 +8,7 @@ interface AudioPlayerProps {
   showControls?: boolean;
   showVolume?: boolean;
   className?: string;
-  style?: React.CSSProperties; // Добавляем пропс для инлайн-стилей
+  style?: React.CSSProperties;
 }
 
 export const AudioPlayer: React.FC<AudioPlayerProps> = ({
@@ -84,10 +84,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             <span className={classes.volumeValue}>
               {Math.round(volume * 100)}%
             </span>
-          </div>
-
-          <div className={classes.status}>
-            {!stream ? 'Нет потока' : isPlaying ? 'Воспроизведение' : 'Пауза'}
           </div>
         </div>
       )}

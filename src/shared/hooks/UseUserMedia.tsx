@@ -27,6 +27,7 @@ export const useUserMedia = ({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isMicrophoneOn, setIsMicrophoneOn] = useState(false);
+  const [isCameraOn, setIsCameraOn] = useState(false);
   
   const streamRef = useRef<MediaStream | null>(null);
   const constraintsRef = useRef({
@@ -43,7 +44,13 @@ export const useUserMedia = ({
       
       streamRef.current = userMediaStream;
       setStream(userMediaStream);
-      setIsMicrophoneOn(userMediaStream.getAudioTracks().some(track => track.enabled));
+      
+      const audioTracks = userMediaStream.getAudioTracks();
+      const videoTracks = userMediaStream.getVideoTracks();
+      
+      setIsMicrophoneOn(audioTracks.some(track => track.enabled));
+      setIsCameraOn(videoTracks.length > 0);
+      
       setIsLoading(false);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
@@ -60,6 +67,7 @@ export const useUserMedia = ({
       streamRef.current = null;
       setStream(null);
       setIsMicrophoneOn(false);
+      setIsCameraOn(false);
     }
   }, []);
 
@@ -71,13 +79,14 @@ export const useUserMedia = ({
 
     const videoTracks = streamRef.current.getVideoTracks();
     
-    if (videoTracks.length > 0 && videoTracks[0].readyState === 'live') {
+    if (videoTracks.length > 0) {
       videoTracks.forEach(track => {
         track.stop();
       });
       videoTracks.forEach(track => {
         streamRef.current!.removeTrack(track);
       });
+      setIsCameraOn(false);
     } else {
       try {
         const videoStream = await navigator.mediaDevices.getUserMedia({
@@ -89,13 +98,14 @@ export const useUserMedia = ({
         newVideoTracks.forEach(track => {
           streamRef.current!.addTrack(track);
         });
+        setIsCameraOn(true);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Ошибка включения камеры';
         setError(errorMessage);
       }
     }
     
-    setStream(streamRef.current);
+    setStream(streamRef.current ? new MediaStream(streamRef.current.getTracks()) : null);
   }, [startStream]);
 
   const toggleMicrophone = useCallback(() => {
@@ -122,8 +132,6 @@ export const useUserMedia = ({
       stopStream();
     };
   }, [autoStart, startStream, stopStream]);
-
-  const isCameraOn = stream?.getVideoTracks().some(track => track.readyState === 'live') ?? false;
 
   return {
     stream,
