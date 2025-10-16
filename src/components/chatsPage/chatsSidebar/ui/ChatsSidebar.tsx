@@ -4,6 +4,8 @@ import { ChatSearch } from "../../../../features/chatSearch/ui/ChatSearch";
 import { ChatsList } from "./ChatsList";
 import { useChatsSidebar } from "../model/useChatsSidebar";
 import "./ChatsSidebar.css";
+import Icon from "../../../../shared/atoms/icons/Icon";
+import IconButton from "../../../../shared/atoms/buttons/IconButton";
 
 interface ChatsSidebarProps {
   userId: string;
@@ -22,7 +24,7 @@ export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
     selectedChatId,
     handleSearchChange,
     handleChatSelect,
-  } = useChatsSidebar(initialChats);
+  } = useChatsSidebar(initialChats, userId);
 
   const [sidebarWidth, setSidebarWidth] = useState(340);
   const [isResizing, setIsResizing] = useState(false);
@@ -84,6 +86,11 @@ export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
 
       <div className="chats-sidebar__search">
         <ChatSearch value={searchTerm} onChange={handleSearchChange} />
+        <IconButton
+          icon={
+            <Icon path={"/icons/bell.svg"} height="34px" width="55px"></Icon>
+          }
+        />
       </div>
 
       <ChatsList

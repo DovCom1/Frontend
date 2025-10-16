@@ -1,26 +1,28 @@
 import Sidebar from "../components/chatsPage/Sidebar";
 import { ChatsSidebar } from "../components/chatsPage/chatsSidebar/ui/ChatsSidebar";
+import { Chat } from "../entities/chat/model/types/chat";
 
 const DimaTestPage = () => {
-  const mockChats = [
-    { id: "1", name: "Димка", icon: "" },
-    { id: "2", name: "Витя", icon: "" },
-    { id: "3", name: "Игорь", icon: "" },
-    { id: "4", name: "Илюша", icon: "" },
-    { id: "5", name: "Сенькин", icon: "" },
-    { id: "6", name: "Пуджик", icon: "" },
-    { id: "7", name: "Димка", icon: "" },
-    { id: "8", name: "Витя", icon: "" },
-    { id: "9", name: "Игорь", icon: "" },
-    { id: "10", name: "Илюша", icon: "" },
-    { id: "11", name: "Сенькин", icon: "" },
-    { id: "12", name: "Пуджик", icon: "" },
-    { id: "13", name: "Димка", icon: "" },
-    { id: "14", name: "Витя", icon: "" },
-    { id: "15", name: "Игорь", icon: "" },
-    { id: "16", name: "Илюша", icon: "" },
-    { id: "17", name: "Сенькин", icon: "" },
-    { id: "18", name: "Пуджик", icon: "" },
+  //эта штука только ради проверки
+  const mockChats: Chat[] = [
+    { chatId: "1", name: "Димка" },
+    { chatId: "2", name: "Витя" },
+    { chatId: "3", name: "Игорь" },
+    { chatId: "4", name: "Илюша" },
+    { chatId: "5", name: "Сенькин" },
+    { chatId: "6", name: "Пуджик" },
+    { chatId: "7", name: "Димка" },
+    { chatId: "8", name: "Витя" },
+    { chatId: "9", name: "Игорь" },
+    { chatId: "10", name: "Илюша" },
+    { chatId: "11", name: "Сенькин" },
+    { chatId: "12", name: "Пуджик" },
+    { chatId: "13", name: "Димка" },
+    { chatId: "14", name: "Витя" },
+    { chatId: "15", name: "Игорь" },
+    { chatId: "16", name: "Илюша" },
+    { chatId: "17", name: "Сенькин" },
+    { chatId: "18", name: "Пуджик" },
   ];
 
   const isSidebarOpen = false;
@@ -63,7 +65,7 @@ const DimaTestPage = () => {
         <ChatsSidebar
           userId="user123"
           onChatChange={handleChatChange}
-          initialChats={mockChats}
+          initialChats={mockChats} //эта штука только ради проверки
         />
       </div>
 

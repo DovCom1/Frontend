@@ -1,5 +1,4 @@
 export interface Chat {
-  id: string;
+  chatId: string;
   name: string;
-  icon: string;
 }

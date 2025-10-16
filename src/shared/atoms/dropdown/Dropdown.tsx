@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import classes from './Dropdown.module.css';
+import React, { useState, useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
+import classes from "./Dropdown.module.css";
 
 export interface DropdownOption<T = any> {
   value: T;
@@ -24,40 +24,45 @@ export const Dropdown = <T,>({
   options,
   value,
   onChange,
-  placeholder = 'Выберите вариант',
+  placeholder = "Выберите вариант",
   label,
   error,
   required = false,
   disabled = false,
-  className = '',
+  className = "",
 }: DropdownProps<T>): React.ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownListRef = useRef<HTMLDivElement>(null);
 
-  const selectedOption = options.find(option => option.value === value);
+  const selectedOption = options.find((option) => option.value === value);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
     const handleScroll = (event: Event) => {
-      const isScrollInsideDropdown = dropdownListRef.current?.contains(event.target as Node);
-      
+      const isScrollInsideDropdown = dropdownListRef.current?.contains(
+        event.target as Node
+      );
+
       if (!isScrollInsideDropdown) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('scroll', handleScroll, true);
-    
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("scroll", handleScroll, true);
+
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('scroll', handleScroll, true);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("scroll", handleScroll, true);
     };
   }, []);
 
@@ -74,19 +79,19 @@ export const Dropdown = <T,>({
 
   const dropdownClasses = [
     classes.dropdown,
-    isOpen ? classes.dropdownOpen : '',
-    error ? classes.dropdownError : '',
-    disabled ? classes.dropdownDisabled : '',
+    isOpen ? classes.dropdownOpen : "",
+    error ? classes.dropdownError : "",
+    disabled ? classes.dropdownDisabled : "",
     className,
-  ].join(' ');
+  ].join(" ");
 
   const renderDropdownList = () => {
     if (!isOpen || !dropdownRef.current) return null;
 
     const rect = dropdownRef.current.getBoundingClientRect();
-    
+
     const dropdownStyle: React.CSSProperties = {
-      position: 'fixed',
+      position: "fixed",
       top: `${rect.bottom}px`,
       left: `${rect.left}px`,
       width: `${rect.width}px`,
@@ -94,8 +99,8 @@ export const Dropdown = <T,>({
     };
 
     return ReactDOM.createPortal(
-      <div 
-        className={classes.dropdownList} 
+      <div
+        className={classes.dropdownList}
         style={dropdownStyle}
         ref={dropdownListRef}
       >
@@ -103,7 +108,7 @@ export const Dropdown = <T,>({
           <div
             key={option.key || index}
             className={`${classes.dropdownItem} ${
-              option.value === value ? classes.dropdownItemSelected : ''
+              option.value === value ? classes.dropdownItemSelected : ""
             }`}
             onClick={() => handleSelect(option.value)}
           >
@@ -124,12 +129,9 @@ export const Dropdown = <T,>({
             {required && <span className={classes.required}>*</span>}
           </label>
         )}
-        
+
         <div className={dropdownClasses} ref={dropdownRef}>
-          <div 
-            className={classes.dropdownHeader}
-            onClick={handleToggle}
-          >
+          <div className={classes.dropdownHeader} onClick={handleToggle}>
             <div className={classes.selectedValue}>
               {selectedOption ? (
                 selectedOption.content
@@ -137,13 +139,13 @@ export const Dropdown = <T,>({
                 <span className={classes.placeholder}>{placeholder}</span>
               )}
             </div>
-            
+
             <div className={classes.dropdownArrow}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path 
-                  d="M6 9L12 15L18 9" 
-                  stroke="#F6F6F6" 
-                  strokeWidth="2" 
+                <path
+                  d="M6 9L12 15L18 9"
+                  stroke="#F6F6F6"
+                  strokeWidth="2"
                   strokeLinecap="round"
                 />
               </svg>
@@ -151,9 +153,7 @@ export const Dropdown = <T,>({
           </div>
         </div>
 
-        {error && (
-          <p className={classes.error}>{error}</p>
-        )}
+        {error && <p className={classes.error}>{error}</p>}
       </div>
 
       {renderDropdownList()}

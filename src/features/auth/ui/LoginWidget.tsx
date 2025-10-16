@@ -32,18 +32,18 @@ export const LoginWidget: React.FC = () => {
     }
   }, [isLoginOpen, clearError]);
 
-
   const isFormValid = () => {
     const isEmailValid = email.trim() !== "" && emailRegex.test(email);
-    
-    const isPasswordValid = password.trim() !== "" && validatePasswordDetailed(password);
-    
+
+    const isPasswordValid =
+      password.trim() !== "" && validatePasswordDetailed(password);
+
     return isEmailValid && isPasswordValid;
   };
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
-    
+
     if (value.trim() === "") {
       setEmailError("");
     } else if (!emailRegex.test(value)) {
@@ -55,7 +55,7 @@ export const LoginWidget: React.FC = () => {
 
   const handlePasswordChange = (value: string) => {
     setPassword(value);
-    
+
     if (value.trim() === "") {
       setPasswordError("Пароль обязателен для заполнения");
     } else if (!validatePasswordDetailed(value)) {
@@ -134,7 +134,8 @@ export const LoginWidget: React.FC = () => {
             label={<Label text={isLoading ? "Вход..." : "Войти"} />}
             disabled={isButtonDisabled}
             width="100%"
-            borderRadius="18px"
+            borderRadius="15px"
+            height="50px"
             icon={isLoading ? <Icon path="/icons/loading.svg" /> : undefined}
           />
         </div>

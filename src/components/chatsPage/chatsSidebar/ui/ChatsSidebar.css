@@ -11,7 +11,9 @@
 .chats-sidebar__search {
   width: 100%;
   height: auto;
+  gap: 6px;
   margin-bottom: 10px;
+  display: flex;
 }
 
 .resize-handle {
