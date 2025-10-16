@@ -5,6 +5,7 @@
     --main-text-black: #1E1E22;
     --main-warn-color: #E81414;
     --white-color: #fff;
+    --chats-page-gray: #3E3F46;
 }
 
 
@@ -76,6 +77,14 @@
     font-family: 'Inter';
     src: url('/public/fonts/Inter/Inter18pt-Medium.woff2') format('woff2');
     font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/public/fonts/Inter/Inter18pt-Regular.woff2') format('woff2');
+    font-weight: 400;
     font-style: normal;
     font-display: swap;
 }

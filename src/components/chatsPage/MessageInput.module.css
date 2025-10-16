@@ -1,12 +1,28 @@
 .container {
-    background: #3E3F46;
-    height: 65px;
+    background: var(--chats-page-gray);
+    min-height: 65px;
+    max-height: 200px;
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
 }
 
 .messageInput {
-    height: 100%;
+    line-height: 20px;
+    width: 100%;
+    min-height: 65px;
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 16px;
+    background: var(--chats-page-gray);
+    color: var(--white-color);
+    padding: 22.5px 0 0 25px;
+    max-height: 200px;
+    scrollbar-width: none; /* Firefox */
+}
+
+.messageInput::-webkit-scrollbar {
+    display: none; /* Chrome, Edge, Safari */
 }
 
 .sendButtonContainer {
@@ -14,4 +30,5 @@
     align-items: center;
     justify-content: center;
     width: 100px;
+    padding-bottom: calc(35px / 2);
 }
