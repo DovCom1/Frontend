@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { authApi, LoginData, RegisterData, User } from "../api/AuthApi";
+import { useWebSocketStore } from "../../../shared/api/websocket/model/websocketStore";
 
 interface AuthState {
   user: User | null;
@@ -24,16 +25,49 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const user = await authApi.login(data);
-      set({ user, isAuthenticated: true, isLoading: false });
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Login failed";
+      const token = await authApi.login(data);
 
       set({
-        error: errorMessage,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      if (token) {
+        const wsStore = useWebSocketStore.getState();
+        await wsStore.connect(token);
+      }
+    } catch (error: any) {
+      set({
+        error: error.response?.data?.message || "Login failed",
         isLoading: false,
       });
       throw error;
+    }
+  },
+
+  checkAuth: async () => {
+    set({ isLoading: true });
+
+    try {
+      const token = await authApi.getCurrentUser();
+
+      set({
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      if (token) {
+        const wsStore = useWebSocketStore.getState();
+        if (!wsStore.isConnected) {
+          await wsStore.connect(token);
+        }
+      }
+    } catch (error: any) {
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
     }
   },
 
@@ -41,8 +75,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const user = await authApi.register(data);
-      set({ user, isAuthenticated: true, isLoading: false });
+      const token = await authApi.register(data);
+      set({ isAuthenticated: true, isLoading: false });
+
+      if (token) {
+        const wsStore = useWebSocketStore.getState();
+        if (!wsStore.isConnected) {
+          await wsStore.connect(token);
+        }
+      }
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "Registration failed";
@@ -68,23 +109,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         user: null,
         isAuthenticated: false,
         isLoading: false,
-      });
-    }
-  },
-
-  checkAuth: async () => {
-    set({ isLoading: true });
-
-    try {
-      const user = await authApi.getCurrentUser();
-      set({ user, isAuthenticated: true, isLoading: false });
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Auth check failed";
-      set({
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
-        error: errorMessage,
       });
     }
   },

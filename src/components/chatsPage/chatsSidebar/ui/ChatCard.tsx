@@ -34,14 +34,12 @@ export const ChatCard: React.FC<ChatCardProps> = ({
         label={<Label text={chat.name} color={"#E4E3E8"} />}
         icon={
           <Icon
-            path={
-              chat.icon ||
-              `https://ui-avatars.com/api/?name=${chat.name[0]}&background=0D8ABC&color=fff&size=256&bold=true&rounded=true`
-            }
+            path={`https://ui-avatars.com/api/?name=${chat.name[0]}&background=0D8ABC&color=fff&size=256&bold=true&rounded=true`}
             height={"40px"}
             width={"40px"}
           />
         }
+        gap={"10px"}
         labelPosition={"right"}
       />
     </div>

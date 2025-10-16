@@ -25,12 +25,12 @@ export interface User {
 }
 
 export const authApi = {
-  login: async (data: LoginData): Promise<User> => {
+  login: async (data: LoginData): Promise<string> => {
     const response = await baseApi.post("/auth/login", data);
     return response.data;
   },
 
-  register: async (data: RegisterData): Promise<User> => {
+  register: async (data: RegisterData): Promise<string> => {
     const response = await baseApi.post("/auth/register", data);
     return response.data;
   },
@@ -39,7 +39,7 @@ export const authApi = {
     await baseApi.post("/auth/logout");
   },
 
-  getCurrentUser: async (): Promise<User> => {
+  getCurrentUser: async (): Promise<string> => {
     const response = await baseApi.get("/auth/me");
     return response.data;
   },

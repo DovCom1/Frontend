@@ -234,9 +234,22 @@ export const RegisterWidget: React.FC = () => {
     <Modal isOpen={isRegisterOpen} onClose={closeAll}>
       <form
         onSubmit={handleSubmit}
-        style={{ maxHeight: "90vh", overflowY: "auto", paddingRight: 20, paddingLeft: 20 }}
+        style={{
+          maxHeight: "90vh",
+          overflowY: "auto",
+          paddingRight: 20,
+          paddingLeft: 20,
+        }}
       >
-        <div style={{ display: "flex", marginBottom: "15px", flexDirection: "column", gap: "10px", alignItems: "center"}}>
+        <div
+          style={{
+            display: "flex",
+            marginBottom: "15px",
+            flexDirection: "column",
+            gap: "10px",
+            alignItems: "center",
+          }}
+        >
           <LabeledIconButton
             label={<Label text={"DovCom"} color={"#fff"} fontSize={"20px"} />}
             icon={<Icon path={"/icons/logo.svg"} size={"55px"} />}
@@ -244,11 +257,7 @@ export const RegisterWidget: React.FC = () => {
             gap={"0px"}
           />
 
-          <Label
-            text={"Регистрация"}
-            fontSize={"30px"}
-            color={"#fff"}
-          />
+          <Label text={"Регистрация"} fontSize={"30px"} color={"#fff"} />
 
           {/* Никнейм */}
           <TextInput
@@ -314,19 +323,21 @@ export const RegisterWidget: React.FC = () => {
           <div style={{ width: "100%" }}>
             <Dropdown
               options={createTextOptions([
-                { value: 'мужщина', text: "мужщина" },
-                { value: 'женщина', text: "женщина" },
+                { value: "мужщина", text: "мужщина" },
+                { value: "женщина", text: "женщина" },
               ])}
               onChange={(text) => handleChange("gender", text)}
               value={formData.gender}
             />
             {errors.gender && (
-              <div style={{ 
-                color: "#dc2626", 
-                fontSize: "12px", 
-                marginTop: "4px",
-                paddingLeft: "4px"
-              }}>
+              <div
+                style={{
+                  color: "#dc2626",
+                  fontSize: "12px",
+                  marginTop: "4px",
+                  paddingLeft: "4px",
+                }}
+              >
                 {errors.gender}
               </div>
             )}
@@ -342,6 +353,8 @@ export const RegisterWidget: React.FC = () => {
                 text={isLoading ? "Регистрация..." : "Зарегистрироваться"}
               />
             }
+            borderRadius="15px"
+            height="50px"
             width="100%"
             disabled={isButtonDisabled}
             icon={isLoading ? <Icon path="/icons/loading.svg" /> : undefined}
