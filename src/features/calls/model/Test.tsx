@@ -3,7 +3,6 @@ import { VideoCallProvider, useVideoCall } from './VideoCallContext';
 import { VideoCallMiniInterface } from '../ui/calls-mini/VideoCallMiniInterface';
 import { useTestStreams } from './UseTestStreams';
 
-// Демо-компонент для управления участниками
 const DemoCallManager: React.FC = () => {
 
     const { testStreams, loading } = useTestStreams();
@@ -15,42 +14,22 @@ const DemoCallManager: React.FC = () => {
         state 
     } = useVideoCall();
 
-    // Демо: автоматическое добавление тестовых участников
-    useEffect(() => {
-        // Симуляция подключения участников через WebRTC
-        const timer1 = setTimeout(() => {
-            addParticipant({
-                id: 'user-1',
-                userName: 'Анна Петрова',
-                isSpeaking: true,
-                isMuted: false
-            });
-        }, 1000);
+    // // Демо: автоматическое добавление тестовых участников
+    // useEffect(() => {
+    //     // Симуляция подключения участников через WebRTC
+    //     const timer1 = setTimeout(() => {
+    //         addParticipant({
+    //             id: 'user-1',
+    //             userName: 'Анна Петрова',
+    //             isSpeaking: true,
+    //             isMuted: false
+    //         });
+    //     }, 1000);
 
-        const timer2 = setTimeout(() => {
-            addParticipant({
-                id: 'user-2',
-                userName: 'Иван Сидоров',
-                isSpeaking: false,
-                isMuted: true
-            });
-        }, 3000);
-
-        const timer3 = setTimeout(() => {
-            addParticipant({
-                id: 'user-3',
-                userName: 'Мария Иванова',
-                isSpeaking: true,
-                isMuted: false
-            });
-        }, 5000);
-
-        return () => {
-            clearTimeout(timer1);
-            clearTimeout(timer2);
-            clearTimeout(timer3);
-        };
-    }, [addParticipant]);
+    //     return () => {
+    //         clearTimeout(timer1);
+    //     };
+    // }, [addParticipant]);
 
     // Функции для ручного управления
     const handleAddRandomParticipant = () => {
@@ -62,8 +41,6 @@ const DemoCallManager: React.FC = () => {
             id: randomId,
             userName: randomName,
             stream: testStreams[Math.random() > 0.3 ? (Math.random() > 0.6 ? 1 : 2) : 0],
-            // isSpeaking: true,
-            // isMuted: false
         });
     };
 
@@ -79,10 +56,8 @@ const DemoCallManager: React.FC = () => {
 
     return (
         <div style={{ height: '100vh', position: 'relative' }}>
-            {/* Основной интерфейс видеозвонка */}
             <VideoCallMiniInterface maxRows={2} maxCols={2} />
             
-            {/* Демо-панель управления участниками */}
             <div style={{
                 position: 'fixed',
                 top: '10px',
@@ -159,17 +134,10 @@ export const DemoCall: React.FC = () => {
         <VideoCallProvider
             currentUser={{
                 id: 'current-user',
-                userName: 'Developer', // Твое имя
+                userName: 'Developer',
+                isMuted: true,
+                isSpeaking: false,
             }}
-            initialParticipants={[
-                // Можно добавить начальных участников, если нужно
-                // {
-                //     id: 'preloaded-user',
-                //     userName: 'Предзагруженный участник',
-                //     isSpeaking: false,
-                //     isMuted: true
-                // }
-            ]}
         >
             <DemoCallManager />
         </VideoCallProvider>

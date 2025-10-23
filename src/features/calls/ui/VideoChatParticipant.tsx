@@ -55,7 +55,7 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
   };
 
   const handleParticipantClick = () => {
-    if (hasAudio) setShowVolumeControl(prev => !prev);
+    setShowVolumeControl(prev => !prev);
   };
 
   return (
@@ -82,7 +82,7 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
             style={{ 
               width: videoWidth,
               height: videoHeight,
-              backgroundColor: avatarUrl ? 'transparent' : getAvatarColor(userName)
+              // backgroundColor: avatarUrl ? 'transparent' : getAvatarColor(userName)
             }}
           >
             {avatarUrl ? (
@@ -101,9 +101,9 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
       </div>
 
       <div className={classes.userInfo}>
-        <span className={classes.userName}>{userName}</span>
         {isMuted && <Icon path="🔇" size="16px" className={classes.mutedIndicator} scale={avatarScale} />}
-        {isSpeaking && <Icon path="🎤" size="16px" className={classes.speakingIndicator} scale={avatarScale} />}
+        {isSpeaking && <Icon path="/icons/microWhite.svg" className={classes.speakingIndicator} scale={avatarScale} />}
+        <span className={classes.userName}>{userName}</span>
       </div>
 
       {/* AudioPlayer всегда рендерится, но с разными стилями в зависимости от состояния */}
@@ -122,13 +122,10 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
           showVolume={showVolumeControl}
           className={classes.audioPlayer}
           style={{
-            background: showVolumeControl ? 'rgba(0, 0, 0, 0.8)' : 'transparent',
             padding: showVolumeControl ? '15px' : '0',
             borderRadius: showVolumeControl ? '12px' : '0',
             width: showVolumeControl ? '220px' : '0',
-            backdropFilter: showVolumeControl ? 'blur(10px)' : 'none',
             opacity: showVolumeControl ? 1 : 0,
-            border: showVolumeControl ? '1px solid rgba(255, 255, 255, 0.2)' : 'none',
             transition: 'all 0.3s ease',
             visibility: showVolumeControl ? 'visible' : 'hidden',
           }}

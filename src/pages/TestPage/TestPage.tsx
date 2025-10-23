@@ -18,13 +18,13 @@ import { MultipleDropdown } from '../../shared/atoms/dropdown/MultipleDropdown';
 import { createTextOptions } from '../../shared/atoms/dropdown/options/TextOption';
 import { VideoDisplay } from "../../shared/atoms/media/VideoDisplay";
 import { useUserMedia } from "../../shared/hooks/UseUserMedia";
-import { MediaControls } from "../../features/calls/MediaControls";
 import { AudioPlayer } from "../../shared/atoms/media/AudioPlayer";
 import { VideoChatParticipant } from "../../features/calls/ui/VideoChatParticipant";
 import { ControlButtons } from "../../features/calls/ui/calls-mini/ControlButtons";
 import { ParticipantsGrid } from "../../features/calls/ui/ParticipantsGrid";
 import { VideoCallMiniInterface } from "../../features/calls/ui/calls-mini/VideoCallMiniInterface";
 import { DemoCall } from "../../features/calls/model/Test";
+import { VideoCall } from "../../features/calls/ui/VideoCall";
 
 export const TestPage: React.FC = () => {
   const [meetingTitle, setMeetingTitle] = useState("");
@@ -38,22 +38,6 @@ export const TestPage: React.FC = () => {
 
   const [selectedValue, setSelectedValue] = useState('');
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-
-  const {
-      stream,
-      error,
-      isLoading,
-      isCameraOn,
-      isMicrophoneOn,
-      startStream,
-      stopStream,
-      toggleCamera,
-      toggleMicrophone,
-    } = useUserMedia({
-      video: false,
-      audio: false,
-      autoStart: false
-    });
 
   return (
     <div className={classes.testPage}>
@@ -155,114 +139,29 @@ export const TestPage: React.FC = () => {
         </section>
 
         <section className={classes.section}>
-          <h2>Video display testing</h2>
-          <div style={{maxWidth: '600px', margin: '20px'}}>            
-            {/* <VideoDisplay
-              stream={stream}
-              width="100%"
-              height="auto"
-              objectFit="fill"
-            />
-            <AudioPlayer
-              stream={stream}
-            /> */}
-            <MediaControls
-                stream={stream}
-                isLoading={isLoading}
-                isCameraOn={isCameraOn}
-                isMicrophoneOn={isMicrophoneOn}
-                onStartStream={startStream}
-                onStopStream={stopStream}
-                onToggleCamera={toggleCamera}
-                onToggleMicrophone={toggleMicrophone}
-              />
-          </div>
-        </section>
+          <h2>Video-chat Participant</h2>
 
-        <section className={classes.section}>
-          <h2>Video-chat participant</h2>
+          {/* <DemoCall /> */}
 
-          <VideoChatParticipant
-            stream={stream}
-            avatarUrl="https://i.pravatar.cc/200"
-            userName="Kontur's Director"
+          <VideoChatParticipant 
+            userName="No avatar"
           />
 
-          <div>{error}</div>
+          <VideoChatParticipant 
+            userName="Using avatar"
+            avatarUrl="https://i.pravatar.cc/100"
+          />
 
         </section>
 
         <section className={classes.section}>
           <h2>Video-chat</h2>
 
-          <DemoCall />
+          {/* <DemoCall /> */}
+
+          <VideoCall />
 
         </section>
-
-{/* 
-        <section className={classes.section}>
-          <h2>Video-chat grid</h2>
-
-          <ParticipantsGrid
-            maxRows={2}
-            maxCols={2}
-            participants={[
-              <VideoChatParticipant
-                stream={stream}
-                avatarUrl="https://i.pravatar.cc/200"
-                userName="Kontur's Director"
-              />,
-              <VideoChatParticipant
-                stream={stream}
-                avatarUrl="https://i.pravatar.cc/200"
-                userName="Kontur's Vice Director"
-              />,
-              <VideoChatParticipant
-                stream={stream}
-                avatarUrl="https://i.pravatar.cc/200"
-                userName="Kontur's Secretary"
-              />,
-              <VideoChatParticipant
-                stream={stream}
-                avatarUrl="https://i.pravatar.cc/200"
-                userName="Kontur's Manager"
-              />,
-              <VideoChatParticipant
-                stream={stream}
-                avatarUrl="https://i.pravatar.cc/200"
-                userName="Kontur's Senior Manager"
-              />,
-              <VideoChatParticipant
-                stream={stream}
-                avatarUrl="https://i.pravatar.cc/200"
-                userName="Kontur's Backender"
-              />,
-              <VideoChatParticipant
-                stream={stream}
-                avatarUrl="https://i.pravatar.cc/200"
-                userName="Kontur's Frontender"
-              />,
-            ]}
-          />
-
-          <div>{error}</div>
-
-        </section>
-
-        <section className={classes.section}>
-          <h2>Call mini controls</h2>
-
-          <ControlButtons 
-            onToggleCamera={toggleCamera} 
-            onToggleMicrophone={toggleMicrophone} 
-            onEmotionsButtonClick={() => alert("Emotions button clicked.")} 
-            onFullscreenClick={() => alert("Going to fullscreen") } 
-            onEndCallClick={ () => alert("Ending the call")}
-            isCameraOn={isCameraOn}
-            isMicroOn={isMicrophoneOn}
-          />
-
-        </section> */}
 
         <section className={classes.section}>
           <h2>🎯 Виджеты и модальные окна</h2>
