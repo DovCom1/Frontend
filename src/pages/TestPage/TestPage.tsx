@@ -22,6 +22,9 @@ import { MediaControls } from "../../features/calls/MediaControls";
 import { AudioPlayer } from "../../shared/atoms/media/AudioPlayer";
 import { VideoChatParticipant } from "../../features/calls/ui/VideoChatParticipant";
 import { ControlButtons } from "../../features/calls/ui/calls-mini/ControlButtons";
+import { ParticipantsGrid } from "../../features/calls/ui/ParticipantsGrid";
+import { VideoCallMiniInterface } from "../../features/calls/ui/calls-mini/VideoCallMiniInterface";
+import { DemoCall } from "../../features/calls/model/Test";
 
 export const TestPage: React.FC = () => {
   const [meetingTitle, setMeetingTitle] = useState("");
@@ -190,6 +193,63 @@ export const TestPage: React.FC = () => {
         </section>
 
         <section className={classes.section}>
+          <h2>Video-chat</h2>
+
+          <DemoCall />
+
+        </section>
+
+{/* 
+        <section className={classes.section}>
+          <h2>Video-chat grid</h2>
+
+          <ParticipantsGrid
+            maxRows={2}
+            maxCols={2}
+            participants={[
+              <VideoChatParticipant
+                stream={stream}
+                avatarUrl="https://i.pravatar.cc/200"
+                userName="Kontur's Director"
+              />,
+              <VideoChatParticipant
+                stream={stream}
+                avatarUrl="https://i.pravatar.cc/200"
+                userName="Kontur's Vice Director"
+              />,
+              <VideoChatParticipant
+                stream={stream}
+                avatarUrl="https://i.pravatar.cc/200"
+                userName="Kontur's Secretary"
+              />,
+              <VideoChatParticipant
+                stream={stream}
+                avatarUrl="https://i.pravatar.cc/200"
+                userName="Kontur's Manager"
+              />,
+              <VideoChatParticipant
+                stream={stream}
+                avatarUrl="https://i.pravatar.cc/200"
+                userName="Kontur's Senior Manager"
+              />,
+              <VideoChatParticipant
+                stream={stream}
+                avatarUrl="https://i.pravatar.cc/200"
+                userName="Kontur's Backender"
+              />,
+              <VideoChatParticipant
+                stream={stream}
+                avatarUrl="https://i.pravatar.cc/200"
+                userName="Kontur's Frontender"
+              />,
+            ]}
+          />
+
+          <div>{error}</div>
+
+        </section>
+
+        <section className={classes.section}>
           <h2>Call mini controls</h2>
 
           <ControlButtons 
@@ -202,7 +262,7 @@ export const TestPage: React.FC = () => {
             isMicroOn={isMicrophoneOn}
           />
 
-        </section>
+        </section> */}
 
         <section className={classes.section}>
           <h2>🎯 Виджеты и модальные окна</h2>

@@ -14,17 +14,16 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
 }
 
 .audioPlayer {
   transition: all 0.3s ease;
 }
 
-/* Остальные стили остаются без изменений */
 .mediaContainer {
   position: relative;
   display: flex;

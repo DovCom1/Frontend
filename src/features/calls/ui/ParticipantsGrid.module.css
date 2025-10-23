@@ -1,0 +1,63 @@
+/* ParticipantsGrid.module.css */
+.container {
+    background-color: #3e3f46;
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex: 1;
+}
+
+.grid {
+    flex: 1;
+    max-width: calc(100% - 100px);
+}
+
+.visible {
+    display: block !important;
+}
+
+.hidden {
+    display: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.navigationButton {
+    flex-shrink: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.navigationButton:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.navigationButton:not(:disabled):hover {
+    transform: scale(1.1);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    padding: 10px;
+}
+
+.pageIndicator {
+    color: white;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-weight: 500;
+}

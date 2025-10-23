@@ -1,0 +1,57 @@
+.volumeControl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.volumeIcon {
+  font-size: 16px;
+  min-width: 20px;
+}
+
+.volumeSlider {
+  flex: 1;
+  height: 4px;
+  background: #82848a;
+  border-radius: 2px;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.volumeSlider:hover {
+  opacity: 1;
+}
+
+.volumeSlider {
+  appearance: none;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  appearance: none;
+  width: 8px;
+  height: 25px; 
+  border-radius: 7px;
+  background: #e7e7e9;
+  cursor: pointer;
+  border: 1px solid #388E3C;
+}
+
+.volumeSlider::-moz-range-thumb {
+  width: 8px;
+  height: 20px;
+  border-radius: 2px;
+  background: #4CAF50;
+  cursor: pointer;
+  border: 1px solid #388E3C;
+}
+
+.volumeValue {
+  font-size: 12px;
+  color: #666;
+  min-width: 30px;
+  text-align: center;
+  font-weight: 500;
+}

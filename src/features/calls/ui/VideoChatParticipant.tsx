@@ -106,26 +106,34 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
         {isSpeaking && <Icon path="🎤" size="16px" className={classes.speakingIndicator} scale={avatarScale} />}
       </div>
 
-      {(
-        <div className={classes.audioPlayerOverlay} onClick={(e) => e.stopPropagation()}>
-          <AudioPlayer
-            stream={stream}
-            autoPlay={true}
-            showControls={showVolumeControl}
-            showVolume={showVolumeControl}
-            className={classes.audioPlayer}
-            style={{
-              background: 'rgba(0, 0, 0, 0)',
-              padding: '15px',
-              borderRadius: '12px',
-              width: '220px',
-              backdropFilter: 'blur(10px)',
-              visibility: showVolumeControl ? 'visible' : 'hidden',
-              border: '1px solid rgba(255, 255, 255, 0.2)'
-            }}
-          />
-        </div>
-      )}
+      {/* AudioPlayer всегда рендерится, но с разными стилями в зависимости от состояния */}
+      <div 
+        className={classes.audioPlayerOverlay} 
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          pointerEvents: showVolumeControl ? 'auto' : 'none',
+          zIndex: showVolumeControl ? 20 : -1,
+        }}
+      >
+        <AudioPlayer
+          stream={stream}
+          autoPlay={true}
+          showControls={showVolumeControl}
+          showVolume={showVolumeControl}
+          className={classes.audioPlayer}
+          style={{
+            background: showVolumeControl ? 'rgba(0, 0, 0, 0.8)' : 'transparent',
+            padding: showVolumeControl ? '15px' : '0',
+            borderRadius: showVolumeControl ? '12px' : '0',
+            width: showVolumeControl ? '220px' : '0',
+            backdropFilter: showVolumeControl ? 'blur(10px)' : 'none',
+            opacity: showVolumeControl ? 1 : 0,
+            border: showVolumeControl ? '1px solid rgba(255, 255, 255, 0.2)' : 'none',
+            transition: 'all 0.3s ease',
+            visibility: showVolumeControl ? 'visible' : 'hidden',
+          }}
+        />
+      </div>
 
       {!hasAudio && (
         <div className={classes.noAudioIndicator}>

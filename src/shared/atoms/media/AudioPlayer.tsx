@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAudioStream } from '../../hooks/UseAudioStream';
 import classes from './AudioPlayer.module.css';
+import Icon from '../icons/Icon';
 
 interface AudioPlayerProps {
   stream?: MediaStream | null;
@@ -70,7 +71,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       {showControls && showVolume && (
         <div className={classes.controls}>
           <div className={classes.volumeControl}>
-            <span className={classes.volumeIcon}>🔊</span>
+            <span className={classes.volumeIcon}><Icon size='25px' path='/icons/tabler_volume.svg' /></span>
             <input
               type="range"
               min="0"
@@ -81,9 +82,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
               className={classes.volumeSlider}
               disabled={!stream}
             />
-            <span className={classes.volumeValue}>
-              {Math.round(volume * 100)}%
-            </span>
           </div>
         </div>
       )}
