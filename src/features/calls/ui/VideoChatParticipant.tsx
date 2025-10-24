@@ -60,7 +60,7 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
 
   return (
     <div 
-      className={`${classes.participant} ${className} ${isSpeaking ? classes.speaking : ''} ${isMuted ? classes.muted : ''}`}
+      className={`${classes.participant} ${className} ${isSpeaking ? classes.speaking : ''} ${isMuted ? classes.muted : ''} ${showVolumeControl ? classes.showingControls : ''}`}
       style={style}
       onClick={handleParticipantClick}
     >
@@ -82,7 +82,6 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
             style={{ 
               width: videoWidth,
               height: videoHeight,
-              // backgroundColor: avatarUrl ? 'transparent' : getAvatarColor(userName)
             }}
           >
             {avatarUrl ? (
