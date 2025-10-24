@@ -16,14 +16,7 @@ import { Dropdown } from '../../shared/atoms/dropdown/Dropdown';
 import { createIconTextOptions, renderFirstNIcons } from '../../shared/atoms/dropdown/options/IconTextOption';
 import { MultipleDropdown } from '../../shared/atoms/dropdown/MultipleDropdown';
 import { createTextOptions } from '../../shared/atoms/dropdown/options/TextOption';
-import { VideoDisplay } from "../../shared/atoms/media/VideoDisplay";
-import { useUserMedia } from "../../shared/hooks/UseUserMedia";
-import { AudioPlayer } from "../../shared/atoms/media/AudioPlayer";
 import { VideoChatParticipant } from "../../features/calls/ui/VideoChatParticipant";
-import { ControlButtons } from "../../features/calls/ui/calls-mini/ControlButtons";
-import { ParticipantsGrid } from "../../features/calls/ui/ParticipantsGrid";
-import { VideoCallMiniInterface } from "../../features/calls/ui/calls-mini/VideoCallMiniInterface";
-import { DemoCall } from "../../features/calls/model/Test";
 import { VideoCall } from "../../features/calls/ui/VideoCall";
 
 export const TestPage: React.FC = () => {
@@ -141,8 +134,6 @@ export const TestPage: React.FC = () => {
         <section className={classes.section}>
           <h2>Video-chat Participant</h2>
 
-          {/* <DemoCall /> */}
-
           <VideoChatParticipant 
             userName="No avatar"
           />
@@ -156,8 +147,6 @@ export const TestPage: React.FC = () => {
 
         <section className={classes.section}>
           <h2>Video-chat</h2>
-
-          {/* <DemoCall /> */}
 
           <VideoCall />
 

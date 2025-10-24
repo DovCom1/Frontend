@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
-import { VideoCallProvider, useVideoCall } from './VideoCallContext';
+import React from 'react';
 import { VideoCallMiniInterface } from '../ui/calls-mini/VideoCallMiniInterface';
 import { useTestStreams } from './UseTestStreams';
+import { useVideoCall } from './VideoCallContext';
 
-const DemoCallManager: React.FC = () => {
+export const VideoCallManager: React.FC = () => {
 
     const { testStreams, loading } = useTestStreams();
 
-    const { 
-        addParticipant, 
-        removeParticipant, 
-        setParticipants,
-        state 
+    const {
+        addParticipant, removeParticipant, setParticipants, state
     } = useVideoCall();
 
     // // Демо: автоматическое добавление тестовых участников
@@ -25,22 +22,22 @@ const DemoCallManager: React.FC = () => {
     //             isMuted: false
     //         });
     //     }, 1000);
-
     //     return () => {
     //         clearTimeout(timer1);
     //     };
     // }, [addParticipant]);
-
     // Функции для ручного управления
     const handleAddRandomParticipant = () => {
         const randomId = `user-${Date.now()}`;
         const names = ['Олег', 'Светлана', 'Дмитрий', 'Екатерина', 'Алексей'];
         const randomName = names[Math.floor(Math.random() * names.length)];
-        
+
         addParticipant({
             id: randomId,
             userName: randomName,
             stream: testStreams[Math.random() > 0.3 ? (Math.random() > 0.6 ? 1 : 2) : 0],
+            isMuted: false,
+            isSpeaking: true,
         });
     };
 
@@ -56,8 +53,8 @@ const DemoCallManager: React.FC = () => {
 
     return (
         <div style={{ height: '100vh', position: 'relative' }}>
-            <VideoCallMiniInterface maxRows={2} maxCols={2} />
-            
+            <VideoCallMiniInterface maxRows={2} maxCols={4} />
+
             <div style={{
                 position: 'fixed',
                 top: '10px',
@@ -73,8 +70,8 @@ const DemoCallManager: React.FC = () => {
                 minWidth: '200px'
             }}>
                 <h4 style={{ margin: '0 0 10px 0' }}>Управление участниками</h4>
-                
-                <button 
+
+                <button
                     onClick={handleAddRandomParticipant}
                     style={{
                         padding: '8px 12px',
@@ -87,9 +84,9 @@ const DemoCallManager: React.FC = () => {
                 >
                     Добавить случайного
                 </button>
-                
+
                 {state.participants.length > 0 && (
-                    <button 
+                    <button
                         onClick={handleRemoveFirstParticipant}
                         style={{
                             padding: '8px 12px',
@@ -103,9 +100,9 @@ const DemoCallManager: React.FC = () => {
                         Удалить первого
                     </button>
                 )}
-                
+
                 {state.participants.length > 0 && (
-                    <button 
+                    <button
                         onClick={handleClearAllParticipants}
                         style={{
                             padding: '8px 12px',
@@ -119,7 +116,7 @@ const DemoCallManager: React.FC = () => {
                         Очистить всех ({state.participants.length})
                     </button>
                 )}
-                
+
                 <div style={{ fontSize: '12px', opacity: 0.8 }}>
                     Участников: {state.participants.length + 1}
                 </div>
@@ -127,20 +124,3 @@ const DemoCallManager: React.FC = () => {
         </div>
     );
 };
-
-// Главный компонент приложения
-export const DemoCall: React.FC = () => {
-    return (
-        <VideoCallProvider
-            currentUser={{
-                id: 'current-user',
-                userName: 'Developer',
-                isMuted: true,
-                isSpeaking: false,
-            }}
-        >
-            <DemoCallManager />
-        </VideoCallProvider>
-    );
-};
-

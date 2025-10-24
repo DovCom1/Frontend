@@ -20,16 +20,12 @@ interface VideoChatParticipantProps {
   avatarScale?: boolean;
 }
 
-const isAudioMuted = (st?: MediaStream | null) => {
-    return st && st.getAudioTracks().length > 0 && st.getAudioTracks().some(track => track.enabled && !track.muted);
-};
-
 export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
   stream,
   userName,
   avatarUrl,
-  isSpeaking = false,
-  isMuted = false,
+  isSpeaking = false,    // Показывает активность голоса
+  isMuted = false,       // Показывает состояние микрофона
   className = '',
   style = {},
   videoWidth = 300,
@@ -42,17 +38,10 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
     
   const isCameraOn = useVideoState(stream);
   
-  const hasAudio = isAudioMuted(stream);
-
   const getInitials = (name: string) => {
     return name.split(' ').map(word => word.charAt(0).toUpperCase()).join('').slice(0, 2);
   };
 
-  const getAvatarColor = (name: string) => {
-    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
-    const index = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return colors[index % colors.length];
-  };
 
   const handleParticipantClick = () => {
     setShowVolumeControl(prev => !prev);
@@ -90,7 +79,6 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
                 size={avatarSize}
                 className={classes.avatarIcon}
                 scale={avatarScale}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
               />
             ) : (
               <div className={classes.avatarInitials}>{getInitials(userName)}</div>
@@ -100,8 +88,12 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
       </div>
 
       <div className={classes.userInfo}>
+        {/* Показываем иконку выключенного микрофона если пользователь muted */}
         {isMuted && <Icon path="/icons/microOffWhite.svg" className={classes.mutedIndicator} scale={avatarScale} />}
-        {isSpeaking && <Icon path="/icons/microWhite.svg" className={classes.speakingIndicator} scale={avatarScale} />}
+        
+        {/* Показываем иконку активного микрофона если пользователь говорит */}
+        {isSpeaking && !isMuted && <Icon path="/icons/microWhite.svg" className={classes.speakingIndicator} scale={avatarScale} />}
+        
         <span className={classes.userName}>{userName}</span>
       </div>
 
@@ -131,6 +123,7 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
         />
       </div>
 
+      {/* Можно раскомментировать если нужно показывать "Нет аудио" */}
       {/* {!hasAudio && (
         <div className={classes.noAudioIndicator}>
           <Icon path="/icons/tabler_volume-off.svg" size="14px" className={classes.noAudioIcon} scale={avatarScale} />

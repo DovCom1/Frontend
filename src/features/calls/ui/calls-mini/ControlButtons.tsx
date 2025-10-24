@@ -34,14 +34,15 @@ export const ControlButtons: React.FC<ControlButtonsProps> = ({
             <Grid 
                 cols={5} 
                 rows={1}
-                horizontalGap="2cm"
+                horizontalGap="15px"
+                verticalGap={0}
                 elements={[
                     <IconButton
                         key="camera"
                         onClick={onToggleCamera} 
                         icon={
                             <Icon 
-                                path={isCameraOn ? "/icons/cameraOffWhite.svg" : "/icons/cameraOffWhite.svg"}
+                                path={isCameraOn ? "/icons/cameraWhite.svg" : "/icons/cameraOffWhite.svg"}
                             />
                         }
                         className={getButtonClass(isCameraOn ? "" : classes.disabled)}
@@ -51,7 +52,7 @@ export const ControlButtons: React.FC<ControlButtonsProps> = ({
                         onClick={onToggleMicrophone} 
                         icon={
                             <Icon 
-                                path={isMicroOn ? "/icons/microWhite.svg" : "/icons/microWhite.svg"}
+                                path={isMicroOn ? "/icons/microWhite.svg" : "/icons/microOffWhite.svg"}
                             />
                         }
                         className={getButtonClass(isMicroOn ? "" : classes.disabled)}

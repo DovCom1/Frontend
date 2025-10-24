@@ -17,7 +17,6 @@ export const VideoCallMiniInterface: React.FC<VideoCallMiniInterfaceProps> = ({
 }) => {
     const { state, updateCurrentUser, updateParticipant } = useVideoCall();
     
-    // Хук для управления медиа пользователя
     const {
         stream: userStream,
         isCameraOn,
@@ -26,16 +25,15 @@ export const VideoCallMiniInterface: React.FC<VideoCallMiniInterfaceProps> = ({
         toggleMicrophone,
         error
     } = useUserMedia({
-        video: true,
+        video: false,
         audio: true,
-        autoStart: true
+        autoStart: false
     });
 
     // Состояния для дополнительных функций
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showEmotions, setShowEmotions] = useState(false);
 
-    // Обновляем текущего пользователя при изменении медиа
     useEffect(() => {
         updateCurrentUser({
             stream: userStream,
@@ -103,6 +101,7 @@ export const VideoCallMiniInterface: React.FC<VideoCallMiniInterfaceProps> = ({
     const handleEndCallClick = () => {
         // Логика завершения звонка
         console.log('Завершение звонка...');
+        alert("Call ended...");
         // Можно добавить очистку участников
         // setParticipants([]);
         window.close(); // или другая логика
