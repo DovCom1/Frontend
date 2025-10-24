@@ -100,7 +100,7 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
       </div>
 
       <div className={classes.userInfo}>
-        {isMuted && <Icon path="🔇" size="16px" className={classes.mutedIndicator} scale={avatarScale} />}
+        {isMuted && <Icon path="/icons/microOffWhite.svg" className={classes.mutedIndicator} scale={avatarScale} />}
         {isSpeaking && <Icon path="/icons/microWhite.svg" className={classes.speakingIndicator} scale={avatarScale} />}
         <span className={classes.userName}>{userName}</span>
       </div>
@@ -131,12 +131,12 @@ export const VideoChatParticipant: React.FC<VideoChatParticipantProps> = ({
         />
       </div>
 
-      {!hasAudio && (
+      {/* {!hasAudio && (
         <div className={classes.noAudioIndicator}>
-          <Icon path="🔇" size="14px" className={classes.noAudioIcon} scale={avatarScale} />
+          <Icon path="/icons/tabler_volume-off.svg" size="14px" className={classes.noAudioIcon} scale={avatarScale} />
           <span>Нет аудио</span>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
