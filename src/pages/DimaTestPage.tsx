@@ -39,6 +39,7 @@ const DimaTestPage = () => {
         position: "relative",
       }}
     >
+      {/* <EditFrendsAndEnemiesWidget/> */}
       {/* Sidebar слева - будет перекрывать ChatsSidebar при растягивании */}
       <div
         style={{

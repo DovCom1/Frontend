@@ -192,8 +192,7 @@ export const RegisterWidget: React.FC = () => {
     return age;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
 
     Object.keys(formData).forEach((field) => {
       validateField(field, formData[field as keyof typeof formData]);
@@ -233,7 +232,6 @@ export const RegisterWidget: React.FC = () => {
   return (
     <Modal isOpen={isRegisterOpen} onClose={closeAll}>
       <form
-        onSubmit={handleSubmit}
         style={{
           maxHeight: "90vh",
           overflowY: "auto",
@@ -356,6 +354,7 @@ export const RegisterWidget: React.FC = () => {
             borderRadius="15px"
             height="50px"
             width="100%"
+            onClick={handleSubmit}
             disabled={isButtonDisabled}
             icon={isLoading ? <Icon path="/icons/loading.svg" /> : undefined}
           />

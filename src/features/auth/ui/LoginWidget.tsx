@@ -65,8 +65,8 @@ export const LoginWidget: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    console.log({ email, password })
 
     if (!isFormValid()) {
       return;
@@ -85,7 +85,6 @@ export const LoginWidget: React.FC = () => {
   return (
     <Modal isOpen={isLoginOpen} onClose={closeAll}>
       <form
-        onSubmit={handleSubmit}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -133,6 +132,7 @@ export const LoginWidget: React.FC = () => {
             className={buttonClasses.defaultButtonOrange}
             label={<Label text={isLoading ? "Вход..." : "Войти"} />}
             disabled={isButtonDisabled}
+            onClick={handleSubmit}
             width="100%"
             borderRadius="15px"
             height="50px"
