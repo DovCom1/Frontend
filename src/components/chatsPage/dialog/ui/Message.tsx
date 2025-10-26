@@ -1,18 +1,21 @@
 import classes from "./Message.module.css";
-import Label from "../../shared/atoms/labels/Label";
+import Label from "../../../../shared/atoms/labels/Label";
 
 export interface MessageProps {
   text: string;
   date: string;
-  nickname: string;
+  name: string;
+  from?: boolean;
 }
 
-const Message: React.FC<MessageProps> = ({ text, date, nickname }) => {
+const Message: React.FC<MessageProps> = ({ text, date, name, from }) => {
   return (
-    <div className={classes.container}>
+    <div
+      className={`${classes.container} ${from ? classes.incoming : classes.outgoing}`}
+    >
       <Label
         className={`${classes.fontStyleWrapper} ${classes.nicknameWrapper}`}
-        text={nickname}
+        text={name}
       />
       <div className={classes.contentContainer}>
         <Label

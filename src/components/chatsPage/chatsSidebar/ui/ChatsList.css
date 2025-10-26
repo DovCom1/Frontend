@@ -1,24 +1,23 @@
 .chats-list {
-  height: 95%;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #54565c #353535;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #54565c #353535;
 }
 
 .chats-list::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 
 .chats-list::-webkit-scrollbar-track {
-  background: #353535;
-  border-radius: 4px;
+    background: #353535;
+    border-radius: 4px;
 }
 
 .chats-list::-webkit-scrollbar-thumb {
-  background: #c5c5c5;
-  border-radius: 4px;
+    background: #c5c5c5;
+    border-radius: 4px;
 }
 
 .chats-list::-webkit-scrollbar-thumb:hover {
-  background: #a5a5a5;
+    background: #a5a5a5;
 }

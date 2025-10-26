@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.nicknameWrapper {
+    color: var(--main-color-orange);
+}
+
+.incoming {
+    align-self: flex-start; /* в колонке — слева */
+    justify-content: flex-start;
+}
+
+/* Исходящее (справа) */
+.outgoing {
+    align-self: flex-end; /* в колонке — справа */
+    align-items: flex-end;
+}
+
+.contentContainer {
+    display: flex;
+    border-radius: 18px;
+    background-color: var(--chats-page-gray);
+    align-items: flex-end;
+    max-width: 25vw;
+    padding: 8px 10px 8px 10px;
+    gap: 8px;
+    color: var(--white-color);
+
+}
+
+.contentTextWrapper {
+    white-space: pre-wrap; /* сохраняет \n, но позволяет переносы */
+    overflow-wrap: anywhere; /* разрывает длинные слова/URL */
+    word-break: break-word;
+}
+
+/*.contentDateWrapper {*/
+/*    color: var(--white-color);*/
+/*}*/
+
+.contentDateWrapper.fontStyleWrapper {
+    font-size: 10px;
+}
+
+.fontStyleWrapper {
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+}
