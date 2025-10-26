@@ -9,19 +9,9 @@ export interface RegisterData {
   email: string;
   password: string;
   uid: string;
-  username: string;
-  birthDate: string;
+  nickname: string;
+  dateOfBirth: string;
   gender: "мужщина" | "женщина";
-}
-
-export interface User {
-  id: string;
-  email: string;
-  uid: string;
-  username: string;
-  birthDate: string;
-  gender: "мужщина" | "женщина";
-  avatar?: string;
 }
 
 export const authApi = {

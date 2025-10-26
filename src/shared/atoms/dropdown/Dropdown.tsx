@@ -110,7 +110,11 @@ export const Dropdown = <T,>({
             className={`${classes.dropdownItem} ${
               option.value === value ? classes.dropdownItemSelected : ""
             }`}
-            onClick={() => handleSelect(option.value)}
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log("проверка нажатия");
+              handleSelect(option.value);
+            }}
           >
             {option.content}
           </div>

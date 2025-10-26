@@ -1,6 +1,7 @@
 import Sidebar from "../components/chatsPage/Sidebar";
 import { ChatsSidebar } from "../components/chatsPage/chatsSidebar/ui/ChatsSidebar";
 import { Chat } from "../entities/chat/model/types/chat";
+import { EditFrendsAndEnemiesWidget } from "../features/editFrendsAndEnemies/ui/EditFriendFrendsAndEnemiesWidget";
 
 const DimaTestPage = () => {
   //эта штука только ради проверки
@@ -39,7 +40,7 @@ const DimaTestPage = () => {
         position: "relative",
       }}
     >
-      {/* <EditFrendsAndEnemiesWidget/> */}
+      <EditFrendsAndEnemiesWidget/>
       {/* Sidebar слева - будет перекрывать ChatsSidebar при растягивании */}
       <div
         style={{

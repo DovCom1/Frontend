@@ -127,6 +127,7 @@ export const RegisterWidget: React.FC = () => {
         break;
 
       case "gender":
+        console.log(value);
         if (value.trim() === "") {
           error = "Пол обязателен для выбора";
         }
@@ -193,7 +194,6 @@ export const RegisterWidget: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-
     Object.keys(formData).forEach((field) => {
       validateField(field, formData[field as keyof typeof formData]);
     });
@@ -205,10 +205,10 @@ export const RegisterWidget: React.FC = () => {
     try {
       await register({
         uid: formData.uid,
-        username: formData.username,
+        nickname: formData.username,
         email: formData.email,
         password: formData.password,
-        birthDate: formData.birthDate,
+        dateOfBirth: formData.birthDate,
         gender: formData.gender as "мужщина" | "женщина",
       });
       closeAll();
@@ -321,11 +321,14 @@ export const RegisterWidget: React.FC = () => {
           <div style={{ width: "100%" }}>
             <Dropdown
               options={createTextOptions([
-                { value: "мужщина", text: "мужщина" },
-                { value: "женщина", text: "женщина" },
+                { value: "мужщина", text: "Мужщина" },
+                { value: "женщина", text: "Женщина" },
               ])}
               onChange={(text) => handleChange("gender", text)}
               value={formData.gender}
+              placeholder="Выберите пол"
+              label="Пол"
+              error={errors.gender}
             />
             {errors.gender && (
               <div
