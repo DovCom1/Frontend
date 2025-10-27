@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { authApi, LoginData, RegisterData} from "../api/AuthApi";
-import { useWebSocketStore } from "../../../shared/api/websocket/model/websocketStore";
+import { authApi, LoginData, RegisterData } from "../api/AuthApi";
+import { useWebSocketStore } from "../../../shared/api/websocket/model/WebsocketStore";
 
 interface AuthState {
   isAuthenticated: boolean;

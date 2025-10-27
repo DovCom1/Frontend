@@ -1,7 +1,8 @@
 import Sidebar from "../components/chatsPage/Sidebar";
 import { ChatsSidebar } from "../components/chatsPage/chatsSidebar/ui/ChatsSidebar";
 import { Chat } from "../entities/chat/model/types/chat";
-import { EditFrendsAndEnemiesWidget } from "../features/editFrendsAndEnemies/ui/EditFriendFrendsAndEnemiesWidget";
+import { EditFriendsAndEnemiesWidget } from "../features/editFriendsAndEnemies/ui/EditFriendsAndEnemiesWidget";
+import { FriendsAndEnemies } from "../components/friendsAndEnemies/ui/FriendsAndEnemies"; // Добавляем импорт
 
 const DimaTestPage = () => {
   //эта штука только ради проверки
@@ -40,7 +41,8 @@ const DimaTestPage = () => {
         position: "relative",
       }}
     >
-      <EditFrendsAndEnemiesWidget/>
+      {/* Убираем EditFriendsAndEnemiesWidget отсюда */}
+
       {/* Sidebar слева - будет перекрывать ChatsSidebar при растягивании */}
       <div
         style={{
@@ -78,10 +80,17 @@ const DimaTestPage = () => {
           padding: "20px",
           minWidth: 0,
           backgroundColor: "#f5f5f5",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <h1>Чат приложение</h1>
         <p>Выберите чат из списка слева</p>
+
+        {/* Добавляем компонент FriendsAndEnemies */}
+        <div style={{ flex: 1, marginTop: "20px" }}>
+          <FriendsAndEnemies />
+        </div>
 
         <div
           style={{
@@ -94,7 +103,6 @@ const DimaTestPage = () => {
         >
           <h2>Основной контент</h2>
           <p>При растягивании Sidebar будет перекрывать часть списка чатов</p>
-          <p>Сейчас выбран чат с ID {}</p>
           <p>
             Текущее состояние Sidebar: {isSidebarOpen ? "открыт" : "закрыт"}
           </p>

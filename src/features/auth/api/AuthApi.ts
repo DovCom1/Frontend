@@ -11,7 +11,7 @@ export interface RegisterData {
   uid: string;
   nickname: string;
   dateOfBirth: string;
-  gender: "мужщина" | "женщина";
+  gender: "мужской" | "женский";
 }
 
 export const authApi = {

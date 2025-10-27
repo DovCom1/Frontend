@@ -1,0 +1,51 @@
+.user-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background-color: #3e3f46;
+  padding: 10px;
+}
+
+.user-list-item__info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-list-item__avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-list-item__details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-list-item__nickname {
+  font-weight: bold;
+  color: #f6f6f6;
+}
+
+.user-list-item__uid {
+  font-size: 12px;
+  color: #82848a;
+}
+
+.user-list-item__status {
+  font-size: 12px;
+  color: #82848a;
+}
+
+.user-list-item__status--online {
+  color: green;
+}
+
+.user-list-item__actions {
+  display: flex;
+  gap: 8px;
+}
