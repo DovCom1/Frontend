@@ -2,10 +2,10 @@
   padding: 20px;
   min-width: 400px;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #2a2b31;
-  border-radius: 8px;
+  background-color: #3e3f46;
 }
 
 .friends-enemies__header {

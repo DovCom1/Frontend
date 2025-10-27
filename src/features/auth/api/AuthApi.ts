@@ -5,6 +5,9 @@ export interface LoginData {
   password: string;
 }
 
+export interface WebTokenDto {
+  token: string;
+}
 export interface RegisterData {
   email: string;
   password: string;
@@ -15,12 +18,12 @@ export interface RegisterData {
 }
 
 export const authApi = {
-  login: async (data: LoginData): Promise<string> => {
+  login: async (data: LoginData): Promise<WebTokenDto> => {
     const response = await baseApi.post("/auth/login", data);
     return response.data;
   },
 
-  register: async (data: RegisterData): Promise<string> => {
+  register: async (data: RegisterData): Promise<WebTokenDto> => {
     const response = await baseApi.post("/auth/register", data);
     return response.data;
   },

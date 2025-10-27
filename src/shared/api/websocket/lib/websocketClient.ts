@@ -17,10 +17,12 @@ export class WebSocketClient {
     return new Promise((resolve, reject) => {
       try {
         // Добавляем токен в URL как query параметр
-        const wsUrl = this.token
+        console.log(this.token);
+        const wsUrl: string = this.token
           ? `${this.url}?token=${encodeURIComponent(this.token)}`
           : this.url;
 
+        console.log(wsUrl);
         this.socket = new WebSocket(wsUrl);
 
         this.socket.onopen = () => {

@@ -32,7 +32,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (token) {
         const wsStore = useWebSocketStore.getState();
-        await wsStore.connect(token);
+        await wsStore.connect(token.token);
       }
     } catch (error: any) {
       set({
@@ -78,7 +78,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (token) {
         const wsStore = useWebSocketStore.getState();
         if (!wsStore.isConnected) {
-          await wsStore.connect(token);
+          await wsStore.connect(token.token);
         }
       }
     } catch (error: any) {

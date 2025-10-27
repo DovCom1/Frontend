@@ -4,7 +4,12 @@ import { ChatsSidebar } from "../../components/chatsPage/chatsSidebar/ui/ChatsSi
 import Sidebar from "../../components/chatsPage/Sidebar";
 import { useState } from "react";
 import { Chat } from "../../entities/chat/model/types/chat";
+import { FriendsAndEnemies } from "../../components/friendsAndEnemies/ui/FriendsAndEnemies";
 
+enum MainWindowType {
+  Dialog,
+  FriendsAndEnemies,
+}
 function findChatById(chats: Chat[], id: string): Chat | undefined {
   for (const chat of chats) {
     if (chat.chatId === id) return chat;
@@ -14,6 +19,10 @@ function findChatById(chats: Chat[], id: string): Chat | undefined {
 
 const ChatsPage = () => {
   const [selectedChat, setSelectedChat] = useState<Chat>();
+
+  const [mainWindow, setMainWindow] = useState<MainWindowType>(
+    MainWindowType.FriendsAndEnemies
+  );
 
   const initialChats = [
     {
@@ -55,8 +64,10 @@ const ChatsPage = () => {
         onChatChange={handleChatChange}
         initialChats={initialChats}
       />
-
-      <Dialog selectedChat={selectedChat} />
+      {mainWindow === MainWindowType.Dialog && (
+        <Dialog selectedChat={selectedChat} />
+      )}
+      {mainWindow === MainWindowType.FriendsAndEnemies && <FriendsAndEnemies />}
     </div>
   );
 };
