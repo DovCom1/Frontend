@@ -56,7 +56,13 @@ const Sidebar: React.FC = () => {
   return (
     <div
       style={{
+        position: "absolute",
+        left: 0,
+        top: 0,
+        bottom: 0,
+        zIndex: 20,
         width: isOpen ? "250px" : "60px",
+        minWidth: "60px",
         height: "100vh",
         backgroundColor: "#1E1E22",
         padding: "20px 0px",

@@ -6,6 +6,7 @@ import { useChatsSidebar } from "../model/useChatsSidebar";
 import "./ChatsSidebar.css";
 import Icon from "../../../../shared/atoms/icons/Icon";
 import IconButton from "../../../../shared/atoms/buttons/IconButton";
+import NotificationWidget from "../../notificationWidget/ui/NotificationWidget";
 
 interface ChatsSidebarProps {
   userId: string;
@@ -28,6 +29,7 @@ export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
 
   const [sidebarWidth, setSidebarWidth] = useState(340);
   const [isResizing, setIsResizing] = useState(false);
+  const [isNotifiacationsOpen, setNotifiacationsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const handleChatSelectWithCallback = (chatId: string) => {
@@ -56,7 +58,7 @@ export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
         }
       }
     },
-    [isResizing]
+    [isResizing],
   );
 
   React.useEffect(() => {
@@ -90,9 +92,13 @@ export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
           icon={
             <Icon path={"/icons/bell.svg"} height="34px" width="55px"></Icon>
           }
+          onClick={() => setNotifiacationsOpen(true)}
         />
       </div>
-
+      <NotificationWidget
+        isOpen={isNotifiacationsOpen}
+        onClose={() => setNotifiacationsOpen(false)}
+      />
       <ChatsList
         chats={filteredChats}
         selectedChatId={selectedChatId}
