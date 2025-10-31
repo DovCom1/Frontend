@@ -53,7 +53,7 @@ const DimaTestPage = () => {
           zIndex: 20,
         }}
       >
-        <Sidebar />
+        {/* <Sidebar /> */}
       </div>
 
       {/* ChatsSidebar - с отступом под закрытое состояние Sidebar */}
@@ -89,7 +89,7 @@ const DimaTestPage = () => {
 
         {/* Добавляем компонент FriendsAndEnemies */}
         <div style={{ flex: 1, marginTop: "20px" }}>
-          <FriendsAndEnemies />
+          {/* <FriendsAndEnemies onClose={}/> */}
         </div>
 
         <div

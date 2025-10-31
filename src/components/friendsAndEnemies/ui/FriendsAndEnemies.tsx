@@ -11,8 +11,13 @@ import Button from "../../../shared/atoms/buttons/Button";
 import Label from "../../../shared/atoms/labels/Label";
 import Icon from "../../../shared/atoms/icons/Icon";
 import { useWebSocketStore } from "../../../shared/api/websocket/model/WebsocketStore";
+import IconButton from "../../../shared/atoms/buttons/IconButton";
 
-export const FriendsAndEnemies: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<"friends" | "enemies">("friends");
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -93,28 +98,64 @@ export const FriendsAndEnemies: React.FC = () => {
     <div className="friends-enemies">
       <div className="friends-enemies__header">
         <div className="friends-enemies__tabs">
-          <button
-            className={`friends-enemies__tab ${
-              activeTab === "friends" ? "friends-enemies__tab--active" : ""
-            }`}
+          <IconButton
+            onClick={() => {
+              onClose();
+            }}
+            icon={<Icon path={"/icons/arrowLeftWhite.svg"} />}
+          />
+          <Button
             onClick={() => {
               setActiveTab("friends");
               setOffset(0);
             }}
-          >
-            Друзья
-          </button>
-          <button
-            className={`friends-enemies__tab ${
-              activeTab === "enemies" ? "friends-enemies__tab--active" : ""
-            }`}
+            label={
+              <Label
+                text="Друзья"
+                color={activeTab === "friends" ? "white" : "grey"}
+                fontSize="18px"
+              />
+            }
+            labelPosition="top"
+            icon={
+              <Icon
+                path={
+                  activeTab === "friends"
+                    ? "/icons/LineWhite.svg"
+                    : "/icons/LineGrey.svg"
+                }
+              />
+            }
+            width="100px"
+            height="40px"
+            gap="8px"
+          />
+          <Button
             onClick={() => {
               setActiveTab("enemies");
               setOffset(0);
             }}
-          >
-            Враги
-          </button>
+            label={
+              <Label
+                text="Враги"
+                color={activeTab === "enemies" ? "white" : "grey"}
+                fontSize="18px"
+              />
+            }
+            labelPosition="top"
+            icon={
+              <Icon
+                path={
+                  activeTab === "enemies"
+                    ? "/icons/LineWhite.svg"
+                    : "/icons/LineGrey.svg"
+                }
+              />
+            }
+            width="100px"
+            height="40px"
+            gap="8px"
+          />
         </div>
 
         <Button
@@ -122,13 +163,13 @@ export const FriendsAndEnemies: React.FC = () => {
           label={
             <Label text="Добавить нового юзера" color="white" fontSize="16px" />
           }
-          icon={<Icon path={"/icons/search.svg"} />}
+          icon={<Icon path={"/icons/search.svg"} size="18px" />}
           labelPosition="left"
           width="250px"
-          height="40px"
+          height="45px"
           borderRadius="20px"
-          gap="10px"
-          backgroundColor="#007bff"
+          gap="7px"
+          backgroundColor="#2A3FA7"
         />
       </div>
 

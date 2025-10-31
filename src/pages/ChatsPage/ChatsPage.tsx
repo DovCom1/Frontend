@@ -21,8 +21,12 @@ const ChatsPage = () => {
   const [selectedChat, setSelectedChat] = useState<Chat>();
 
   const [mainWindow, setMainWindow] = useState<MainWindowType>(
-    MainWindowType.FriendsAndEnemies
+    MainWindowType.Dialog
   );
+
+  const closeFriendsAndEnemies = () => {
+    setMainWindow(MainWindowType.Dialog);
+  };
 
   const initialChats = [
     {
@@ -58,7 +62,7 @@ const ChatsPage = () => {
   };
   return (
     <div className={classes.container}>
-      <Sidebar />
+      <Sidebar onMainWindowTypeChange={setMainWindow} />
       <ChatsSidebar
         userId={"user123"}
         onChatChange={handleChatChange}
@@ -67,7 +71,9 @@ const ChatsPage = () => {
       {mainWindow === MainWindowType.Dialog && (
         <Dialog selectedChat={selectedChat} />
       )}
-      {mainWindow === MainWindowType.FriendsAndEnemies && <FriendsAndEnemies />}
+      {mainWindow === MainWindowType.FriendsAndEnemies && (
+        <FriendsAndEnemies onClose={closeFriendsAndEnemies} />
+      )}
     </div>
   );
 };
