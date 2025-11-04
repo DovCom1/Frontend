@@ -39,13 +39,13 @@ export const useSignalRStore = create<SignalRState>((set, get) => ({
 
     set({ isConnecting: true, lastError: null });
 
-    // Создаем нового клиента
-    const newClient = new SignalRClient("http://localhost:8080/");
+    const newClient = new SignalRClient("http://localhost:8080/minerHub");
 
     if (token) {
       newClient.setToken(token);
     }
 
+    // Настраиваем обработчики
     newClient.onConnectionChange = (isConnected: boolean) => {
       set({
         isConnected,
