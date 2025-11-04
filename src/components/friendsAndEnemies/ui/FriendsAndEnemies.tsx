@@ -10,7 +10,6 @@ import { EditFriendsAndEnemiesWidget } from "../../../features/editFriendsAndEne
 import Button from "../../../shared/atoms/buttons/Button";
 import Label from "../../../shared/atoms/labels/Label";
 import Icon from "../../../shared/atoms/icons/Icon";
-import { useWebSocketStore } from "../../../shared/api/websocket/model/WebsocketStore";
 import IconButton from "../../../shared/atoms/buttons/IconButton";
 
 interface Props {
@@ -89,8 +88,6 @@ export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
   };
 
   const toggleModal = async () => {
-    const wsStore = useWebSocketStore.getState();
-    await wsStore.connect("aS0Fd9kuvp81K5o91PqNNaccdyWzUmDzUKOJeMw3p_E");
     setShowAddModal(!showAddModal);
   };
 

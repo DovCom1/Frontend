@@ -1,7 +1,6 @@
 import { userApi } from "../api/UserApi";
 import { MainUser } from "../types/MainUser";
 
-
 export class UserState {
   private user: MainUser | null = null;
   private loading: boolean = false;
@@ -23,30 +22,33 @@ export class UserState {
       return userData;
     } catch (error) {
       this.loading = false;
-      this.error = error instanceof Error ? error.message : "Неизвестная ошибка";
+      this.error =
+        error instanceof Error ? error.message : "Неизвестная ошибка";
       throw error;
     }
   }
 
   // Получить ID пользователя с проверкой существования
   async getUserId(): Promise<string> {
-    if (this.user) {
-      return this.user.id;
-    }
+    console.log("Низабудь ипсравить ID");
+    return "asdasdddddsssssssssssssssssssssssss";
+    // if (this.user) {
+    //   return this.user.id;
+    // }
 
-    this.loading = true;
-    this.error = null;
+    // this.loading = true;
+    // this.error = null;
 
-    try {
-      const userData = await userApi.getMyUser();
-      this.user = userData;
-      this.loading = false;
-      return userData.id;
-    } catch (error) {
-      this.loading = false;
-      this.error = error instanceof Error ? error.message : "Неизвестная ошибка";
-      throw error;
-    }
+    // try {
+    //   const userData = await userApi.getMyUser();
+    //   this.user = userData;
+    //   this.loading = false;
+    //   return userData.id;
+    // } catch (error) {
+    //   this.loading = false;
+    //   this.error = error instanceof Error ? error.message : "Неизвестная ошибка";
+    //   throw error;
+    // }
   }
 
   // Синхронное получение ID (если пользователь уже загружен)

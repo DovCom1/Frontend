@@ -33,24 +33,32 @@ const ChatsPage = () => {
       chatId: "1",
       name: "Димка",
       lastMessage: "Хватит хейтить Куплинова!",
+      avatarUrl:
+        "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane&backgroundColor=d1d4f9",
       uuid: "@megakrip01",
     },
     {
       chatId: "2",
       name: "Крипер",
       lastMessage: "Нельзя спать, когда рядом враги!",
+      avatarUrl:
+        "https://api.dicebear.com/7.x/avataaars/svg?seed=John&backgroundColor=ffdfbf",
       uuid: "@realkriper",
     },
     {
       chatId: "3",
       name: "Игорь",
       lastMessage: "Ща катку доиграю и с вами пойду",
+      avatarUrl:
+        "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah&backgroundColor=ffd5dc",
       uuid: "@igor_mango",
     },
     {
       chatId: "4",
       name: "Илюша",
       lastMessage: "Го на следующий фильм по клинку",
+      avatarUrl:
+        "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike&backgroundColor=b6e3f4",
       uuid: "@abcdefgh12",
     },
   ];

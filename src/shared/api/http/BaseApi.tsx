@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const baseApi = axios.create({
-  baseURL: process.env.API_URL || "http://localhost:3000/api",
+  baseURL: process.env.API_URL || "http://localhost:8080/api",
   withCredentials: true, // Важно для кук
   timeout: 10000,
 });
