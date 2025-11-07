@@ -25,6 +25,7 @@ const ChatsPage = () => {
   );
 
   const closeFriendsAndEnemies = () => {
+    console.log("API URL:", process.env.REACT_APP_API_BASE_URL);
     setMainWindow(MainWindowType.Dialog);
   };
 

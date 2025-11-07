@@ -19,6 +19,8 @@ EXPOSE 3000
 # 7) По умолчанию Vite слушает только localhost — принудительно слушаем все интерфейсы
 ENV HOST=0.0.0.0
 ENV PORT=3000
+ENV REACT_APP_API_BASE_URL=http://localhost:8080/api
+
 
 # 8) Запускаем ваш скрипт из package.json ("start": "vite --host 0.0.0.0 --port 3000")
 CMD ["npm", "start"]
