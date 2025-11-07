@@ -47,8 +47,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true });
 
     try {
-      const token = await authApi.getCurrentUser();
-
       set({
         isAuthenticated: true,
         isLoading: false,
@@ -57,7 +55,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const signalRStore = useSignalRStore.getState();
 
       if (!signalRStore.isConnected) {
-        await signalRStore.connect(token);
+        await signalRStore.connect();
       } else {
         console.log("SignalR already connected");
       }

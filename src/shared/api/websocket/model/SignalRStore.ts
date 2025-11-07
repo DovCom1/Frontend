@@ -38,7 +38,7 @@ export const useSignalRStore = create<SignalRState>((set, get) => ({
 
     set({ isConnecting: true, lastError: null });
 
-    const newClient = new SignalRClient("http://localhost:8080/user/hub");
+    const newClient = new SignalRClient(( process.env.API_URL && process.env.API_URL + "/user/hub") || "http://localhost:8080/user/hub");
     // Настраиваем обработчики
     newClient.onConnectionChange = (isConnected: boolean) => {
       set({
