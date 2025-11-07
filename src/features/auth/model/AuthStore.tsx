@@ -29,14 +29,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isLoading: false,
       });
 
-      if (token) {
-        const signalRStore = useSignalRStore.getState();
+      const signalRStore = useSignalRStore.getState();
 
-        signalRStore.setToken(token.token);
-        await signalRStore.connect(token.token);
+      await signalRStore.connect();
 
-        console.log("SignalR connection established after login");
-      }
+      console.log("SignalR connection established after login");
     } catch (error: any) {
       set({
         error: error.response?.data?.message || "Login failed",
@@ -57,17 +54,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isLoading: false,
       });
 
-      if (token) {
-        const signalRStore = useSignalRStore.getState();
+      const signalRStore = useSignalRStore.getState();
 
-        // Устанавливаем токен и подключаемся, если еще не подключены
-        signalRStore.setToken(token);
-
-        if (!signalRStore.isConnected) {
-          await signalRStore.connect(token);
-        } else {
-          console.log("SignalR already connected");
-        }
+      if (!signalRStore.isConnected) {
+        await signalRStore.connect(token);
+      } else {
+        console.log("SignalR already connected");
       }
     } catch (error: any) {
       set({
@@ -90,15 +82,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const token = await authApi.register(data);
       set({ isAuthenticated: true, isLoading: false });
 
-      if (token) {
-        const signalRStore = useSignalRStore.getState();
+      const signalRStore = useSignalRStore.getState();
 
-        // Устанавливаем токен и подключаемся к SignalR
-        signalRStore.setToken(token.token);
-        await signalRStore.connect(token.token);
+      await signalRStore.connect(token.token);
 
-        console.log("SignalR connection established after registration");
-      }
+      console.log("SignalR connection established after registration");
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "Registration failed";

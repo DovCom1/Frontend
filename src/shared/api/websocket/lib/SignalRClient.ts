@@ -15,7 +15,6 @@ export interface SignalRMessage {
 export class SignalRClient {
   private connection: HubConnection | null = null;
   private listeners = new Map<string, Set<Function>>();
-  private token: string | null = null;
   private readonly hubUrl: string;
   private isConnecting = false;
   private reconnectAttempts = 0;
@@ -30,14 +29,6 @@ export class SignalRClient {
     this.hubUrl = hubUrl || process.env.SIGNALR_URL || "";
   }
 
-  setToken(token: string) {
-    this.token = token;
-    // Если соединение активно, переподключаемся с новым токеном
-    if (this.connection && this.connection.state === "Connected") {
-      this.reconnect();
-    }
-  }
-
   async connect(): Promise<void> {
     if (this.isConnecting) {
       return;
@@ -48,8 +39,7 @@ export class SignalRClient {
     try {
       this.connection = new HubConnectionBuilder()
         .withUrl(this.hubUrl, {
-          accessTokenFactory: () => this.token || "",
-          skipNegotiation: true,
+          skipNegotiation: false,
           transport: HttpTransportType.WebSockets,
         })
         .withAutomaticReconnect({

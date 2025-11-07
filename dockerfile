@@ -1,5 +1,5 @@
 # 1) Базовый образ с Node.js
-FROM node:18-alpine
+FROM node:22-bookworm-slim
 
 # 2) Рабочая папка
 WORKDIR /app
