@@ -10,7 +10,7 @@ const DialogHeader: React.FC<DialogProps> = ({ selectedChat }) => {
       <UserDialogInfo
         avatarSrc={"/images/neuro_dove.png"}
         userName={selectedChat?.name || "Мегабро"}
-        uuid={selectedChat?.uuid || "phoenixbro"}
+        uuid={"phoenixbro"}
       />
       <IconButton icon={<Icon path={"/icons/white_phone.svg"} />} />
     </div>

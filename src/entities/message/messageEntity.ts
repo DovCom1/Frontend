@@ -1,5 +1,5 @@
 export interface MessageEntity {
-  text: string;
+  content: string;
   name: string;
   date: string;
   from: boolean;

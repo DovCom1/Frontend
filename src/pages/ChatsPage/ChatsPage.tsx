@@ -4,10 +4,11 @@ import { ChatsSidebar } from "../../components/chatsPage/chatsSidebar/ui/ChatsSi
 import Sidebar from "../../components/chatsPage/Sidebar";
 import { useState } from "react";
 import { Chat } from "../../entities/chat/model/types/chat";
+import { dialogList } from "../../components/chatsPage/dialog/api/dialogs";
 
 function findChatById(chats: Chat[], id: string): Chat | undefined {
   for (const chat of chats) {
-    if (chat.chatId === id) return chat;
+    if (chat.id === id) return chat;
   }
   return undefined;
 }
@@ -17,30 +18,16 @@ const ChatsPage = () => {
 
   const initialChats = [
     {
-      chatId: "1",
+      id: "1",
       name: "Димка",
-      lastMessage: "Хватит хейтить Куплинова!",
-      uuid: "@megakrip01",
-    },
-    {
-      chatId: "2",
-      name: "Крипер",
-      lastMessage: "Нельзя спать, когда рядом враги!",
-      uuid: "@realkriper",
-    },
-    {
-      chatId: "3",
-      name: "Игорь",
-      lastMessage: "Ща катку доиграю и с вами пойду",
-      uuid: "@igor_mango",
-    },
-    {
-      chatId: "4",
-      name: "Илюша",
-      lastMessage: "Го на следующий фильм по клинку",
-      uuid: "@abcdefgh12",
+      avatarUrl: "/public/images/neuro_dove.png",
     },
   ];
+
+  // нужен метод для получения своего собственного айди
+  const getDialogList = async () => {
+    dialogList.get("123");
+  };
 
   const handleChatChange = (chatId: string) => {
     console.log("Выбран чат:", chatId);
