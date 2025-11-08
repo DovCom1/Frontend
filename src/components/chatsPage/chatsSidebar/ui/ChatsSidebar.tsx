@@ -58,7 +58,7 @@ export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
         }
       }
     },
-    [isResizing],
+    [isResizing]
   );
 
   React.useEffect(() => {

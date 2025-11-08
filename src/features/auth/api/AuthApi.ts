@@ -5,32 +5,25 @@ export interface LoginData {
   password: string;
 }
 
+export interface WebTokenDto {
+  token: string;
+}
 export interface RegisterData {
   email: string;
   password: string;
   uid: string;
-  username: string;
-  birthDate: string;
-  gender: "мужщина" | "женщина";
-}
-
-export interface User {
-  id: string;
-  email: string;
-  uid: string;
-  username: string;
-  birthDate: string;
-  gender: "мужщина" | "женщина";
-  avatar?: string;
+  nickname: string;
+  dateOfBirth: string;
+  gender: "мужской" | "женский";
 }
 
 export const authApi = {
-  login: async (data: LoginData): Promise<string> => {
+  login: async (data: LoginData): Promise<WebTokenDto> => {
     const response = await baseApi.post("/auth/login", data);
     return response.data;
   },
 
-  register: async (data: RegisterData): Promise<string> => {
+  register: async (data: RegisterData): Promise<WebTokenDto> => {
     const response = await baseApi.post("/auth/register", data);
     return response.data;
   },

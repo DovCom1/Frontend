@@ -4,11 +4,15 @@ import { ChatsSidebar } from "../../components/chatsPage/chatsSidebar/ui/ChatsSi
 import Sidebar from "../../components/chatsPage/Sidebar";
 import { useState } from "react";
 import { Chat } from "../../entities/chat/model/types/chat";
-import { dialogList } from "../../components/chatsPage/dialog/api/dialogs";
+import { FriendsAndEnemies } from "../../components/friendsAndEnemies/ui/FriendsAndEnemies";
 
+enum MainWindowType {
+  Dialog,
+  FriendsAndEnemies,
+}
 function findChatById(chats: Chat[], id: string): Chat | undefined {
   for (const chat of chats) {
-    if (chat.id === id) return chat;
+    if (chat.chatId === id) return chat;
   }
   return undefined;
 }
@@ -16,18 +20,40 @@ function findChatById(chats: Chat[], id: string): Chat | undefined {
 const ChatsPage = () => {
   const [selectedChat, setSelectedChat] = useState<Chat>();
 
+  const [mainWindow, setMainWindow] = useState<MainWindowType>(
+    MainWindowType.Dialog
+  );
+
+  const closeFriendsAndEnemies = () => {
+    setMainWindow(MainWindowType.Dialog);
+  };
+
   const initialChats = [
     {
-      id: "1",
+      chatId: "1",
       name: "Димка",
-      avatarUrl: "/public/images/neuro_dove.png",
+      lastMessage: "Хватит хейтить Куплинова!",
+      uuid: "@megakrip01",
+    },
+    {
+      chatId: "2",
+      name: "Крипер",
+      lastMessage: "Нельзя спать, когда рядом враги!",
+      uuid: "@realkriper",
+    },
+    {
+      chatId: "3",
+      name: "Игорь",
+      lastMessage: "Ща катку доиграю и с вами пойду",
+      uuid: "@igor_mango",
+    },
+    {
+      chatId: "4",
+      name: "Илюша",
+      lastMessage: "Го на следующий фильм по клинку",
+      uuid: "@abcdefgh12",
     },
   ];
-
-  // нужен метод для получения своего собственного айди
-  const getDialogList = async () => {
-    dialogList.get("123");
-  };
 
   const handleChatChange = (chatId: string) => {
     console.log("Выбран чат:", chatId);
@@ -36,14 +62,18 @@ const ChatsPage = () => {
   };
   return (
     <div className={classes.container}>
-      <Sidebar />
+      <Sidebar onMainWindowTypeChange={setMainWindow} />
       <ChatsSidebar
         userId={"user123"}
         onChatChange={handleChatChange}
         initialChats={initialChats}
       />
-
-      <Dialog selectedChat={selectedChat} />
+      {mainWindow === MainWindowType.Dialog && (
+        <Dialog selectedChat={selectedChat} />
+      )}
+      {mainWindow === MainWindowType.FriendsAndEnemies && (
+        <FriendsAndEnemies onClose={closeFriendsAndEnemies} />
+      )}
     </div>
   );
 };

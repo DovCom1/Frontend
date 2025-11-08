@@ -1,9 +1,8 @@
 import { create } from "zustand";
-import { authApi, LoginData, RegisterData, User } from "../api/AuthApi";
-import { useWebSocketStore } from "../../../shared/api/websocket/model/websocketStore";
+import { authApi, LoginData, RegisterData } from "../api/AuthApi";
+import { useWebSocketStore } from "../../../shared/api/websocket/model/WebsocketStore";
 
 interface AuthState {
-  user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -15,7 +14,6 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  user: null,
   isAuthenticated: false,
   isLoading: false,
   error: null,
@@ -34,7 +32,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (token) {
         const wsStore = useWebSocketStore.getState();
-        await wsStore.connect(token);
+        await wsStore.connect(token.token);
       }
     } catch (error: any) {
       set({
@@ -64,7 +62,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
     } catch (error: any) {
       set({
-        user: null,
         isAuthenticated: false,
         isLoading: false,
       });
@@ -81,7 +78,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (token) {
         const wsStore = useWebSocketStore.getState();
         if (!wsStore.isConnected) {
-          await wsStore.connect(token);
+          await wsStore.connect(token.token);
         }
       }
     } catch (error: any) {
@@ -106,7 +103,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ error: errorMessage });
     } finally {
       set({
-        user: null,
         isAuthenticated: false,
         isLoading: false,
       });

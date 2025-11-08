@@ -3,7 +3,16 @@ import Label from "../../shared/atoms/labels/Label";
 import Icon from "../../shared/atoms/icons/Icon";
 import Button from "../../shared/atoms/buttons/Button";
 
-const Sidebar: React.FC = () => {
+enum MainWindowType {
+  Dialog,
+  FriendsAndEnemies,
+}
+
+interface ChatsSidebarProps {
+  onMainWindowTypeChange: (type: MainWindowType) => void;
+}
+
+const Sidebar: React.FC<ChatsSidebarProps> = ({ onMainWindowTypeChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -16,7 +25,9 @@ const Sidebar: React.FC = () => {
       icon: (
         <Icon path={"/icons/friendsWhite.svg"} height={"18px"} width={"18px"} />
       ),
-      function: () => {},
+      function: () => {
+        onMainWindowTypeChange(MainWindowType.FriendsAndEnemies);
+      },
     },
     {
       label: (
@@ -68,7 +79,7 @@ const Sidebar: React.FC = () => {
         padding: "20px 0px",
         transition: "width 0.3s ease",
         display: "flex",
-        paddingLeft: isOpen ? "10px" : "0px",
+        paddingLeft: isOpen ? "20px" : "0px",
         flexDirection: "column",
         gap: "20px",
       }}
