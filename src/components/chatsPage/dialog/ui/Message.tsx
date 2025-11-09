@@ -4,7 +4,7 @@ import Label from "../../../../shared/atoms/labels/Label";
 export interface MessageProps {
   text: string;
   date: string;
-  name: string;
+  name?: string;
   from?: boolean;
 }
 
@@ -15,7 +15,7 @@ const Message: React.FC<MessageProps> = ({ text, date, name, from }) => {
     >
       <Label
         className={`${classes.fontStyleWrapper} ${classes.nicknameWrapper}`}
-        text={name}
+        text={name || "user"}
       />
       <div className={classes.contentContainer}>
         <Label

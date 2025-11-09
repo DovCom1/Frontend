@@ -7,11 +7,11 @@ import { FriendsAndEnemies } from "../components/friendsAndEnemies/ui/FriendsAnd
 const DimaTestPage = () => {
   //эта штука только ради проверки
   const mockChats: Chat[] = [
-    { chatId: "1", name: "Димка" },
-    { chatId: "2", name: "Витя" },
-    { chatId: "3", name: "Игорь" },
-    { chatId: "4", name: "Илюша" },
-    { chatId: "5", name: "Сенькин" },
+    { id: "1", name: "Димка" },
+    { id: "2", name: "Витя" },
+    { id: "3", name: "Игорь" },
+    { id: "4", name: "Илюша" },
+    { id: "5", name: "Сенькин" },
     // { chatId: "6", name: "Пуджик" },
     // { chatId: "7", name: "Димка" },
     // { chatId: "8", name: "Витя" },
@@ -67,7 +67,6 @@ const DimaTestPage = () => {
         }}
       >
         <ChatsSidebar
-          userId="user123"
           onChatChange={handleChatChange}
           initialChats={mockChats} //эта штука только ради проверки
         />

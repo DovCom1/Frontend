@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import { Chat } from "../../../../entities/chat/model/types/chat";
 import { ChatSearch } from "../../../../features/chatSearch/ui/ChatSearch";
 import { ChatsList } from "./ChatsList";
@@ -7,25 +7,35 @@ import "./ChatsSidebar.css";
 import Icon from "../../../../shared/atoms/icons/Icon";
 import IconButton from "../../../../shared/atoms/buttons/IconButton";
 import NotificationWidget from "../../notificationWidget/ui/NotificationWidget";
+import { userState } from "../../../../entities/mainUser/model/UserState";
+import { MainUser } from "../../../../entities/mainUser/types/MainUser";
 
 interface ChatsSidebarProps {
-  userId: string;
   onChatChange: (chatId: string) => void;
   initialChats: Chat[];
 }
 
 export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
-  userId,
   onChatChange,
   initialChats,
 }) => {
+  const [currentUserId, setCurrentUserId] = useState<string>("1");
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userId = await userState.getUserId();
+      setCurrentUserId(userId);
+    };
+    getUser();
+  }, []);
+
   const {
     searchTerm,
     filteredChats,
     selectedChatId,
     handleSearchChange,
     handleChatSelect,
-  } = useChatsSidebar(initialChats, userId);
+  } = useChatsSidebar(initialChats, currentUserId);
 
   const [sidebarWidth, setSidebarWidth] = useState(340);
   const [isResizing, setIsResizing] = useState(false);
@@ -58,7 +68,7 @@ export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
         }
       }
     },
-    [isResizing]
+    [isResizing],
   );
 
   React.useEffect(() => {

@@ -18,10 +18,10 @@ export const ChatsList: React.FC<ChatsListProps> = ({
     <div className="chats-list">
       {chats.map((chat) => (
         <ChatCard
-          key={chat.chatId}
+          key={chat.id}
           chat={chat}
-          isSelected={chat.chatId === selectedChatId}
-          onSelect={() => onChatSelect(chat.chatId)}
+          isSelected={chat.id === selectedChatId}
+          onSelect={() => onChatSelect(chat.id)}
         />
       ))}
     </div>

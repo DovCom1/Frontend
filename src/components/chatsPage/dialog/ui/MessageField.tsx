@@ -1,8 +1,10 @@
 import classes from "./MessagesField.module.css";
 import Message from "./Message";
 import { DialogProps } from "./Dialog";
-import React, { useEffect, useRef } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { MessageEntity } from "../../../../entities/message/messageEntity";
+import { userState } from "../../../../entities/mainUser/model/UserState";
+import { MainUser } from "../../../../entities/mainUser/types/MainUser";
 
 interface MessagesFieldProps extends DialogProps {
   messages: MessageEntity[];
@@ -13,6 +15,11 @@ const MessagesField: React.FC<MessagesFieldProps> = ({
   messages,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [selfUser, setSelfUser] = useState<MainUser | null>(null);
+
+  useEffect(() => {
+    setSelfUser(userState.getUserData());
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -32,7 +39,7 @@ const MessagesField: React.FC<MessagesFieldProps> = ({
     <div className={classes.container} ref={containerRef}>
       <div className={classes.messagesInner}>
         <Message
-          text={selectedChat?.lastMessage || "Привет, мир!"}
+          text={"Привет, мир!"}
           date={"3:33"}
           name={selectedChat?.name || "Мегабро"}
           from
@@ -52,10 +59,10 @@ const MessagesField: React.FC<MessagesFieldProps> = ({
         {messages.map((m, i) => (
           <Message
             key={i}
-            text={m.text}
-            date={m.date}
-            name={m.name}
-            from={m.from}
+            text={m.content}
+            date={m.sentAt}
+            // name={selfUser?.nickname}
+            // from={m.from}
           />
         ))}
       </div>
