@@ -8,43 +8,44 @@ import Icon from "../../../../shared/atoms/icons/Icon";
 import IconButton from "../../../../shared/atoms/buttons/IconButton";
 import NotificationWidget from "../../notificationWidget/ui/NotificationWidget";
 import { userState } from "../../../../entities/mainUser/model/UserState";
-import { MainUser } from "../../../../entities/mainUser/types/MainUser";
 
 interface ChatsSidebarProps {
-  onChatChange: (chatId: string) => void;
-  initialChats: Chat[];
+  onChatChange: (chat: Chat) => void;
 }
 
-export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
-  onChatChange,
-  initialChats,
-}) => {
-  const [currentUserId, setCurrentUserId] = useState<string>("1");
+const initialChats = [
+  {
+    id: "1",
+    name: "Мишка Фредди",
+    avatarUrl:
+      "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma&backgroundColor=ffdfbf",
+  },
+];
 
+export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({ onChatChange }) => {
   useEffect(() => {
-    const getUser = async () => {
-      const userId = await userState.getUserId();
-      setCurrentUserId(userId);
-    };
-    getUser();
+    loadChats();
   }, []);
 
   const {
     searchTerm,
     filteredChats,
-    selectedChatId,
+    selectedChat,
+    error,
+    loading,
+    loadChats,
     handleSearchChange,
     handleChatSelect,
-  } = useChatsSidebar(initialChats, currentUserId);
+  } = useChatsSidebar(initialChats);
 
   const [sidebarWidth, setSidebarWidth] = useState(340);
   const [isResizing, setIsResizing] = useState(false);
   const [isNotifiacationsOpen, setNotifiacationsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const handleChatSelectWithCallback = (chatId: string) => {
-    handleChatSelect(chatId);
-    onChatChange(chatId);
+  const handleChatSelectWithCallback = (chat: Chat) => {
+    handleChatSelect(chat);
+    onChatChange(chat);
   };
 
   const startResizing = useCallback((e: React.MouseEvent) => {
@@ -109,11 +110,17 @@ export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({
         isOpen={isNotifiacationsOpen}
         onClose={() => setNotifiacationsOpen(false)}
       />
-      <ChatsList
-        chats={filteredChats}
-        selectedChatId={selectedChatId}
-        onChatSelect={handleChatSelectWithCallback}
-      />
+      {loading ? (
+        <div>Загрузка...</div>
+      ) : error ? (
+        <div>{error}</div>
+      ) : (
+        <ChatsList
+          chats={filteredChats}
+          selectedChat={selectedChat}
+          onChatSelect={handleChatSelectWithCallback}
+        />
+      )}
 
       {/* Затемнение при изменении размера */}
       {isResizing && <div className="resize-overlay" />}

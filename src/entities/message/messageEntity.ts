@@ -1,8 +1,8 @@
 export interface MessageEntity {
-  id: string;
+  id?: string;
   senderId: string;
   content: string;
-  sentAt: string;
+  sentAt?: string;
   editedAt?: string;
   deleted?: boolean;
 }

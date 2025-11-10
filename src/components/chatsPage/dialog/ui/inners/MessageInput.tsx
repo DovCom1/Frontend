@@ -1,7 +1,7 @@
-import classes from "./MessageInput.module.css";
-import IconButton from "../../../../shared/atoms/buttons/IconButton";
-import Icon from "../../../../shared/atoms/icons/Icon";
-import TextArea from "../../../../shared/atoms/text-area/TextArea";
+import classes from "../styles/MessageInput.module.css";
+import IconButton from "../../../../../shared/atoms/buttons/IconButton";
+import Icon from "../../../../../shared/atoms/icons/Icon";
+import TextArea from "../../../../../shared/atoms/text-area/TextArea";
 import React, { useState } from "react";
 
 interface MessageInputProps {

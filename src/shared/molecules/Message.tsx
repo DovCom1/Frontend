@@ -1,9 +1,9 @@
-import classes from "./Message.module.css";
-import Label from "../../../../shared/atoms/labels/Label";
+import classes from "./styles/Message.module.css";
+import Label from "../atoms/labels/Label";
 
 export interface MessageProps {
   text: string;
-  date: string;
+  date?: string;
   name?: string;
   from?: boolean;
 }
@@ -24,7 +24,7 @@ const Message: React.FC<MessageProps> = ({ text, date, name, from }) => {
         />
         <Label
           className={`${classes.fontStyleWrapper} ${classes.contentDateWrapper}`}
-          text={date}
+          text={date || "0:00"}
         />
       </div>
     </div>

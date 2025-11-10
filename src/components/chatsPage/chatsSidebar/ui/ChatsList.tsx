@@ -5,13 +5,13 @@ import "./ChatsList.css";
 
 interface ChatsListProps {
   chats: Chat[];
-  selectedChatId: string | null;
-  onChatSelect: (chatId: string) => void;
+  selectedChat: Chat | null;
+  onChatSelect: (chat: Chat) => void;
 }
 
 export const ChatsList: React.FC<ChatsListProps> = ({
   chats,
-  selectedChatId,
+  selectedChat,
   onChatSelect,
 }) => {
   return (
@@ -20,8 +20,8 @@ export const ChatsList: React.FC<ChatsListProps> = ({
         <ChatCard
           key={chat.id}
           chat={chat}
-          isSelected={chat.id === selectedChatId}
-          onSelect={() => onChatSelect(chat.id)}
+          isSelected={chat.id === selectedChat?.id}
+          onSelect={() => onChatSelect(chat)}
         />
       ))}
     </div>

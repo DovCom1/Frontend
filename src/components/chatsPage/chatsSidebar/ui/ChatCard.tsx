@@ -34,7 +34,7 @@ export const ChatCard: React.FC<ChatCardProps> = ({
         label={<Label text={chat.name} color={"#E4E3E8"} />}
         icon={
           <Icon
-            path={chat.avatarUrl || "/icons/base_dove.svg"}
+            path={chat.avatarUrl || "/images/neuro_dove.png"}
             height={"45px"}
             width={"45px"}
             style={{ borderRadius: "50%" }}

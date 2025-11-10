@@ -29,26 +29,14 @@ const ChatsPage = () => {
     setMainWindow(MainWindowType.Dialog);
   };
 
-  const initialChats = [
-    {
-      id: "1",
-      name: "Мишка Фредди",
-      avatarUrl: "/public/images/neuro_dove.png",
-    },
-  ];
-
-  const handleChatChange = (chatId: string) => {
-    console.log("Выбран чат:", chatId);
-    // setSelectedChatId(chatId);
-    setSelectedChat(findChatById(initialChats, chatId));
+  const handleChatChange = (chat: Chat) => {
+    setSelectedChat(chat);
   };
+
   return (
     <div className={classes.container}>
       <Sidebar onMainWindowTypeChange={setMainWindow} />
-      <ChatsSidebar
-        onChatChange={handleChatChange}
-        initialChats={initialChats}
-      />
+      <ChatsSidebar onChatChange={handleChatChange} />
       {mainWindow === MainWindowType.Dialog && (
         <Dialog selectedChat={selectedChat} />
       )}
