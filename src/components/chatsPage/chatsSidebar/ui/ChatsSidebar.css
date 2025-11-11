@@ -1,0 +1,47 @@
+.chats-sidebar {
+    margin-left: 50px;
+    background-color: #2a2b31;
+    padding-left: 25px;
+    padding-right: 5px;
+    padding-top: 13px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.chats-sidebar__search {
+    width: 100%;
+    height: auto;
+    gap: 6px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    background-color: transparent;
+    transition: background-color 0.2s;
+}
+
+.resize-handle:hover {
+    background-color: #555;
+}
+
+.resize-handle--active {
+    background-color: #4a90e2 !important;
+}
+
+.resize-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: col-resize;
+    z-index: 1000;
+}

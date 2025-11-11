@@ -6,18 +6,19 @@ import { InputField } from "../../shared/atoms/input-fields/InputField";
 import { Modal } from "../../shared/atoms/modal/Modal";
 import { MeetingScheduler } from "../../features/meeting_sheduler/MeetingScheduler";
 import buttonClasses from "../../shared/atoms/buttons/Button.module.css";
-import classes from './TestPage.module.css';
-import { TextInput } from '../../shared/atoms/input-fields/TextInput';
-import { EmailInput } from '../../shared/atoms/input-fields/EmailInput';
-import { PasswordInput } from '../../shared/atoms/input-fields/PasswordInput';
-import { DateInput } from '../../shared/atoms/input-fields/DateInput';
-import { DateTimeInput } from '../../shared/atoms/input-fields/DateTimeInput';
-import { Dropdown } from '../../shared/atoms/dropdown/Dropdown';
-import { createIconTextOptions, renderFirstNIcons } from '../../shared/atoms/dropdown/options/IconTextOption';
-import { MultipleDropdown } from '../../shared/atoms/dropdown/MultipleDropdown';
-import { createTextOptions } from '../../shared/atoms/dropdown/options/TextOption';
-import { VideoChatParticipant } from "../../features/calls/ui/VideoChatParticipant";
-import { VideoCall } from "../../features/calls/ui/VideoCall";
+import classes from "./TestPage.module.css";
+import { TextInput } from "../../shared/atoms/input-fields/TextInput";
+import { EmailInput } from "../../shared/atoms/input-fields/EmailInput";
+import { PasswordInput } from "../../shared/atoms/input-fields/PasswordInput";
+import { DateInput } from "../../shared/atoms/input-fields/DateInput";
+import { DateTimeInput } from "../../shared/atoms/input-fields/DateTimeInput";
+import { Dropdown } from "../../shared/atoms/dropdown/Dropdown";
+import {
+  createIconTextOptions,
+  renderFirstNIcons,
+} from "../../shared/atoms/dropdown/options/IconTextOption";
+import { MultipleDropdown } from "../../shared/atoms/dropdown/MultipleDropdown";
+import { createTextOptions } from "../../shared/atoms/dropdown/options/TextOption";
 
 export const TestPage: React.FC = () => {
   const [meetingTitle, setMeetingTitle] = useState("");
@@ -29,7 +30,7 @@ export const TestPage: React.FC = () => {
   const [isMeetingModalOpen, setIsMeetingModalOpen] = useState(false);
   const [isSimpleModalOpen, setIsSimpleModalOpen] = useState(false);
 
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState("");
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   return (
@@ -174,39 +175,105 @@ export const TestPage: React.FC = () => {
           <h2>Выпадающие списки</h2>
           <div className={classes.componentsGrid}>
             <Dropdown
-              label='Микрофон'
+              label="Микрофон"
               options={createTextOptions([
-                { value: '1', text: 'Встроеный микрофон' },
-                { value: '2', text: 'Расстроенный микрофон' },
-                { value: '3', text: 'Другой микрофон' },
-                { value: '4', text: 'Макрофон' },
-                { value: '5', text: 'Мегафон' },
+                { value: "1", text: "Встроеный микрофон" },
+                { value: "2", text: "Расстроенный микрофон" },
+                { value: "3", text: "Другой микрофон" },
+                { value: "4", text: "Макрофон" },
+                { value: "5", text: "Мегафон" },
               ])}
               onChange={setSelectedValue}
               value={selectedValue}
             />
             <MultipleDropdown
-              label='Участники'
+              label="Участники"
               options={createIconTextOptions([
-                { value: '1', icon: <Icon path="https://i.pravatar.cc/" size='100px' />, text: 'Name1'},
-                { value: '2', icon: <Icon path="https://i.pravatar.cc/100" size='100px' />, text: 'Name2'},
-                { value: '3', icon: <Icon path="https://i.pravatar.cc/101" size='100px' />, text: 'Name3'},
-                { value: '4', icon: <Icon path="https://i.pravatar.cc/102" size='100px' />, text: 'Name4'},
-                { value: '5', icon: <Icon path="https://i.pravatar.cc/103" size='100px' />, text: 'Name5'},
-                { value: '6', icon: <Icon path="https://i.pravatar.cc/104" size='100px' />, text: 'Name6'},
-                { value: '7', icon: <Icon path="https://i.pravatar.cc/105" size='100px' />, text: 'Name7'},
-                { value: '8', icon: <Icon path="https://i.pravatar.cc/106" size='100px' />, text: 'Name8'},
-                { value: '9', icon: <Icon path="https://i.pravatar.cc/107" size='100px' />, text: 'Name9'},
-                { value: '10', icon: <Icon path="https://i.pravatar.cc/108" size='100px' />, text: 'Name10'},
-                { value: '11', icon: <Icon path="https://i.pravatar.cc/109" size='100px' />, text: 'Name11'},
-                { value: '12', icon: <Icon path="https://i.pravatar.cc/110" size='100px' />, text: 'Name12'},
-                { value: '13', icon: <Icon path="https://i.pravatar.cc/111" size='100px' />, text: 'Name13'},
-                { value: '14', icon: <Icon path="https://i.pravatar.cc/112" size='100px' />, text: 'Name14'},
-                { value: '15', icon: <Icon path="https://i.pravatar.cc/113" size='100px' />, text: 'Name15'},
+                {
+                  value: "1",
+                  icon: <Icon path="https://i.pravatar.cc/" size="100px" />,
+                  text: "Name1",
+                },
+                {
+                  value: "2",
+                  icon: <Icon path="https://i.pravatar.cc/100" size="100px" />,
+                  text: "Name2",
+                },
+                {
+                  value: "3",
+                  icon: <Icon path="https://i.pravatar.cc/101" size="100px" />,
+                  text: "Name3",
+                },
+                {
+                  value: "4",
+                  icon: <Icon path="https://i.pravatar.cc/102" size="100px" />,
+                  text: "Name4",
+                },
+                {
+                  value: "5",
+                  icon: <Icon path="https://i.pravatar.cc/103" size="100px" />,
+                  text: "Name5",
+                },
+                {
+                  value: "6",
+                  icon: <Icon path="https://i.pravatar.cc/104" size="100px" />,
+                  text: "Name6",
+                },
+                {
+                  value: "7",
+                  icon: <Icon path="https://i.pravatar.cc/105" size="100px" />,
+                  text: "Name7",
+                },
+                {
+                  value: "8",
+                  icon: <Icon path="https://i.pravatar.cc/106" size="100px" />,
+                  text: "Name8",
+                },
+                {
+                  value: "9",
+                  icon: <Icon path="https://i.pravatar.cc/107" size="100px" />,
+                  text: "Name9",
+                },
+                {
+                  value: "10",
+                  icon: <Icon path="https://i.pravatar.cc/108" size="100px" />,
+                  text: "Name10",
+                },
+                {
+                  value: "11",
+                  icon: <Icon path="https://i.pravatar.cc/109" size="100px" />,
+                  text: "Name11",
+                },
+                {
+                  value: "12",
+                  icon: <Icon path="https://i.pravatar.cc/110" size="100px" />,
+                  text: "Name12",
+                },
+                {
+                  value: "13",
+                  icon: <Icon path="https://i.pravatar.cc/111" size="100px" />,
+                  text: "Name13",
+                },
+                {
+                  value: "14",
+                  icon: <Icon path="https://i.pravatar.cc/112" size="100px" />,
+                  text: "Name14",
+                },
+                {
+                  value: "15",
+                  icon: <Icon path="https://i.pravatar.cc/113" size="100px" />,
+                  text: "Name15",
+                },
               ])}
               onChange={setSelectedValues}
               value={selectedValues}
-              renderSelected={(selected) => renderFirstNIcons(selected, <span style={{ color: '#9CA3AF' }}>⚪ Не выбрано</span>, 6)}
+              renderSelected={(selected) =>
+                renderFirstNIcons(
+                  selected,
+                  <span style={{ color: "#9CA3AF" }}>⚪ Не выбрано</span>,
+                  6
+                )
+              }
             />
           </div>
         </section>

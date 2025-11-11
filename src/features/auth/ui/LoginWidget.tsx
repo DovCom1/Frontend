@@ -32,18 +32,18 @@ export const LoginWidget: React.FC = () => {
     }
   }, [isLoginOpen, clearError]);
 
-
   const isFormValid = () => {
     const isEmailValid = email.trim() !== "" && emailRegex.test(email);
-    
-    const isPasswordValid = password.trim() !== "" && validatePasswordDetailed(password);
-    
+
+    const isPasswordValid =
+      password.trim() !== "" && validatePasswordDetailed(password);
+
     return isEmailValid && isPasswordValid;
   };
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
-    
+
     if (value.trim() === "") {
       setEmailError("");
     } else if (!emailRegex.test(value)) {
@@ -55,7 +55,7 @@ export const LoginWidget: React.FC = () => {
 
   const handlePasswordChange = (value: string) => {
     setPassword(value);
-    
+
     if (value.trim() === "") {
       setPasswordError("Пароль обязателен для заполнения");
     } else if (!validatePasswordDetailed(value)) {
@@ -65,8 +65,8 @@ export const LoginWidget: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    console.log({ email, password })
 
     if (!isFormValid()) {
       return;
@@ -85,7 +85,6 @@ export const LoginWidget: React.FC = () => {
   return (
     <Modal isOpen={isLoginOpen} onClose={closeAll}>
       <form
-        onSubmit={handleSubmit}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -133,8 +132,10 @@ export const LoginWidget: React.FC = () => {
             className={buttonClasses.defaultButtonOrange}
             label={<Label text={isLoading ? "Вход..." : "Войти"} />}
             disabled={isButtonDisabled}
+            onClick={handleSubmit}
             width="100%"
-            borderRadius="18px"
+            borderRadius="15px"
+            height="50px"
             icon={isLoading ? <Icon path="/icons/loading.svg" /> : undefined}
           />
         </div>

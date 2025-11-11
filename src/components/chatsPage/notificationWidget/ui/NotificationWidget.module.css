@@ -1,0 +1,61 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    width: 450px;
+    height: 500px;
+    margin: 0 auto;
+    background-color: #3E3F46;
+    border-radius: 16px;
+    padding: 30px;
+}
+
+.subtitle {
+    margin-bottom: 30px;
+    color: #E7E7E9;
+    font-size: 18px;
+}
+
+.notificationsContainer {
+    /*border: #fff 1px solid;*/
+    height: 390px;
+    margin-bottom: 30px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #c5c5c5 #353535;
+}
+
+
+.notificationsContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.notificationsContainer::-webkit-scrollbar-track {
+    background: #353535;
+    border-radius: 4px;
+}
+
+.notificationsContainer::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 4px;
+}
+
+.notificationsContainer::-webkit-scrollbar-thumb:hover {
+    background: #a5a5a5;
+}
+
+.button {
+    color: #E7E7E9;
+    margin: 0 auto;
+}
+

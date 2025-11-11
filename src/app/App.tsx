@@ -1,7 +1,7 @@
-import React from "react";
 import MainPage from "../pages/MainPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TestPage from "../pages/TestPage/TestPage";
+
 import ChatsPage from "../pages/ChatsPage/ChatsPage";
 
 function App() {

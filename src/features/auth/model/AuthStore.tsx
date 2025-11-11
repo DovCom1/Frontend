@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { authApi, LoginData, RegisterData, User } from "../api/AuthApi";
+import { authApi, LoginData, RegisterData } from "../api/AuthApi";
+import { useSignalRStore } from "../../../shared/api/websocket/model/SignalRStore";
 
 interface AuthState {
-  user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -14,26 +14,62 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  user: null,
   isAuthenticated: false,
   isLoading: false,
   error: null,
-  fieldErrors: {},
 
   login: async (data: LoginData) => {
     set({ isLoading: true, error: null });
 
     try {
-      const user = await authApi.login(data);
-      set({ user, isAuthenticated: true, isLoading: false });
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Login failed";
+      const token = await authApi.login(data);
 
       set({
-        error: errorMessage,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      const signalRStore = useSignalRStore.getState();
+
+      await signalRStore.connect();
+
+      console.log("SignalR connection established after login");
+    } catch (error: any) {
+      set({
+        error: error.response?.data?.message || "Login failed",
         isLoading: false,
       });
       throw error;
+    }
+  },
+
+  checkAuth: async () => {
+    set({ isLoading: true });
+
+    try {
+      set({
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      const signalRStore = useSignalRStore.getState();
+
+      if (!signalRStore.isConnected) {
+        await signalRStore.connect();
+      } else {
+        console.log("SignalR already connected");
+      }
+    } catch (error: any) {
+      set({
+        isAuthenticated: false,
+        isLoading: false,
+      });
+
+      // При ошибке проверки аутентификации отключаем SignalR
+      const signalRStore = useSignalRStore.getState();
+      if (signalRStore.isConnected) {
+        await signalRStore.disconnect();
+      }
     }
   },
 
@@ -41,8 +77,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const user = await authApi.register(data);
-      set({ user, isAuthenticated: true, isLoading: false });
+      const token = await authApi.register(data);
+      set({ isAuthenticated: true, isLoading: false });
+
+      const signalRStore = useSignalRStore.getState();
+
+      await signalRStore.connect(token.token);
+
+      console.log("SignalR connection established after registration");
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "Registration failed";
@@ -59,34 +101,23 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true });
 
     try {
+      const signalRStore = useSignalRStore.getState();
+      if (signalRStore.isConnected) {
+        await signalRStore.disconnect();
+        console.log("SignalR disconnected on logout");
+      }
+
       await authApi.logout();
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Logout failed";
       set({ error: errorMessage });
     } finally {
       set({
-        user: null,
         isAuthenticated: false,
         isLoading: false,
       });
     }
   },
 
-  checkAuth: async () => {
-    set({ isLoading: true });
-
-    try {
-      const user = await authApi.getCurrentUser();
-      set({ user, isAuthenticated: true, isLoading: false });
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Auth check failed";
-      set({
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
-        error: errorMessage,
-      });
-    }
-  },
   clearError: () => set({ error: null }),
 }));

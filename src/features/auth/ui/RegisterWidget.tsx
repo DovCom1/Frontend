@@ -127,6 +127,7 @@ export const RegisterWidget: React.FC = () => {
         break;
 
       case "gender":
+        console.log(value);
         if (value.trim() === "") {
           error = "Пол обязателен для выбора";
         }
@@ -192,9 +193,7 @@ export const RegisterWidget: React.FC = () => {
     return age;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     Object.keys(formData).forEach((field) => {
       validateField(field, formData[field as keyof typeof formData]);
     });
@@ -206,11 +205,11 @@ export const RegisterWidget: React.FC = () => {
     try {
       await register({
         uid: formData.uid,
-        username: formData.username,
+        nickname: formData.username,
         email: formData.email,
         password: formData.password,
-        birthDate: formData.birthDate,
-        gender: formData.gender as "мужщина" | "женщина",
+        dateOfBirth: formData.birthDate,
+        gender: formData.gender as "мужской" | "женский",
       });
       closeAll();
     } catch (error) {
@@ -233,10 +232,22 @@ export const RegisterWidget: React.FC = () => {
   return (
     <Modal isOpen={isRegisterOpen} onClose={closeAll}>
       <form
-        onSubmit={handleSubmit}
-        style={{ maxHeight: "90vh", overflowY: "auto", paddingRight: 20, paddingLeft: 20 }}
+        style={{
+          maxHeight: "90vh",
+          overflowY: "auto",
+          paddingRight: 20,
+          paddingLeft: 20,
+        }}
       >
-        <div style={{ display: "flex", marginBottom: "15px", flexDirection: "column", gap: "10px", alignItems: "center"}}>
+        <div
+          style={{
+            display: "flex",
+            marginBottom: "15px",
+            flexDirection: "column",
+            gap: "10px",
+            alignItems: "center",
+          }}
+        >
           <LabeledIconButton
             label={<Label text={"DovCom"} color={"#fff"} fontSize={"20px"} />}
             icon={<Icon path={"/icons/logo.svg"} size={"55px"} />}
@@ -244,11 +255,7 @@ export const RegisterWidget: React.FC = () => {
             gap={"0px"}
           />
 
-          <Label
-            text={"Регистрация"}
-            fontSize={"30px"}
-            color={"#fff"}
-          />
+          <Label text={"Регистрация"} fontSize={"30px"} color={"#fff"} />
 
           {/* Никнейм */}
           <TextInput
@@ -314,22 +321,19 @@ export const RegisterWidget: React.FC = () => {
           <div style={{ width: "100%" }}>
             <Dropdown
               options={createTextOptions([
-                { value: 'мужщина', text: "мужщина" },
-                { value: 'женщина', text: "женщина" },
+                { value: "мужской", text: "Мужской" },
+                { value: "женский", text: "Женский" },
               ])}
-              onChange={(text) => handleChange("gender", text)}
+              onChange={(value) => {
+                console.log("Выбранное значение пола:", value);
+                handleChange("gender", value);
+              }}
               value={formData.gender}
+              placeholder="Выберите пол"
+              label="Пол"
+              error={errors.gender}
+              required
             />
-            {errors.gender && (
-              <div style={{ 
-                color: "#dc2626", 
-                fontSize: "12px", 
-                marginTop: "4px",
-                paddingLeft: "4px"
-              }}>
-                {errors.gender}
-              </div>
-            )}
           </div>
         </div>
 
@@ -342,7 +346,10 @@ export const RegisterWidget: React.FC = () => {
                 text={isLoading ? "Регистрация..." : "Зарегистрироваться"}
               />
             }
+            borderRadius="15px"
+            height="50px"
             width="100%"
+            onClick={handleSubmit}
             disabled={isButtonDisabled}
             icon={isLoading ? <Icon path="/icons/loading.svg" /> : undefined}
           />
