@@ -1,5 +1,6 @@
 import { baseApi } from "../../../../shared/api/http/BaseApi";
 import { MessageEntity } from "../../../../entities/message/messageEntity";
+import { Chat } from "../../../../entities/chat/model/types/chat";
 
 export interface MessagesResponse {
   messages: MessageEntity[];
@@ -23,15 +24,23 @@ export const messageHistoryApi = {
 
 export const sendMessage = {
   post: async (
-    chatId: string,
-    userId: string | undefined,
+    userId: string,
     content: string,
+    receiverId?: string,
   ): Promise<number> => {
-    // /api/chats/{chatId}/messages
-    const response = await baseApi.post(`/chats/${chatId}/messages`, {
-      content: content,
-      userId: userId,
-    });
-    return response.data;
+    if (receiverId !== undefined) {
+      const response = await baseApi.post(`/chats/${userId}/messages`, {
+        content: content,
+        receiverId: receiverId,
+        userId: userId,
+      });
+      return response.data;
+    } else {
+      const response = await baseApi.post(`/chats/messages`, {
+        content: content,
+        userId: userId,
+      });
+      return response.data;
+    }
   },
 };

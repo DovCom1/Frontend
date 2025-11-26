@@ -1,7 +1,7 @@
 export interface Chat {
-  chatId: string;
+  id: string;
   name: string;
-  lastMessage?: string;
-  uuid?: string;
+  // lastMessage?: string;
+  // uuid?: string;
   avatarUrl?: string;
 }

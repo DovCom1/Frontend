@@ -1,17 +1,17 @@
 import React from "react";
 import Icon from "../atoms/icons/Icon";
-import classes from "./UserDialogInfo.module.css";
+import classes from "./styles/UserDialogInfo.module.css";
 import Label from "../atoms/labels/Label";
 import buttonClasses from "../atoms/buttons/Button.module.css";
 
-interface UserDialogInfoProps {
+interface DialogHeaderInfoProps {
   avatarSrc: string;
   userName: string;
   uuid: string;
   onClick?: () => void;
 }
 
-const UserDialogInfo: React.FC<UserDialogInfoProps> = ({
+const DialogHeaderInfo: React.FC<DialogHeaderInfoProps> = ({
   avatarSrc,
   userName,
   uuid,
@@ -31,4 +31,4 @@ const UserDialogInfo: React.FC<UserDialogInfoProps> = ({
   );
 };
 
-export default UserDialogInfo;
+export default DialogHeaderInfo;
