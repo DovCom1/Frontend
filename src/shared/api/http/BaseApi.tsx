@@ -1,8 +1,10 @@
 import axios from "axios";
 
 export const baseApi = axios.create({
-  baseURL: process.env.API_URL || "http://localhost:3000/api",
-  withCredentials: true, // Важно для куков
+  baseURL: process.env.REACT_APP_API_BASE_URL
+    ? `${process.env.REACT_APP_API_BASE_URL}/api`
+    : "http://localhost:8080/api",
+  withCredentials: true, // Важно для кук
   timeout: 10000,
 });
 // Интерцептор для обработки ошибок

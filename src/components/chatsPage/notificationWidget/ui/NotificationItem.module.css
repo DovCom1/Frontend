@@ -1,0 +1,42 @@
+.avatarWrapper {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+
+.notificationContainer {
+    display: flex;
+    padding: 15px;
+    /*height: 120px;*/
+    align-items: center;
+    gap: 20px;
+}
+
+.contentContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.captionWrapper {
+    font-size: 14px;
+    font-family: Inter;
+    color: #E7E7E9;
+}
+
+.buttonWrapper {
+    background-color: #E7E7E9;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-family: Inter;
+    box-sizing: border-box;
+    height: 35px;
+    border-radius: 16px;
+    align-self: flex-start;
+}
+
+.dateWrapper {
+    color: #60636A;
+    font-size: 14px;
+    font-family: Inter;
+}

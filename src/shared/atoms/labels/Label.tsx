@@ -41,9 +41,9 @@ const Label: React.FC<LabelProps> = ({
     textAlign: textAlign,
   };
   return (
-    <div className={className} style={labelStyle}>
+    <p className={className} style={labelStyle}>
       {text}
-    </div>
+    </p>
   );
 };
 

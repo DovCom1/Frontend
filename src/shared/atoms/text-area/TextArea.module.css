@@ -1,0 +1,8 @@
+.defaultWrapper {
+    resize: none; /* Запрещаем изменять размер */
+    border: none;
+}
+
+.defaultWrapper:focus {
+    outline: none;
+}

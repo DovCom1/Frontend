@@ -4,24 +4,13 @@ export interface LoginData {
   email: string;
   password: string;
 }
-
 export interface RegisterData {
   email: string;
   password: string;
   uid: string;
-  username: string;
-  birthDate: string;
-  gender: "мужщина" | "женщина";
-}
-
-export interface User {
-  id: string;
-  email: string;
-  uid: string;
-  username: string;
-  birthDate: string;
-  gender: "мужщина" | "женщина";
-  avatar?: string;
+  nickname: string;
+  dateOfBirth: string;
+  gender: "мужской" | "женский";
 }
 
 export const authApi = {
