@@ -66,7 +66,7 @@ export const LoginWidget: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    console.log({ email, password })
+    console.log({ email, password });
 
     if (!isFormValid()) {
       return;

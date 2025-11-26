@@ -3,6 +3,7 @@ import { ChatsSidebar } from "../components/chatsPage/chatsSidebar/ui/ChatsSideb
 import { Chat } from "../entities/chat/model/types/chat";
 import { EditFriendsAndEnemiesWidget } from "../features/editFriendsAndEnemies/ui/EditFriendsAndEnemiesWidget";
 import { FriendsAndEnemies } from "../components/friendsAndEnemies/ui/FriendsAndEnemies"; // Добавляем импорт
+import { UserRepresentation } from "../components/chatsPage/UserRepresentation/ui/UserRepresentation";
 
 const DimaTestPage = () => {
   //эта штука только ради проверки
@@ -66,11 +67,7 @@ const DimaTestPage = () => {
           zIndex: 10,
         }}
       >
-        <ChatsSidebar
-          userId="user123"
-          onChatChange={handleChatChange}
-          initialChats={mockChats} //эта штука только ради проверки
-        />
+        <UserRepresentation onClose={() => {}} userId="1" />
       </div>
 
       {/* Основной контент страницы */}

@@ -7,12 +7,23 @@ import DimaTestPage from "../pages/DimaTestPage";
 //  Сделать молекулу сетка объектов: колонка, строчка, таблица
 //  Подумать над стилями для стандартных кнопок
 import ChatsPage from "../pages/ChatsPage/ChatsPage";
+import { useAuthStore } from "../features/auth/model/AuthStore";
+import { useEffect } from "react";
+import { AuthRedirectHandler } from "../features/auth/hooks/AuthRedirectHandler";
 
 function App() {
   // useRootScale(1920, 100);
 
+  const { checkAuth } = useAuthStore();
+
+  // Проверяем аутентификацию при загрузке приложения
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
   return (
     <BrowserRouter>
+      <AuthRedirectHandler />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/test" element={<TestPage />} />

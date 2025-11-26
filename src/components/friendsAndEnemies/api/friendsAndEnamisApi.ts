@@ -1,6 +1,6 @@
 import { baseApi } from "../../../shared/api/http/BaseApi";
 //это супер не верно Асуждаю себя
-import { User } from "../../../features/editFriendsAndEnemies/api/userSearchApi";
+import { UserMainInfo } from "../../../features/editFriendsAndEnemies/api/userSearchApi";
 
 // export interface UsersResponse {
 //   // нужно придумать общий тип  для всех User
@@ -36,14 +36,14 @@ import { User } from "../../../features/editFriendsAndEnemies/api/userSearchApi"
 // Mock данные для тестирования
 
 export interface UsersResponse {
-  data: User[];
+  data: UserMainInfo[];
   offset: number;
   limit: number;
   total: number;
 }
 
 // Mock пользователи
-const mockFriends: User[] = [
+const mockFriends: UserMainInfo[] = [
   {
     id: "1",
     uid: "user_001",
@@ -78,7 +78,7 @@ const mockFriends: User[] = [
   },
 ];
 
-const mockEnemies: User[] = [
+const mockEnemies: UserMainInfo[] = [
   {
     id: "5",
     uid: "user_005",

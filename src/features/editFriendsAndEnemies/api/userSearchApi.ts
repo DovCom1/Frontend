@@ -1,4 +1,4 @@
-const mockUsers: User[] = [
+const mockUsers: UserMainInfo[] = [
   {
     id: "1",
     uid: "1234567890",
@@ -125,7 +125,7 @@ export const userSearchApi = {
     };
   },
 
-  searchByUid: async (uid: string): Promise<User> => {
+  searchByUid: async (uid: string): Promise<UserMainInfo> => {
     // Имитация задержки сети
     await new Promise((resolve) => setTimeout(resolve, 300));
 
@@ -152,7 +152,7 @@ export const userSearchApi = {
   },
 };
 
-export interface User {
+export interface UserMainInfo {
   id: string;
   uid: string;
   nickname: string;
@@ -161,7 +161,7 @@ export interface User {
 }
 
 export interface UsersSearchResponse {
-  data: User[];
+  data: UserMainInfo[];
   offset: number;
   limit: number;
   total: number;

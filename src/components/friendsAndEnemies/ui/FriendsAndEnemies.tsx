@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./FriendsAndEnemies.css";
-import { User } from "../../../features/editFriendsAndEnemies/api/userSearchApi";
+import { UserMainInfo } from "../../../features/editFriendsAndEnemies/api/userSearchApi";
 import { userState } from "../../../entities/mainUser/model/UserState";
 import {
   FriendsAndEnemiesApi,
@@ -18,7 +18,7 @@ interface Props {
 
 export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<"friends" | "enemies">("friends");
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserMainInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);

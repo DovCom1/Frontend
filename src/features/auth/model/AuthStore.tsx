@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { authApi, LoginData, RegisterData } from "../api/AuthApi";
 import { useSignalRStore } from "../../../shared/api/websocket/model/SignalRStore";
+import { userState } from "../../../entities/mainUser/model/UserState";
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -22,7 +23,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const token = await authApi.login(data);
+      const userId = await authApi.login(data);
+
+      userState.setUserId(userId);
 
       set({
         isAuthenticated: true,
@@ -47,10 +50,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true });
 
     try {
-      set({
-        isAuthenticated: true,
-        isLoading: false,
-      });
+      const user = await authApi.getCurrentUser();
 
       const signalRStore = useSignalRStore.getState();
 
@@ -59,6 +59,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       } else {
         console.log("SignalR already connected");
       }
+
+      set({
+        isAuthenticated: true,
+        isLoading: false,
+      });
     } catch (error: any) {
       set({
         isAuthenticated: false,
@@ -77,12 +82,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const token = await authApi.register(data);
-      set({ isAuthenticated: true, isLoading: false });
+      const user = await authApi.register(data);
 
       const signalRStore = useSignalRStore.getState();
 
-      await signalRStore.connect(token.token);
+      await signalRStore.connect();
+
+      userState.setUserId(user);
+
+      set({ isAuthenticated: true, isLoading: false });
 
       console.log("SignalR connection established after registration");
     } catch (error: any) {

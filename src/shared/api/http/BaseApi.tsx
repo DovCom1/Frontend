@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const baseApi = axios.create({
-  baseURL: process.env.API_URL
-    ? `${process.env.API_URL}/api`
+  baseURL: process.env.REACT_APP_API_BASE_URL
+    ? `${process.env.REACT_APP_API_BASE_URL}/api`
     : "http://localhost:8080/api",
   withCredentials: true, // Важно для кук
   timeout: 10000,

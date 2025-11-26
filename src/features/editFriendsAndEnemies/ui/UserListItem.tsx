@@ -1,12 +1,12 @@
 import React from "react";
-import { User } from "../api/userSearchApi";
+import { UserMainInfo } from "../api/userSearchApi";
 import { useAuthWidgetStore } from "../model/EditFriendsAndEnemiesStore";
 import Button from "../../../shared/atoms/buttons/Button";
 import Label from "../../../shared/atoms/labels/Label";
 import "./UserListItem.css";
 
 interface UserListItemProps {
-  user: User;
+  user: UserMainInfo;
 }
 
 export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
