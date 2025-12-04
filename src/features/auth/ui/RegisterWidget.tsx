@@ -209,7 +209,7 @@ export const RegisterWidget: React.FC = () => {
         email: formData.email,
         password: formData.password,
         dateOfBirth: formData.birthDate,
-        gender: formData.gender as "мужской" | "женский",
+        gender: formData.gender as "Мужской" | "Женский",
       });
       closeAll();
     } catch (error) {
@@ -321,8 +321,8 @@ export const RegisterWidget: React.FC = () => {
           <div style={{ width: "100%" }}>
             <Dropdown
               options={createTextOptions([
-                { value: "мужской", text: "Мужской" },
-                { value: "женский", text: "Женский" },
+                { value: "Мужской", text: "Мужской" },
+                { value: "Женский", text: "Женский" },
               ])}
               onChange={(value) => {
                 console.log("Выбранное значение пола:", value);
