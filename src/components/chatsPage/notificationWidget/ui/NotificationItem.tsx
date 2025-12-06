@@ -1,5 +1,4 @@
 import classes from "./NotificationItem.module.css";
-import Label from "../../../../shared/atoms/labels/Label";
 import Button from "../../../../shared/atoms/buttons/Button";
 import React from "react";
 import Icon from "../../../../shared/atoms/icons/Icon";

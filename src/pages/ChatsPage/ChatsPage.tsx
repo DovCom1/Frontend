@@ -14,12 +14,12 @@ enum MainWindowType {
   FriendsAndEnemies,
 }
 
-function findChatById(chats: Chat[], id: string): Chat | undefined {
-  for (const chat of chats) {
-    if (chat.id === id) return chat;
-  }
-  return undefined;
-}
+// function findChatById(chats: Chat[], id: string): Chat | undefined {
+//   for (const chat of chats) {
+//     if (chat.id === id) return chat;
+//   }
+//   return undefined;
+// }
 
 const ChatsPage = () => {
   const [selectedChat, setSelectedChat] = useState<Chat>();
@@ -32,6 +32,8 @@ const ChatsPage = () => {
 
   const closeFriendsAndEnemies = () => {
     setMainWindow(MainWindowType.Dialog);
+    //просто для проверки
+    handleShowProfile();
   };
 
   const handleChatChange = (chat: Chat) => {

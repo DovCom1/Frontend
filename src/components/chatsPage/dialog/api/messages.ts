@@ -1,6 +1,5 @@
 import { baseApi } from "../../../../shared/api/http/BaseApi";
 import { MessageEntity } from "../../../../entities/message/messageEntity";
-import { Chat } from "../../../../entities/chat/model/types/chat";
 
 export interface MessagesResponse {
   messages: MessageEntity[];

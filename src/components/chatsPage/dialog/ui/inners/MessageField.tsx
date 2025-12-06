@@ -1,7 +1,7 @@
 import classes from "../styles/MessagesField.module.css";
 import Message from "../../../../../shared/molecules/Message";
 import { DialogProps } from "../Dialog";
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MessageEntity } from "../../../../../entities/message/messageEntity";
 import { userState } from "../../../../../entities/mainUser/model/UserState";
 import { scrollMessages } from "../../model/messageField";
