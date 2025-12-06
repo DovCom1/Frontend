@@ -15,7 +15,7 @@ export const messageHistoryApi = {
     pageSize = pageSize || 20;
 
     const response = await baseApi.get(
-      `/chats/${chatId}/messages?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      `/proxy/chats/${chatId}/messages?pageNumber=${pageNumber}&pageSize=${pageSize}`,
     );
     return response.data;
   },
