@@ -47,48 +47,51 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   checkAuth: async () => {
-    set({ isLoading: true });
-
-    try {
-      const user = await authApi.getCurrentUser();
-
-      const signalRStore = useSignalRStore.getState();
-
-      if (!signalRStore.isConnected) {
-        await signalRStore.connect();
-      } else {
-        console.log("SignalR already connected");
-      }
-
-      set({
-        isAuthenticated: true,
-        isLoading: false,
-      });
-    } catch (error: any) {
-      set({
-        isAuthenticated: false,
-        isLoading: false,
-      });
-
-      // При ошибке проверки аутентификации отключаем SignalR
-      const signalRStore = useSignalRStore.getState();
-      if (signalRStore.isConnected) {
-        await signalRStore.disconnect();
-      }
-    }
+    // set({ isLoading: true });
+    // try {
+    //   const userId = await authApi.getCurrentUser();
+    //   userState.setUserId(userId);
+    //   const signalRStore = useSignalRStore.getState();
+    //   if (!signalRStore.isConnected) {
+    //     await signalRStore.connect();
+    //   } else {
+    //     console.log("SignalR already connected");
+    //   }
+    //   set({
+    //     isAuthenticated: true,
+    //     isLoading: false,
+    //   });
+    // } catch (error: any) {
+    //   set({
+    //     isAuthenticated: false,
+    //     isLoading: false,
+    //   });
+    //   // При ошибке проверки аутентификации отключаем SignalR
+    //   const signalRStore = useSignalRStore.getState();
+    //   if (signalRStore.isConnected) {
+    //     await signalRStore.disconnect();
+    //   }
+    // }
   },
 
   register: async (data: RegisterData) => {
     set({ isLoading: true, error: null });
 
     try {
-      const user = await authApi.register(data);
+      await authApi.register(data);
+
+      const loginData: LoginData = {
+        email: data.email,
+        password: data.password,
+      };
+
+      const userId = await authApi.login(loginData);
 
       const signalRStore = useSignalRStore.getState();
 
       await signalRStore.connect();
 
-      userState.setUserId(user);
+      userState.setUserId(userId);
 
       set({ isAuthenticated: true, isLoading: false });
 

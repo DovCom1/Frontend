@@ -1,16 +1,32 @@
-import React, { useRef, useState, useCallback, useEffect } from "react";
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { Chat } from "../../../../entities/chat/model/types/chat";
-import { ChatSearch } from "../../../../features/chatSearch/ui/ChatSearch";
-import { ChatsList } from "./ChatsList";
 import { useChatsSidebar } from "../model/useChatsSidebar";
 import "./ChatsSidebar.css";
-import Icon from "../../../../shared/atoms/icons/Icon";
-import IconButton from "../../../../shared/atoms/buttons/IconButton";
+import { UserRepresentation } from "../../UserRepresentation/ui/UserRepresentation";
 import NotificationWidget from "../../notificationWidget/ui/NotificationWidget";
-import { userState } from "../../../../entities/mainUser/model/UserState";
+import { ChatSearch } from "../../../../features/chatSearch/ui/ChatSearch";
+import IconButton from "../../../../shared/atoms/buttons/IconButton";
+import Icon from "../../../../shared/atoms/icons/Icon";
+import { ChatsList } from "./ChatsList";
 
 interface ChatsSidebarProps {
   onChatChange: (chat: Chat) => void;
+}
+
+export interface ChatsSidebarRef {
+  showProfile: () => void;
+}
+
+enum SidebarView {
+  Chats,
+  UserProfile,
 }
 
 const initialChats = [
@@ -22,108 +38,150 @@ const initialChats = [
   },
 ];
 
-export const ChatsSidebar: React.FC<ChatsSidebarProps> = ({ onChatChange }) => {
-  useEffect(() => {
-    loadChats();
-  }, []);
+export const ChatsSidebar = forwardRef<ChatsSidebarRef, ChatsSidebarProps>(
+  ({ onChatChange }, ref) => {
+    const [currentView, setCurrentView] = useState<SidebarView>(
+      SidebarView.Chats
+    );
 
-  const {
-    searchTerm,
-    filteredChats,
-    selectedChat,
-    error,
-    loading,
-    loadChats,
-    handleSearchChange,
-    handleChatSelect,
-  } = useChatsSidebar(initialChats);
+    // Предоставляем методы для родительского компонента
+    useImperativeHandle(ref, () => ({
+      showProfile: () => {
+        setCurrentView(SidebarView.UserProfile);
+      },
+    }));
 
-  const [sidebarWidth, setSidebarWidth] = useState(340);
-  const [isResizing, setIsResizing] = useState(false);
-  const [isNotifiacationsOpen, setNotifiacationsOpen] = useState(false);
-  const sidebarRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      loadChats();
+    }, []);
 
-  const handleChatSelectWithCallback = (chat: Chat) => {
-    handleChatSelect(chat);
-    onChatChange(chat);
-  };
+    const {
+      searchTerm,
+      filteredChats,
+      selectedChat,
+      error,
+      loading,
+      loadChats,
+      handleSearchChange,
+      handleChatSelect,
+    } = useChatsSidebar(initialChats);
 
-  const startResizing = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsResizing(true);
-  }, []);
+    const [sidebarWidth, setSidebarWidth] = useState(340);
+    const [isResizing, setIsResizing] = useState(false);
+    const [isNotificationsOpen, setNotificationsOpen] = useState(false);
+    const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const stopResizing = useCallback(() => {
-    setIsResizing(false);
-  }, []);
+    const handleChatSelectWithCallback = (chat: Chat) => {
+      handleChatSelect(chat);
+      onChatChange(chat);
+    };
 
-  const resize = useCallback(
-    (e: MouseEvent) => {
-      if (isResizing && sidebarRef.current) {
-        const rect = sidebarRef.current.getBoundingClientRect();
-        const newWidth = e.clientX - rect.left;
+    const startResizing = useCallback((e: React.MouseEvent) => {
+      e.preventDefault();
+      setIsResizing(true);
+    }, []);
 
-        // Ограничиваем минимальную и максимальную ширину
-        if (newWidth >= 250 && newWidth <= 600) {
-          setSidebarWidth(newWidth);
-        }
-      }
-    },
-    [isResizing],
-  );
+    const stopResizing = useCallback(() => {
+      setIsResizing(false);
+    }, []);
 
-  React.useEffect(() => {
-    if (isResizing) {
-      document.addEventListener("mousemove", resize);
-      document.addEventListener("mouseup", stopResizing);
+    const resize = useCallback(
+      (e: MouseEvent) => {
+        if (isResizing && sidebarRef.current) {
+          const rect = sidebarRef.current.getBoundingClientRect();
+          const newWidth = e.clientX - rect.left;
 
-      return () => {
-        document.removeEventListener("mousemove", resize);
-        document.removeEventListener("mouseup", stopResizing);
-      };
-    }
-  }, [isResizing, resize, stopResizing]);
-
-  return (
-    <div
-      ref={sidebarRef}
-      className="chats-sidebar"
-      style={{ width: `${sidebarWidth}px` }}
-    >
-      {/* Область для изменения размера */}
-      <div
-        className={`resize-handle ${isResizing ? "resize-handle--active" : ""}`}
-        onMouseDown={startResizing}
-        data-resize-handle
-      />
-
-      <div className="chats-sidebar__search">
-        <ChatSearch value={searchTerm} onChange={handleSearchChange} />
-        <IconButton
-          icon={
-            <Icon path={"/icons/bell.svg"} height="34px" width="55px"></Icon>
+          if (newWidth >= 250 && newWidth <= 600) {
+            setSidebarWidth(newWidth);
           }
-          onClick={() => setNotifiacationsOpen(true)}
-        />
-      </div>
-      <NotificationWidget
-        isOpen={isNotifiacationsOpen}
-        onClose={() => setNotifiacationsOpen(false)}
-      />
-      {loading ? (
-        <div>Загрузка...</div>
-      ) : error ? (
-        <div>{error}</div>
-      ) : (
-        <ChatsList
-          chats={filteredChats}
-          selectedChat={selectedChat}
-          onChatSelect={handleChatSelectWithCallback}
-        />
-      )}
+        }
+      },
+      [isResizing]
+    );
 
-      {/* Затемнение при изменении размера */}
-      {isResizing && <div className="resize-overlay" />}
-    </div>
-  );
-};
+    useEffect(() => {
+      if (isResizing) {
+        document.addEventListener("mousemove", resize);
+        document.addEventListener("mouseup", stopResizing);
+
+        return () => {
+          document.removeEventListener("mousemove", resize);
+          document.removeEventListener("mouseup", stopResizing);
+        };
+      }
+    }, [isResizing, resize, stopResizing]);
+
+    const handleBackToChats = () => {
+      setCurrentView(SidebarView.Chats);
+    };
+
+    return (
+      <div
+        ref={sidebarRef}
+        className="chats-sidebar"
+        style={{ width: `${sidebarWidth}px` }}
+      >
+        {/* Область для изменения размера */}
+        <div
+          className={`resize-handle ${
+            isResizing ? "resize-handle--active" : ""
+          }`}
+          onMouseDown={startResizing}
+          data-resize-handle
+        />
+
+        <div className="chats-sidebar__search">
+          {currentView === SidebarView.UserProfile && (
+            <IconButton
+              icon={
+                <Icon path="/icons/arrow-left.svg" height="24px" width="24px" />
+              }
+              onClick={handleBackToChats}
+              className="chats-sidebar__back-button"
+            />
+          )}
+          {currentView === SidebarView.Chats && (
+            <>
+              <ChatSearch value={searchTerm} onChange={handleSearchChange} />
+              <IconButton
+                icon={
+                  <Icon path="/icons/bell.svg" height="34px" width="55px" />
+                }
+                onClick={() => setNotificationsOpen(true)}
+              />
+            </>
+          )}
+        </div>
+
+        <NotificationWidget
+          isOpen={isNotificationsOpen}
+          onClose={() => setNotificationsOpen(false)}
+        />
+
+        {currentView === SidebarView.Chats ? (
+          loading ? (
+            <div>Загрузка...</div>
+          ) : error ? (
+            <div>{error}</div>
+          ) : (
+            <ChatsList
+              chats={filteredChats}
+              selectedChat={selectedChat}
+              onChatSelect={handleChatSelectWithCallback}
+            />
+          )
+        ) : (
+          <UserRepresentation
+            onClose={handleBackToChats}
+            userId="10000"
+          />
+        )}
+
+        {/* Затемнение при изменении размера */}
+        {isResizing && <div className="resize-overlay" />}
+      </div>
+    );
+  }
+);
+
+ChatsSidebar.displayName = "ChatsSidebar";
