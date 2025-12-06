@@ -2,7 +2,7 @@ import { User } from "../../../shared/types/User";
 import { userApi } from "../api/UserApi";
 
 export class UserState {
-  private userId: string = "";
+  private userId: string = "-";
   private user: User | null = null;
   private loading: boolean = false;
   private error: string | null = null;
@@ -33,6 +33,9 @@ export class UserState {
   async getUserId(): Promise<string> {
     if (this.user) {
       return this.user.id;
+    }
+    if (this.userId !== "-") {
+      return this.userId;
     }
 
     this.loading = true;
