@@ -31,7 +31,6 @@ export class UserState {
 
   // Получить ID пользователя с проверкой существования
   async getUserId(): Promise<string> {
-    console.log("У МЕНЯ ПРОСЯТ USER ID:" + this.userId);
     if (this.user) {
       return this.user.id;
     }

@@ -24,7 +24,7 @@ export const useChatsSidebar = (initialChats: Chat[]) => {
 
   const getChats = async () => {
     try {
-      const userId = userState.getUserIdSync();
+      const userId = await userState.getUserId();
       if (!userId) {
         setError("User id is null!");
         return;

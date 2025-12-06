@@ -22,8 +22,8 @@ export const useDialog = (selectedChat: Chat) => {
     }
   };
 
-  const handleWrite = (text: string) => {
-    const userId = userState.getUserIdSync();
+  const handleWrite = async (text: string) => {
+    const userId = await userState.getUserId();
     if (!userId) {
       console.log("No user Id!");
       return;
@@ -41,7 +41,7 @@ export const useDialog = (selectedChat: Chat) => {
   };
 
   const getMessages = async () => {
-    const userId = userState.getUserIdSync();
+    const userId = await userState.getUserId();
     if (!userId) {
       setError("User id is null!");
       return;
