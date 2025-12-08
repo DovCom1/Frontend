@@ -190,10 +190,18 @@ export const userSearchApi = {
   },
 
   addFriend: async (userId: string, friendId: string): Promise<void> => {
-    await baseApi.post(`/proxy/users/${userId}/friends/${friendId}`);
+    await baseApi.post(`/proxy/users/${userId}/friends/${friendId}`, null, {
+    headers: {
+      'Content-Type': null
+    }
+  });
   },
 
   addEnemy: async (userId: string, enemyId: string): Promise<void> => {
-    await baseApi.post(`/proxy/users/${userId}/enemies/${enemyId}`);
-  },
+    await baseApi.post(`/proxy/users/${userId}/enemies/${enemyId}`, null, {
+    headers: {
+      'Content-Type': null
+    }
+  });
+  }
 };
