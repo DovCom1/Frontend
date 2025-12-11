@@ -21,7 +21,8 @@ interface ChatsSidebarProps {
 }
 
 export interface ChatsSidebarRef {
-  showProfile: () => void;
+  showProfile: (userId: string) => void;
+  loadChats: () => Promise<void>;
 }
 
 enum SidebarView {
@@ -44,10 +45,16 @@ export const ChatsSidebar = forwardRef<ChatsSidebarRef, ChatsSidebarProps>(
       SidebarView.Chats
     );
 
+    const { loadChats: loadChatsFromHook } = useChatsSidebar(initialChats);
+
     // Предоставляем методы для родительского компонента
     useImperativeHandle(ref, () => ({
-      showProfile: () => {
+      showProfile: (userId: string) => {
+        setUserId(userId);
         setCurrentView(SidebarView.UserProfile);
+      },
+      loadChats: async () => {
+        await loadChats();
       },
     }));
 
@@ -68,6 +75,7 @@ export const ChatsSidebar = forwardRef<ChatsSidebarRef, ChatsSidebarProps>(
 
     const [sidebarWidth, setSidebarWidth] = useState(340);
     const [isResizing, setIsResizing] = useState(false);
+    const [userId, setUserId] = useState("12");
     const [isNotificationsOpen, setNotificationsOpen] = useState(false);
     const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -171,10 +179,7 @@ export const ChatsSidebar = forwardRef<ChatsSidebarRef, ChatsSidebarProps>(
             />
           )
         ) : (
-          <UserRepresentation
-            onClose={handleBackToChats}
-            userId="10000"
-          />
+          <UserRepresentation onClose={handleBackToChats} userId={userId} />
         )}
 
         {/* Затемнение при изменении размера */}

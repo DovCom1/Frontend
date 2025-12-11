@@ -5,9 +5,10 @@ import {
   ChatsSidebarRef,
 } from "../../components/chatsPage/chatsSidebar/ui/ChatsSidebar";
 import Sidebar from "../../components/chatsPage/Sidebar";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Chat } from "../../entities/chat/model/types/chat";
 import { FriendsAndEnemies } from "../../components/friendsAndEnemies/ui/FriendsAndEnemies";
+import { userState } from "../../entities/mainUser/model/UserState";
 
 enum MainWindowType {
   Dialog,
@@ -30,18 +31,33 @@ const ChatsPage = () => {
     MainWindowType.Dialog
   );
 
-  const closeFriendsAndEnemies = () => {
+  useEffect(() => {
+    const showProfileInFriendsSection = async () => {
+      if (mainWindow === MainWindowType.FriendsAndEnemies) {
+        handleShowProfile(await userState.getUserId());
+      }
+    };
+
+    showProfileInFriendsSection();
+  }, [mainWindow]);
+
+  const closeFriendsAndEnemies = async () => {
     setMainWindow(MainWindowType.Dialog);
-    //просто для проверки
-    handleShowProfile();
   };
 
   const handleChatChange = (chat: Chat) => {
     setSelectedChat(chat);
   };
 
-  const handleShowProfile = () => {
-    chatsSidebarRef.current?.showProfile();
+  const handleShowProfile = (userId: string) => {
+    chatsSidebarRef.current?.showProfile(userId);
+  };
+
+  const handleChatsUpdate = async () => {
+    if (chatsSidebarRef.current) {
+      // Если у ChatsSidebar есть метод для обновления чатов
+      chatsSidebarRef.current.loadChats?.();
+    }
   };
 
   return (
@@ -54,7 +70,10 @@ const ChatsPage = () => {
         <Dialog selectedChat={selectedChat} />
       )}
       {mainWindow === MainWindowType.FriendsAndEnemies && (
-        <FriendsAndEnemies onClose={closeFriendsAndEnemies} />
+        <FriendsAndEnemies
+          onClose={closeFriendsAndEnemies}
+          onChatCreated={handleChatsUpdate} // Передаем callback
+        />
       )}
     </div>
   );

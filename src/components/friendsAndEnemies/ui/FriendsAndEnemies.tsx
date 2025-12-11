@@ -11,18 +11,26 @@ import Button from "../../../shared/atoms/buttons/Button";
 import Label from "../../../shared/atoms/labels/Label";
 import Icon from "../../../shared/atoms/icons/Icon";
 import IconButton from "../../../shared/atoms/buttons/IconButton";
+import { Modal } from "../../../shared/atoms/modal/Modal";
 
 interface Props {
   onClose: () => void;
+  onChatCreated: () => void;
 }
 
-export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
+export const FriendsAndEnemies: React.FC<Props> = ({
+  onClose,
+  onChatCreated,
+}) => {
   const [activeTab, setActiveTab] = useState<"friends" | "enemies">("friends");
   const [users, setUsers] = useState<UserMainInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
+  const [showMessageModal, setShowMessageModal] = useState<boolean>(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserMainInfo | null>(null);
+  const [message, setMessage] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
   const limit = 5;
@@ -79,6 +87,60 @@ export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
     }
   };
 
+  const handleDeleteUser = async (userId: string) => {
+    if (!currentUserId) return;
+
+    try {
+      if (activeTab === "friends") {
+        await FriendsAndEnemiesApi.deleteFriend(currentUserId, userId);
+      } else {
+        await FriendsAndEnemiesApi.deleteEnemy(currentUserId, userId);
+      }
+
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+      setTotal((prevTotal) => prevTotal - 1);
+
+      if (users.length === 1 && offset > 0) {
+        setOffset((prevOffset) => Math.max(0, prevOffset - limit));
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ошибка при удалении");
+    }
+  };
+
+  const handleSendMessageClick = (user: UserMainInfo) => {
+    setSelectedUser(user);
+    setShowMessageModal(true);
+    setMessage("");
+  };
+
+  const handleSendMessage = async () => {
+    if (!selectedUser || !message.trim() || !currentUserId) return;
+
+    const messageData = {
+      userId: currentUserId,
+      receiverId: selectedUser.id,
+      content: message,
+    };
+
+    try {
+      await FriendsAndEnemiesApi.makeFirstMessage(messageData);
+
+      onChatCreated();
+
+      console.log(
+        `Сообщение отправлено для ${selectedUser.nickname}: ${message}`
+      );
+
+      setShowMessageModal(false);
+      setMessage("");
+      setSelectedUser(null);
+    } catch (err) {
+      setError("Ошибка при отправке сообщения");
+      console.error(err);
+    }
+  };
+
   const handlePrevPage = () => {
     setOffset((prev) => Math.max(0, prev - limit));
   };
@@ -87,7 +149,7 @@ export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
     setOffset((prev) => prev + limit);
   };
 
-  const toggleModal = async () => {
+  const toggleAddModal = () => {
     setShowAddModal(!showAddModal);
   };
 
@@ -156,7 +218,7 @@ export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
         </div>
 
         <Button
-          onClick={toggleModal}
+          onClick={toggleAddModal}
           label={
             <Label text="Добавить нового юзера" color="white" fontSize="16px" />
           }
@@ -206,9 +268,31 @@ export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
                       </div>
                     </div>
                     <div className="friends-enemies__user-actions">
+                      <Button
+                        label={
+                          <Label
+                            text={"Написать"}
+                            fontSize={"14px"}
+                            color={"#F6F6F6"}
+                          />
+                        }
+                        icon={
+                          <Icon
+                            path={"/icons/createChatWhite.svg"}
+                            size={"18px"}
+                          />
+                        }
+                        labelPosition={"right"}
+                        backgroundColor={"#2A3FA7"}
+                        width={"130px"}
+                        height={"40px"}
+                        onClick={() => handleSendMessageClick(user)}
+                        borderRadius="20px"
+                        gap="6px"
+                      />
                       {activeTab === "friends" ? (
                         <Button
-                          onClick={() => {}}
+                          onClick={() => handleDeleteUser(user.id)}
                           label={
                             <Label
                               text="Удалить из друзей"
@@ -224,7 +308,7 @@ export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
                         />
                       ) : (
                         <Button
-                          onClick={() => {}}
+                          onClick={() => handleDeleteUser(user.id)}
                           label={
                             <Label
                               text="Удалить из врагов"
@@ -281,6 +365,63 @@ export const FriendsAndEnemies: React.FC<Props> = ({ onClose }) => {
       )}
 
       {showAddModal && <EditFriendsAndEnemiesWidget />}
+
+      {/* Модальное окно для написания сообщения */}
+      <Modal
+        isOpen={showMessageModal}
+        onClose={() => {
+          setShowMessageModal(false);
+          setSelectedUser(null);
+          setMessage("");
+        }}
+        title={
+          selectedUser
+            ? `Сообщение для ${selectedUser.nickname}`
+            : "Написать сообщение"
+        }
+        width="400px"
+        height="350px"
+      >
+        <div className="friends-enemies__message-modal">
+          <div className="friends-enemies__message-input-container">
+            <textarea
+              className="friends-enemies__message-input"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Введите сообщение..."
+              rows={4}
+              maxLength={500}
+            />
+            <div className="friends-enemies__message-counter">
+              {message.length}/500
+            </div>
+          </div>
+
+          <div className="friends-enemies__message-actions">
+            <Button
+              onClick={() => {
+                setShowMessageModal(false);
+                setSelectedUser(null);
+                setMessage("");
+              }}
+              label={<Label text="Отмена" color="white" fontSize="14px" />}
+              width="120px"
+              height="40px"
+              borderRadius="20px"
+              backgroundColor="#2A2B31"
+            />
+            <Button
+              onClick={handleSendMessage}
+              disabled={!message.trim()}
+              label={<Label text="Отправить" color="white" fontSize="14px" />}
+              width="120px"
+              height="40px"
+              borderRadius="20px"
+              backgroundColor="#2A3FA7"
+            />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

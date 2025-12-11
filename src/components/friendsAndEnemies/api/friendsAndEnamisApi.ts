@@ -30,6 +30,20 @@ export const FriendsAndEnemiesApi = {
     });
     return response.data;
   },
+  makeFirstMessage: async (messageData: {
+    userId: string;
+    receiverId: string;
+    content: string;
+  }): Promise<any> => {
+    const response = await baseApi.post(`/proxy/chats/messages`, messageData);
+    return response.data;
+  },
+  deleteFriend: async (userId: string, friendId: string): Promise<void> => {
+    await baseApi.delete(`/proxy/users/${userId}/friends/${friendId}`);
+  },
+  deleteEnemy: async (userId: string, enemyId: string): Promise<void> => {
+    await baseApi.delete(`/proxy/users/${userId}/enemies/${enemyId}`);
+  },
 };
 
 // export interface UsersResponse {
@@ -167,5 +181,19 @@ export const FriendsAndEnemiesApi = {
 //       limit: Math.min(limit, 20),
 //       total: mockEnemies.length,
 //     };
+//   },
+//   makeFirstMessage: async (messageData: {
+//     userId: string;
+//     receiverId: string;
+//     content: string;
+//   }): Promise<any> => {
+//     const response = await baseApi.post(`/proxy/chats/messages`, messageData);
+//     return response.data;
+//   },
+//   deleteFriend: async (userId: string, friendId: string): Promise<void> => {
+//     await baseApi.delete(`/proxy/users/${userId}/friends/${friendId}`);
+//   },
+//   deleteEnemy: async (userId: string, enemyId: string): Promise<void> => {
+//     await baseApi.delete(`/proxy/users/${userId}/enemies/${enemyId}`);
 //   },
 // };
