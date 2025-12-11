@@ -24,7 +24,7 @@ const MessagesField: React.FC<MessagesFieldProps> = ({
 
   useEffect(() => {
     scrollMessages(containerRef);
-  }, [messages.length]);
+  }, [messages]);
 
   return (
     <div className={classes.container} ref={containerRef}>
