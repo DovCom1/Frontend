@@ -19,7 +19,11 @@ const MessagesField: React.FC<MessagesFieldProps> = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selfId, setSelfId] = useState<string | null>(null);
   useEffect(() => {
-    setSelfId(userState.getUserIdSync);
+    const fetchUserId = async () => {
+      const id = await userState.getUserId();
+      setSelfId(id);
+    };
+    fetchUserId();
   }, []);
 
   useEffect(() => {
