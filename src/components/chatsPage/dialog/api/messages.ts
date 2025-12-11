@@ -29,14 +29,14 @@ export const sendMessage = {
     receiverId?: string,
   ): Promise<number> => {
     if (receiverId !== undefined) {
-      const response = await baseApi.post(`/chats/${userId}/messages/`, {
+      const response = await baseApi.post(`/proxy/chats/${userId}/messages/`, {
         content: content,
         receiverId: receiverId,
         userId: userId,
       });
       return response.data;
     } else {
-      const response = await baseApi.post(`/chats/messages`, {
+      const response = await baseApi.post(`/proxy/chats/messages`, {
         content: content,
         userId: userId,
       });
