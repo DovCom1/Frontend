@@ -25,6 +25,7 @@ export const messageHistoryApi = {
 export const sendMessage = {
   post: async (
     userId: string,
+    selectedChatId: string,
     content: string,
     receiverId?: string,
   ): Promise<number> => {
@@ -36,7 +37,7 @@ export const sendMessage = {
       });
       return response.data;
     } else {
-      const response = await baseApi.post(`/proxy/chats/messages`, {
+      const response = await baseApi.post(`/proxy/chats/${selectedChatId}`, {
         content: content,
         userId: userId,
       });

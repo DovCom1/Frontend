@@ -36,7 +36,7 @@ export const useDialog = (selectedChat: Chat) => {
     setMessages((prev) => [...prev, newMessage]);
     // Запрос серверу, что сообщение отправлено
     if (selectedChat) {
-      sendMessage.post(selectedChat.id, text);
+      sendMessage.post(userId, selectedChat.id, text);
     }
   };
 
