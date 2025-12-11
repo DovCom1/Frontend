@@ -11,7 +11,7 @@ export const messageHistoryApi = {
     userId: string,
     pageNumber?: number,
     pageSize?: number,
-  ): Promise<MessagesResponse> => {
+  ): Promise<any> => {
     pageNumber = pageNumber || 1;
     pageSize = pageSize || 20;
 
