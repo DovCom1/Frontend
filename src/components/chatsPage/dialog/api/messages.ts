@@ -8,6 +8,7 @@ export interface MessagesResponse {
 export const messageHistoryApi = {
   get: async (
     chatId: string,
+    userId: string,
     pageNumber?: number,
     pageSize?: number,
   ): Promise<MessagesResponse> => {
@@ -15,7 +16,7 @@ export const messageHistoryApi = {
     pageSize = pageSize || 20;
 
     const response = await baseApi.get(
-      `/proxy/chats/${chatId}/messages?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      `/proxy/chats/${chatId}/messages/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
     );
     return response.data;
   },
@@ -28,7 +29,7 @@ export const sendMessage = {
     receiverId?: string,
   ): Promise<number> => {
     if (receiverId !== undefined) {
-      const response = await baseApi.post(`/chats/${userId}/messages`, {
+      const response = await baseApi.post(`/chats/${userId}/messages/`, {
         content: content,
         receiverId: receiverId,
         userId: userId,
