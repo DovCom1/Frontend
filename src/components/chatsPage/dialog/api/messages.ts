@@ -40,6 +40,7 @@ export const sendMessage = {
       const response = await baseApi.post(`/proxy/chats/${selectedChatId}`, {
         content: content,
         userId: userId,
+        receiverId: null,
       });
       return response.data;
     }

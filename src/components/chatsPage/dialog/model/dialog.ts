@@ -3,6 +3,7 @@ import { MessageEntity } from "../../../../entities/message/messageEntity";
 import { messageHistoryApi, sendMessage } from "../api/messages";
 import { useState } from "react";
 import { Chat } from "../../../../entities/chat/model/types/chat";
+import { members } from "../api/chat";
 
 export const useDialog = (selectedChat: Chat) => {
   const [messages, setMessages] = useState<MessageEntity[]>([]);
@@ -34,9 +35,9 @@ export const useDialog = (selectedChat: Chat) => {
       content: text,
     };
     setMessages((prev) => [...prev, newMessage]);
-    // Запрос серверу, что сообщение отправлено
+    // Запрос сервера на поиск айди
     if (selectedChat) {
-      sendMessage.post(userId, selectedChat.id, text);
+      sendMessage.post(userId, selectedChat.id, text, undefined);
     }
   };
 
@@ -55,7 +56,7 @@ export const useDialog = (selectedChat: Chat) => {
       await messageHistoryApi
         .get(selectedChat.id, userId)
         .then((res) => setMessages(res.history.messages));
-      console.log("res messages", )
+      console.log("res messages");
     } catch (e) {
       setError("Chat not selected!");
     } finally {
