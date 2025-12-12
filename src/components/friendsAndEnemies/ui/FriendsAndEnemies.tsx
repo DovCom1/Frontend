@@ -80,7 +80,7 @@ export const FriendsAndEnemies: React.FC<Props> = ({
       setUsers(response.data);
       setTotal(response.total);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Ошибка загрузки данных");
+      //setError(err instanceof Error ? err.message : "Ошибка загрузки данных");
       setUsers([]);
     } finally {
       setLoading(false);
@@ -104,7 +104,7 @@ export const FriendsAndEnemies: React.FC<Props> = ({
         setOffset((prevOffset) => Math.max(0, prevOffset - limit));
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Ошибка при удалении");
+      //setError(err instanceof Error ? err.message : "Ошибка при удалении");
     }
   };
 
