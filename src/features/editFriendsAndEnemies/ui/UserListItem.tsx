@@ -34,7 +34,7 @@ export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
     <div className="user-list-item">
       <div className="user-list-item__info">
         <img
-          src={user.avatarUrl}
+          src={user.avatarUrl || "/images/neuro_dove.png"}
           alt={user.nickname}
           className="user-list-item__avatar"
         />

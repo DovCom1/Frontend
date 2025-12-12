@@ -245,7 +245,7 @@ export const FriendsAndEnemies: React.FC<Props> = ({
                   <div key={user.id} className="friends-enemies__user-card">
                     <div className="friends-enemies__user-info">
                       <img
-                        src={user.avatarUrl}
+                        src={user.avatarUrl || "/images/neuro_dove.png"}
                         alt={user.nickname}
                         className="friends-enemies__user-avatar"
                       />

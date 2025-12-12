@@ -71,7 +71,7 @@ export const UserRepresentation: React.FC<Props> = ({ onClose, userId }) => {
       />
       <div className="user-representation-header">
         <Icon
-          path={user.avatarUrl}
+          path={user.avatarUrl || "/images/neuro_dove.png"}
           style={{ borderRadius: "50%", marginBottom: "15px" }}
           height={"140px"}
           width={"140px"}
