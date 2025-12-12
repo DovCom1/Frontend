@@ -15,7 +15,7 @@ export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
   const handleAddFriend = async () => {
     try {
       await addNewFriend(user.id);
-      alert(`Пользователь ${user.nickname} добавлен в друзья!`);
+      //alert(`Пользователь ${user.nickname} добавлен в друзья!`);
     } catch (error) {
       alert("Ошибка при добавлении в друзья");
     }
@@ -24,7 +24,7 @@ export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
   const handleAddEnemy = async () => {
     try {
       await addNewEnemy(user.id);
-      alert(`Пользователь ${user.nickname} добавлен во враги!`);
+      //alert(`Пользователь ${user.nickname} добавлен во враги!`);
     } catch (error) {
       alert("Ошибка при добавлении во враги");
     }
