@@ -71,7 +71,7 @@ export const UserRepresentation: React.FC<Props> = ({ onClose, userId }) => {
       />
       <div className="user-representation-header">
         <Icon
-          path={user.avatarUrl}
+          path={user.avatarUrl || "/images/neuro_dove.png"}
           style={{ borderRadius: "50%", marginBottom: "15px" }}
           height={"140px"}
           width={"140px"}
@@ -83,7 +83,7 @@ export const UserRepresentation: React.FC<Props> = ({ onClose, userId }) => {
           fontSize={"12px"}
           color={user.status === "В сети" ? "green" : "#60636A"}
         />
-        <Button
+        {/* <Button
           label={
             <Label text={"Написать"} fontSize={"14px"} color={"#F6F6F6"} />
           }
@@ -95,7 +95,7 @@ export const UserRepresentation: React.FC<Props> = ({ onClose, userId }) => {
           onClick={() => {}}
           borderRadius="12px"
           gap="6px"
-        />
+        /> */}
       </div>
       <div className="user-representation-main">
         <div>

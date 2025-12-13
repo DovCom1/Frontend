@@ -24,12 +24,13 @@ export const useChatsSidebar = (initialChats: Chat[]) => {
 
   const getChats = async () => {
     try {
-      const userId = userState.getUserIdSync();
+      const userId = await userState.getUserId();
       if (!userId) {
         setError("User id is null!");
         return;
       }
       const chatsResponse = await getChatsApi.get(userId);
+      console.log("чаты пользователя:", chatsResponse.chats);
       setChats(chatsResponse.chats);
     } catch (e) {
       console.error(e);
@@ -40,7 +41,7 @@ export const useChatsSidebar = (initialChats: Chat[]) => {
   };
 
   const { searchTerm, filteredChats, handleSearchChange } = useChatSearch(
-    initialChats || chats,
+    chats || initialChats,
   );
 
   const handleChatSelect = (chat: Chat) => {

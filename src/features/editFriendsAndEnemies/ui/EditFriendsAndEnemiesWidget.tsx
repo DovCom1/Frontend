@@ -83,7 +83,7 @@ export const EditFriendsAndEnemiesWidget: React.FC = () => {
           </div>
         </div>
 
-        {error && <div className="edit-friends-enemies__error">{error}</div>}
+        {/* {error && <div className="edit-friends-enemies__error">{error}</div>} */}
 
         {loading && (
           <div className="edit-friends-enemies__loading">Загрузка...</div>

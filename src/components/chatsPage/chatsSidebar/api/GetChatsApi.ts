@@ -7,7 +7,7 @@ export interface ChatsResponse {
 
 export const getChatsApi = {
   get: async (userId: string): Promise<ChatsResponse> => {
-    const response = await baseApi.get(`/chats/users/${userId}`);
+    const response = await baseApi.get(`/proxy/chats/users/${userId}`);
     return response.data;
   },
 };

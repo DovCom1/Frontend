@@ -25,6 +25,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const userId = await authApi.login(data);
 
+      console.log("вот id из логина:" + userId);
+
       userState.setUserId(userId);
 
       set({
