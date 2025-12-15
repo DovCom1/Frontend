@@ -113,7 +113,7 @@ jobs:
         path: build/
         
   build-and-push-with-docker:
-    needs: [build, analyze]
+    needs: analyze
     runs-on: ubuntu-latest
     permissions:
       contents: read
