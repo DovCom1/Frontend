@@ -29,7 +29,7 @@ export class SignalRClient {
     this.hubUrl = hubUrl || process.env.SIGNALR_URL || "";
   }
 
-  async connect(): Promise<void> {
+  async connect(chatId : string): Promise<void> {
     if (this.isConnecting) {
       return;
     }
@@ -59,6 +59,7 @@ export class SignalRClient {
       this.setupConnectionHandlers();
 
       await this.connection.start();
+      await this.connection.invoke('Connect', chatId);
       console.log("SignalR connected successfully");
 
       this.reconnectAttempts = 0;
@@ -172,16 +173,6 @@ export class SignalRClient {
     }
 
     return this.connection.stream<T>(methodName, ...args);
-  }
-
-  private async reconnect() {
-    if (this.connection) {
-      await this.connection.stop();
-    }
-
-    setTimeout(() => {
-      this.connect().catch(console.error);
-    }, 1000);
   }
 
   async disconnect(): Promise<void> {

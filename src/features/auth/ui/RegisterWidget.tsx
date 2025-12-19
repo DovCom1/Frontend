@@ -237,6 +237,8 @@ export const RegisterWidget: React.FC = () => {
           overflowY: "auto",
           paddingRight: 20,
           paddingLeft: 20,
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
         }}
       >
         <div

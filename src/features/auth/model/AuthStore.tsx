@@ -36,7 +36,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       const signalRStore = useSignalRStore.getState();
 
-      await signalRStore.connect();
+      await signalRStore.connect(userId);
 
       console.log("SignalR connection established after login");
     } catch (error: any) {
@@ -91,7 +91,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       const signalRStore = useSignalRStore.getState();
 
-      await signalRStore.connect();
+      await signalRStore.connect(userId);
 
       userState.setUserId(userId);
 

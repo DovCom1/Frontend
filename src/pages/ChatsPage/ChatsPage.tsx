@@ -1,3 +1,4 @@
+// pages/ChatsPage.tsx
 import classes from "./ChatsPage.module.css";
 import Dialog from "../../components/chatsPage/dialog/ui/Dialog";
 import {
@@ -9,18 +10,15 @@ import { useEffect, useRef, useState } from "react";
 import { Chat } from "../../entities/chat/model/types/chat";
 import { FriendsAndEnemies } from "../../components/friendsAndEnemies/ui/FriendsAndEnemies";
 import { userState } from "../../entities/mainUser/model/UserState";
+import {
+  ChatCreaterWidget,
+  useChatCreator,
+} from "../../features/chatCreater/ui/CreateChatWidget";
 
 enum MainWindowType {
   Dialog,
   FriendsAndEnemies,
 }
-
-// function findChatById(chats: Chat[], id: string): Chat | undefined {
-//   for (const chat of chats) {
-//     if (chat.id === id) return chat;
-//   }
-//   return undefined;
-// }
 
 const ChatsPage = () => {
   const [selectedChat, setSelectedChat] = useState<Chat>();
@@ -30,6 +28,13 @@ const ChatsPage = () => {
   const [mainWindow, setMainWindow] = useState<MainWindowType>(
     MainWindowType.Dialog
   );
+
+  // Используем хук для управления виджетом создания чата
+  const {
+    isOpen: isChatCreatorOpen,
+    openChatCreator,
+    closeChatCreator,
+  } = useChatCreator();
 
   useEffect(() => {
     const showProfileInFriendsSection = async () => {
@@ -55,14 +60,23 @@ const ChatsPage = () => {
 
   const handleChatsUpdate = async () => {
     if (chatsSidebarRef.current) {
-      // Если у ChatsSidebar есть метод для обновления чатов
       chatsSidebarRef.current.loadChats?.();
     }
   };
 
+  // Обработчик успешного создания чата
+  const handleChatCreated = () => {
+    handleChatsUpdate();
+    closeChatCreator();
+  };
+
   return (
     <div className={classes.container}>
-      <Sidebar onMainWindowTypeChange={setMainWindow} />
+      {/* Sidebar с передачей функции для открытия создания чата */}
+      <Sidebar
+        onMainWindowTypeChange={setMainWindow}
+        onOpenChatCreator={openChatCreator} // Передаем функцию открытия
+      />
 
       <ChatsSidebar ref={chatsSidebarRef} onChatChange={handleChatChange} />
 
@@ -72,9 +86,16 @@ const ChatsPage = () => {
       {mainWindow === MainWindowType.FriendsAndEnemies && (
         <FriendsAndEnemies
           onClose={closeFriendsAndEnemies}
-          onChatCreated={handleChatsUpdate} // Передаем callback
+          onChatCreated={handleChatsUpdate}
         />
       )}
+
+      {/* Виджет создания чата */}
+      <ChatCreaterWidget
+        isOpen={isChatCreatorOpen}
+        onClose={closeChatCreator}
+        onCreateChat={handleChatCreated}
+      />
     </div>
   );
 };

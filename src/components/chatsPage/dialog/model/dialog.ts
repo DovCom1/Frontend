@@ -3,7 +3,6 @@ import { MessageEntity } from "../../../../entities/message/messageEntity";
 import { messageHistoryApi, sendMessage } from "../api/messages";
 import { useState } from "react";
 import { Chat } from "../../../../entities/chat/model/types/chat";
-import { members } from "../api/chat";
 
 export const useDialog = (selectedChat: Chat) => {
   const [messages, setMessages] = useState<MessageEntity[]>([]);
