@@ -65,6 +65,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       } else {
         console.log("SignalR already connected");
       }
+      signalRStore.subscribe("ReceiveNotification", (dto: any) => handle(dto));
       set({
         isAuthenticated: true,
         isLoading: false,
