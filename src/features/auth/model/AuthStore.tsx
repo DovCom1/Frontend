@@ -42,7 +42,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       await signalRStore.connect(userId);
 
-      signalRStore.subscribe("receivenotification", (dto: any) => handle(dto));
+      signalRStore.subscribe("ReceiveNotification", (dto: any) => handle(dto));
 
       console.log("SignalR connection established after login");
     } catch (error: any) {
@@ -65,7 +65,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       } else {
         console.log("SignalR already connected");
       }
-      signalRStore.subscribe("receivenotification", (dto: any) => handle(dto));
+      signalRStore.subscribe("ReceiveNotification", (dto: any) => handle(dto));
       set({
         isAuthenticated: true,
         isLoading: false,

@@ -81,6 +81,10 @@ export class SignalRClient {
       this.onConnectionChange?.(false);
     });
 
+    this.connection.on("ReceiveNotification", (data : any) => {
+      console.log("ReceiveNotification пж дойди", data);
+    })
+
     this.connection.onreconnected((connectionId) => {
       console.log("SignalR reconnected with connectionId:", connectionId);
       this.reconnectAttempts = 0;
