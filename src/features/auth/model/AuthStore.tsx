@@ -18,6 +18,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   isLoading: false,
   error: null,
+  handle: (dto: any) => {
+    console.log("ПРОСТЕЙШИЙ HANDLE ВЫЗВАН!");
+    return "SUCCESS";
+  },
   login: async (data: LoginData) => {
     set({ isLoading: true, error: null });
 
@@ -67,6 +71,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       signalRStore.subscribe("ReceiveNotification", (dto: any) => {
         console.log("📨 Сигнал получен в подписке", dto);
+        handle(dto);
       });
 
       set({
