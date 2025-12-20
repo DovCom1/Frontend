@@ -84,8 +84,8 @@ export class SignalRClient {
 
     //это для проверки, оно должно быть 
     this.connection.on("ReceiveNotification", (data : any) => {
-      //console.log("ReceiveNotification пж дойди", data);
-      this.notifySubscribers("ReceiveNotification", data);
+    //console.log("ReceiveNotification пж дойди", data);
+      this.notifySubscribers("ReceiveNotification", [data]); // Оберните data в массив
     })
 
     this.connection.onreconnected((connectionId) => {
@@ -101,28 +101,15 @@ export class SignalRClient {
     });
   }
 
-  private notifySubscribers(methodName: string, args: any) {
+  private notifySubscribers(methodName: string, args: any[]) {
     const subscribers = this.listeners.get(methodName);
     if (subscribers) {
       subscribers.forEach(callback => {
         try {
-          callback(args);
+          console.log("notifySubscribers проверка что всё доходит до сюда", args)
+          callback(args.length === 1 ? args[0] : args);
         } catch (error) {
           console.error(`Error in subscriber for ${methodName}:`, error);
-        }
-      });
-    }
-    
-    const globalSubscribers = this.listeners.get("*");
-    if (globalSubscribers) {
-      globalSubscribers.forEach(callback => {
-        try {
-          callback({
-            method: methodName,
-            args: args
-          });
-        } catch (error) {
-          console.error(`Error in global subscriber:`, error);
         }
       });
     }
