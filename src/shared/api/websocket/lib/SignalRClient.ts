@@ -101,12 +101,12 @@ export class SignalRClient {
     });
   }
 
-  private notifySubscribers(methodName: string, args: any[]) {
+  private notifySubscribers(methodName: string, args: any) {
     const subscribers = this.listeners.get(methodName);
     if (subscribers) {
       subscribers.forEach(callback => {
         try {
-          callback(args.length === 1 ? args[0] : args);
+          callback(args[0]);
         } catch (error) {
           console.error(`Error in subscriber for ${methodName}:`, error);
         }
