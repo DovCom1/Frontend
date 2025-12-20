@@ -6,6 +6,7 @@ import { Chat } from "../../../../entities/chat/model/types/chat";
 
 export const useDialog = (selectedChat: Chat) => {
   const [messages, setMessages] = useState<MessageEntity[]>([]);
+  const [username, setUsername] = useState("user");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,6 +33,7 @@ export const useDialog = (selectedChat: Chat) => {
     const newMessage: MessageEntity = {
       senderId: userId,
       content: text,
+      sentAt: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, newMessage]);
     // Запрос сервера на поиск айди
@@ -52,9 +54,10 @@ export const useDialog = (selectedChat: Chat) => {
     }
 
     try {
-      await messageHistoryApi
-        .get(selectedChat.id, userId)
-        .then((res) => setMessages(res.history.messages.reverse()));
+      await messageHistoryApi.get(selectedChat.id, userId).then((res) => {
+        setMessages(res.history.messages.reverse());
+        setUsername(res.info.name);
+      });
       console.log("res messages");
     } catch (e) {
       setError("Chat not selected!");
@@ -63,5 +66,5 @@ export const useDialog = (selectedChat: Chat) => {
     }
   };
 
-  return { messages, loading, error, loadMessages, handleWrite };
+  return { messages, username, loading, error, loadMessages, handleWrite };
 };

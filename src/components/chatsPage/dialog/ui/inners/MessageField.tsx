@@ -8,6 +8,7 @@ import { scrollMessages } from "../../model/messageField";
 
 interface MessagesFieldProps extends DialogProps {
   messages: MessageEntity[];
+  username?: string;
 }
 
 // TODO: Добавить логику для проверки источника сообщения
@@ -15,6 +16,7 @@ interface MessagesFieldProps extends DialogProps {
 const MessagesField: React.FC<MessagesFieldProps> = ({
   selectedChat,
   messages,
+  username,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selfId, setSelfId] = useState<string | null>(null);
@@ -53,6 +55,7 @@ const MessagesField: React.FC<MessagesFieldProps> = ({
 
           return (
             <Message
+              name={m.senderId !== selfId ? username : "Me"}
               key={i}
               text={m.content}
               date={formatTime(m.sentAt)}
