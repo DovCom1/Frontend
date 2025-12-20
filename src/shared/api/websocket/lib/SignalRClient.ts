@@ -103,43 +103,12 @@ export class SignalRClient {
 
   private notifySubscribers(methodName: string, args: any[]) {
   const subscribers = this.listeners.get(methodName);
-  
-  console.log(`=== notifySubscribers для "${methodName}" ===`);
-  console.log(`Подписчики найдены: ${!!subscribers}`);
-  console.log(`Количество подписчиков: ${subscribers?.size || 0}`);
-  
   if (subscribers) {
-    // Преобразуем Set в массив для удобной нумерации
     const subscribersArray = Array.from(subscribers);
     
     subscribersArray.forEach((callback, index) => {
-      console.log(`\n--- Обработка подписчика ${index} ---`);
-      
-      // Проверка 1: Существует ли callback
-      if (!callback) {
-        console.error(`❌ Подписчик ${index}: callback is null/undefined`);
-        return;
-      }
-      
-      // Проверка 2: Это функция?
-      if (typeof callback !== 'function') {
-        console.error(`❌ Подписчик ${index}: callback не функция. Тип: ${typeof callback}, Значение:`, callback);
-        return;
-      }
-      
-      // Проверка 3: Проверяем прототип
-      console.log(`✅ Подписчик ${index} является функцией`);
-      console.log(`   Имя функции: ${callback.name || 'anonymous'}`);
-      console.log(`   Ожидает параметров: ${callback.length}`);
-      console.log(`   Прототип:`, Object.getPrototypeOf(callback));
-      
-      // Проверка 4: Можно ли вызвать?
       try {
-        // Пробуем вызвать с тестовыми данными
-        console.log(`   Пробуем вызвать...`);
-        const result = callback("TEST_STRING");
-        console.log(`   ✅ Вызов успешен!`);
-        console.log(`   Результат:`, result);
+        const result = callback(args[0]);
         
         // Если результат - Promise
         if (result && typeof result.then === 'function') {
