@@ -34,7 +34,7 @@ const MessagesField: React.FC<MessagesFieldProps> = ({
   }, []);
 
   useEffect(() => {
-    scrollMessages(containerRef, false);
+    scrollMessages(containerRef, true);
   }, [messages]);
 
   return (
