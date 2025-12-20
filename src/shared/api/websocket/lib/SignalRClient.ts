@@ -107,7 +107,9 @@ export class SignalRClient {
       subscribers.forEach(callback => {
         try {
           console.log("notifySubscribers проверка что всё доходит до сюда", args)
-          callback(args.length === 1 ? args[0] : args);
+          // callback(args.length === 1 ? args[0] : args);
+          //gggg
+          callback("fffffffffffffffffff");
         } catch (error) {
           console.error(`Error in subscriber for ${methodName}:`, error);
         }
