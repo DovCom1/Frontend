@@ -19,8 +19,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isLoading: false,
   error: null,
 
-  handle: (dto: any) => {
-    console.log("проверка доходит ли ReceiveNotification", dto);
+  handle: async (dto: any) => {
+    console.log("✅ handle ВЫЗВАН с данными:", dto);
+    return "OK";
   },
 
   login: async (data: LoginData) => {
@@ -42,7 +43,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       await signalRStore.connect(userId);
 
-      signalRStore.subscribe("ReceiveNotification", handle);
+      //signalRStore.subscribe("ReceiveNotification", handle);
+      signalRStore.subscribe("ReceiveNotification", (dto: any) => {
+        console.log("📨 Сигнал получен в подписке");
+        return handle(dto); // Простой синхронный вызов
+      });
 
       console.log("SignalR connection established after login");
     } catch (error: any) {
@@ -65,7 +70,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       } else {
         console.log("SignalR already connected");
       }
-      signalRStore.subscribe("ReceiveNotification", handle);
+      // signalRStore.subscribe("ReceiveNotification", handle);
+
+      signalRStore.subscribe("ReceiveNotification", (dto: any) => {
+        console.log("📨 Сигнал получен в подписке");
+        return handle(dto); // Простой синхронный вызов
+      });
+
       set({
         isAuthenticated: true,
         isLoading: false,

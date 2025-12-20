@@ -154,7 +154,6 @@ export class SignalRClient {
         }
       } catch (error) {
         console.error(`   ❌ Ошибка при вызове:`, error);
-        console.error(`   Стек ошибки:`, error.stack);
       }
     });
   }
