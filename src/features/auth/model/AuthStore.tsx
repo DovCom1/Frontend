@@ -19,7 +19,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isLoading: false,
   error: null,
 
-  handle: async (dto: any) => {
+  handle: (dto: any) => {
     console.log("✅ handle ВЫЗВАН с данными:", dto);
     return "OK";
   },
@@ -45,8 +45,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       //signalRStore.subscribe("ReceiveNotification", handle);
       signalRStore.subscribe("ReceiveNotification", (dto: any) => {
-        console.log("📨 Сигнал получен в подписке");
-        return handle(dto); // Простой синхронный вызов
+        console.log("Сигнал получен в подписке");
+        return handle(dto);
       });
 
       console.log("SignalR connection established after login");
