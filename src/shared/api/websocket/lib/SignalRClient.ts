@@ -106,7 +106,7 @@ export class SignalRClient {
     if (subscribers) {
       subscribers.forEach(callback => {
         try {
-          callback(args[0]);
+          callback(args);
         } catch (error) {
           console.error(`Error in subscriber for ${methodName}:`, error);
         }
