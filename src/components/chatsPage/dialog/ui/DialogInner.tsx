@@ -35,7 +35,11 @@ const DialogInner: React.FC<{ selectedChat: Chat }> = ({ selectedChat }) => {
   return (
     <div className={classes.container}>
       <DialogHeader selectedChat={selectedChat} />
-      <MessagesField selectedChat={selectedChat} messages={messages} />
+      <MessagesField
+        selectedChat={selectedChat}
+        messages={messages}
+        username={username}
+      />
       <MessageInput onWrite={handleWrite} />
     </div>
   );

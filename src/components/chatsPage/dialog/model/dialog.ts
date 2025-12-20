@@ -58,7 +58,6 @@ export const useDialog = (selectedChat: Chat) => {
         setMessages(res.history.messages.reverse());
         setUsername(res.info.name);
       });
-      console.log("res messages");
     } catch (e) {
       setError("Chat not selected!");
     } finally {
