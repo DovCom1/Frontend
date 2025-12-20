@@ -3,6 +3,7 @@ import { MessageEntity } from "../../../../entities/message/messageEntity";
 import { messageHistoryApi, sendMessage } from "../api/messages";
 import { useState } from "react";
 import { Chat } from "../../../../entities/chat/model/types/chat";
+import { useSignalRStore } from "../../../../shared/api/websocket/model/SignalRStore";
 
 export const useDialog = (selectedChat: Chat) => {
   const [messages, setMessages] = useState<MessageEntity[]>([]);
@@ -10,9 +11,31 @@ export const useDialog = (selectedChat: Chat) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const uploadNewMessage = (
+    senderId: string,
+    content: string,
+    sentAt: string,
+  ) => {
+    const newMessage: MessageEntity = {
+      senderId,
+      content,
+      sentAt,
+    };
+    setMessages((prev) => [...prev, newMessage]);
+  };
+
   const loadMessages = async () => {
     setLoading(true);
     setError(null);
+    const signalStore = useSignalRStore.getState();
+    signalStore.subscribe("ReceiveNotification", (response: any) => {
+      const newMessage: MessageEntity = {
+        senderId: response.senderId,
+        content: response.message,
+        sentAt: response.createdAt,
+      };
+      setMessages((prev) => [...prev, newMessage]);
+    });
     try {
       await userState.getUserId().then(getMessages);
     } catch (e) {
@@ -30,12 +53,7 @@ export const useDialog = (selectedChat: Chat) => {
       return;
     }
     // создаём новое сообщение
-    const newMessage: MessageEntity = {
-      senderId: userId,
-      content: text,
-      sentAt: new Date().toISOString(),
-    };
-    setMessages((prev) => [...prev, newMessage]);
+    uploadNewMessage(userId, text, new Date().toISOString());
     // Запрос сервера на поиск айди
     if (selectedChat) {
       sendMessage.post(userId, selectedChat.id, text, undefined);
