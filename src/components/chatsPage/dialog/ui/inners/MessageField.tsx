@@ -27,21 +27,39 @@ const MessagesField: React.FC<MessagesFieldProps> = ({
   }, []);
 
   useEffect(() => {
-    scrollMessages(containerRef);
+    // При первой загрузке
+    scrollMessages(containerRef, true);
+  }, []);
+
+  useEffect(() => {
+    scrollMessages(containerRef, false);
   }, [messages]);
 
   return (
     <div className={classes.container} ref={containerRef}>
       <div className={classes.messagesInner}>
-        {messages.map((m, i) => (
-          <Message
-            key={i}
-            text={m.content}
-            date={m.sentAt}
-            // name={selfUser?.nickname}
-            from={m.senderId !== selfId}
-          />
-        ))}
+        {messages.map((m, i) => {
+          const formatTime = (dateString: any) => {
+            if (!dateString) return "--:--";
+
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return "--:--";
+
+            // Получаем часы и минуты
+            const hours = date.getHours().toString().padStart(2, "0");
+            const minutes = date.getMinutes().toString().padStart(2, "0");
+            return `${hours}:${minutes}`;
+          };
+
+          return (
+            <Message
+              key={i}
+              text={m.content}
+              date={formatTime(m.sentAt)}
+              from={m.senderId !== selfId}
+            />
+          );
+        })}
       </div>
     </div>
   );

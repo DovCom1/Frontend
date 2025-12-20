@@ -55,7 +55,7 @@ export const useDialog = (selectedChat: Chat) => {
     try {
       await messageHistoryApi
         .get(selectedChat.id, userId)
-        .then((res) => setMessages(res.history.messages));
+        .then((res) => setMessages(res.history.messages.reverse()));
       console.log("res messages");
     } catch (e) {
       setError("Chat not selected!");
