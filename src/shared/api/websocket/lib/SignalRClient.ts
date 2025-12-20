@@ -81,12 +81,11 @@ export class SignalRClient {
       this.onConnectionChange?.(false);
     });
 
+    this.setupUniversalHandler(); 
     // //это для проверки, оно должно быть 
     // this.connection.on("ReceiveNotification", (data : any) => {
     //   //console.log("ReceiveNotification пж дойди", data);
     // })
-
-    this.setupUniversalHandler();
 
     this.connection.onreconnected((connectionId) => {
       console.log("SignalR reconnected with connectionId:", connectionId);
@@ -102,18 +101,22 @@ export class SignalRClient {
   }
 
   private setupUniversalHandler() {
-    if (!this.connection) return;
+  if (!this.connection) return;
 
-    const originalOn = this.connection.on.bind(this.connection);
+  const originalOn = this.connection.on.bind(this.connection);
+  
+  this.connection.on = (methodName: string, newMethod: (...args: any[]) => void) => {
+    // ВАЖНО: Debug - что приходит в methodName?
+    console.log(`[UniversalHandler] Registering: "${methodName}"`);
     
-    this.connection.on = (methodName: string, newMethod: (...args: any[]) => void) => {
-      originalOn(methodName, (...args: any[]) => {
-        newMethod(...args);
+    originalOn(methodName, (...args: any[]) => {
+      console.log(`[UniversalHandler] Event received: "${methodName}"`, args);
+      newMethod(...args);
       
-        this.notifySubscribers(methodName, args);
-      });
-      
-      return this.connection!;
+      this.notifySubscribers(methodName, args);
+    });
+    
+    return this.connection!;
     };
   }
 
