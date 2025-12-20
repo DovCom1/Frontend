@@ -66,8 +66,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       // signalRStore.subscribe("ReceiveNotification", handle);
 
       signalRStore.subscribe("ReceiveNotification", (dto: any) => {
-        console.log("📨 Сигнал получен в подписке");
-        return handle(dto); // Простой синхронный вызов
+        console.log("📨 Сигнал получен в подписке", dto);
       });
 
       set({
