@@ -29,7 +29,7 @@ export class SignalRClient {
     this.hubUrl = hubUrl || process.env.SIGNALR_URL || "";
   }
 
-  async connect(): Promise<void> {
+  async connect(chatId : string): Promise<void> {
     if (this.isConnecting) {
       return;
     }
@@ -59,6 +59,7 @@ export class SignalRClient {
       this.setupConnectionHandlers();
 
       await this.connection.start();
+      await this.connection.invoke('Connect', chatId);
       console.log("SignalR connected successfully");
 
       this.reconnectAttempts = 0;
@@ -80,6 +81,13 @@ export class SignalRClient {
       this.onConnectionChange?.(false);
     });
 
+    // //это для проверки, оно должно быть 
+    // this.connection.on("ReceiveNotification", (data : any) => {
+    //   //console.log("ReceiveNotification пж дойди", data);
+    // })
+
+    this.setupUniversalHandler();
+
     this.connection.onreconnected((connectionId) => {
       console.log("SignalR reconnected with connectionId:", connectionId);
       this.reconnectAttempts = 0;
@@ -91,51 +99,64 @@ export class SignalRClient {
       console.log("SignalR connection closed:", error);
       this.onConnectionChange?.(false);
     });
-
-    // Обработка глобальных сообщений
-    this.connection.on("ReceiveMessage", (type: string, payload: any) => {
-      this.handleMessage({ type, payload });
-    });
-
-    this.connection.on("Message", (message: SignalRMessage) => {
-      this.handleMessage(message);
-    });
   }
 
-  private handleMessage(message: SignalRMessage) {
-    const { type, payload } = message;
+  private setupUniversalHandler() {
+    if (!this.connection) return;
 
-    // Глобальные обработчики для всех сообщений
-    const globalListeners = this.listeners.get("*") || new Set();
-    globalListeners.forEach((listener) => listener(message));
+    const originalOn = this.connection.on.bind(this.connection);
+    
+    this.connection.on = (methodName: string, newMethod: (...args: any[]) => void) => {
+      originalOn(methodName, (...args: any[]) => {
+        newMethod(...args);
+      
+        this.notifySubscribers(methodName, args);
+      });
+      
+      return this.connection!;
+    };
+  }
 
-    // Специфические обработчики для типа сообщения
-    const specificListeners = this.listeners.get(type) || new Set();
-    specificListeners.forEach((listener) => listener(payload));
-
-    // Обработчики для методов (если указан method)
-    if (message.method) {
-      const methodListeners = this.listeners.get(message.method) || new Set();
-      methodListeners.forEach((listener) => listener(payload));
+  private notifySubscribers(methodName: string, args: any[]) {
+    const subscribers = this.listeners.get(methodName);
+    if (subscribers) {
+      subscribers.forEach(callback => {
+        try {
+          callback(args.length === 1 ? args[0] : args);
+        } catch (error) {
+          console.error(`Error in subscriber for ${methodName}:`, error);
+        }
+      });
+    }
+    
+    const globalSubscribers = this.listeners.get("*");
+    if (globalSubscribers) {
+      globalSubscribers.forEach(callback => {
+        try {
+          callback({
+            method: methodName,
+            args: args
+          });
+        } catch (error) {
+          console.error(`Error in global subscriber:`, error);
+        }
+      });
     }
   }
 
   subscribe(eventType: string, callback: Function): () => void {
+    console.log(`Subscribing to: ${eventType}`);
+    
     if (!this.listeners.has(eventType)) {
       this.listeners.set(eventType, new Set());
     }
 
     this.listeners.get(eventType)!.add(callback);
 
-    // Возвращаем функцию для отписки
     return () => {
       const listeners = this.listeners.get(eventType);
       if (listeners) {
         listeners.delete(callback);
-
-        if (listeners.size === 0) {
-          this.listeners.delete(eventType);
-        }
       }
     };
   }
@@ -172,16 +193,6 @@ export class SignalRClient {
     }
 
     return this.connection.stream<T>(methodName, ...args);
-  }
-
-  private async reconnect() {
-    if (this.connection) {
-      await this.connection.stop();
-    }
-
-    setTimeout(() => {
-      this.connect().catch(console.error);
-    }, 1000);
   }
 
   async disconnect(): Promise<void> {

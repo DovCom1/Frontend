@@ -2,17 +2,25 @@ import React, { useState } from "react";
 import Label from "../../shared/atoms/labels/Label";
 import Icon from "../../shared/atoms/icons/Icon";
 import Button from "../../shared/atoms/buttons/Button";
+import {
+  ChatCreaterWidget,
+  useChatCreator,
+} from "../../features/chatCreater/ui/CreateChatWidget";
 
 enum MainWindowType {
   Dialog,
   FriendsAndEnemies,
 }
 
-interface ChatsSidebarProps {
+interface SidebarProps {
   onMainWindowTypeChange: (type: MainWindowType) => void;
+  onOpenChatCreator: () => void; // Добавлен пропс для открытия создания чата
 }
 
-const Sidebar: React.FC<ChatsSidebarProps> = ({ onMainWindowTypeChange }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  onMainWindowTypeChange,
+  onOpenChatCreator,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -49,7 +57,9 @@ const Sidebar: React.FC<ChatsSidebarProps> = ({ onMainWindowTypeChange }) => {
           width={"18px"}
         />
       ),
-      function: () => {},
+      function: () => {
+        onOpenChatCreator(); // Используем переданную функцию
+      },
     },
     {
       label: <Label text={"Настройки"} color={"#fff"} fontSize={"16px"} />,
@@ -61,6 +71,9 @@ const Sidebar: React.FC<ChatsSidebarProps> = ({ onMainWindowTypeChange }) => {
         />
       ),
       url: "/settings",
+      function: () => {
+        window.location.href = "/settings";
+      },
     },
   ];
 
