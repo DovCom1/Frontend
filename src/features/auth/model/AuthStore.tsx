@@ -18,12 +18,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   isLoading: false,
   error: null,
-
-  handle: (dto: any) => {
-    console.log("✅ handle ВЫЗВАН с данными:", dto);
-    return "OK";
-  },
-
   login: async (data: LoginData) => {
     set({ isLoading: true, error: null });
 
