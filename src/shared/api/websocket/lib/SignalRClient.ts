@@ -101,6 +101,7 @@ export class SignalRClient {
   }
 
   private setupUniversalHandler() {
+  console.log("доходишь до сюда?");
   if (!this.connection) return;
 
   const originalOn = this.connection.on.bind(this.connection);
