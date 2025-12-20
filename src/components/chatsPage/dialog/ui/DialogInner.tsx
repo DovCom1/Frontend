@@ -7,8 +7,19 @@ import React, { useEffect } from "react";
 import { useDialog } from "../model/dialog";
 
 const DialogInner: React.FC<{ selectedChat: Chat }> = ({ selectedChat }) => {
-  const { messages, username, loading, error, loadMessages, handleWrite } =
-    useDialog(selectedChat);
+  const {
+    messages,
+    username,
+    loading,
+    error,
+    loadMessages,
+    handleWrite,
+    addNotifiactionListener,
+  } = useDialog(selectedChat);
+
+  useEffect(() => {
+    addNotifiactionListener();
+  }, []);
 
   useEffect(() => {
     loadMessages();

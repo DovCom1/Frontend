@@ -24,10 +24,9 @@ export const useDialog = (selectedChat: Chat) => {
     setMessages((prev) => [...prev, newMessage]);
   };
 
-  const loadMessages = async () => {
-    setLoading(true);
-    setError(null);
+  const addNotifiactionListener = () => {
     const signalStore = useSignalRStore.getState();
+
     signalStore.subscribe("ReceiveNotification", (response: any) => {
       const newMessage: MessageEntity = {
         senderId: response.senderId,
@@ -36,6 +35,11 @@ export const useDialog = (selectedChat: Chat) => {
       };
       setMessages((prev) => [...prev, newMessage]);
     });
+  };
+
+  const loadMessages = async () => {
+    setLoading(true);
+    setError(null);
     try {
       await userState.getUserId().then(getMessages);
     } catch (e) {
@@ -83,5 +87,13 @@ export const useDialog = (selectedChat: Chat) => {
     }
   };
 
-  return { messages, username, loading, error, loadMessages, handleWrite };
+  return {
+    messages,
+    username,
+    loading,
+    error,
+    loadMessages,
+    handleWrite,
+    addNotifiactionListener,
+  };
 };
