@@ -1,14 +1,15 @@
 export const scrollMessages = (
   containerRef: React.RefObject<HTMLDivElement | null>,
+  forceScroll: boolean = false,
 ) => {
   const el = containerRef.current;
   if (!el) return;
 
   const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
-  const NEAR_BOTTOM_THRESHOLD = 100; // px — можно тонко настроить
+  const NEAR_BOTTOM_THRESHOLD = 100;
 
-  if (distanceFromBottom <= NEAR_BOTTOM_THRESHOLD) {
-    // пользователь был близко к низу — прокручиваем
+  // Если forceScroll = true или пользователь близко к низу
+  if (forceScroll || distanceFromBottom <= NEAR_BOTTOM_THRESHOLD) {
     el.scrollTo({ top: el.scrollHeight, behavior: "auto" });
   }
 };
