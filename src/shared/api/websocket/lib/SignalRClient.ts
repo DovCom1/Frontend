@@ -73,6 +73,7 @@ export class SignalRClient {
   }
 
   private setupConnectionHandlers() {
+
     if (!this.connection) return;
 
     this.connection.onreconnecting((error) => {
@@ -81,11 +82,11 @@ export class SignalRClient {
       this.onConnectionChange?.(false);
     });
 
-    this.setupUniversalHandler(); 
+    //this.setupUniversalHandler(); 
     // //это для проверки, оно должно быть 
-    // this.connection.on("ReceiveNotification", (data : any) => {
-    //   //console.log("ReceiveNotification пж дойди", data);
-    // })
+    this.connection.on("ReceiveNotification", (data : any) => {
+      console.log("ReceiveNotification пж дойди", data);
+    })
 
     this.connection.onreconnected((connectionId) => {
       console.log("SignalR reconnected with connectionId:", connectionId);
