@@ -1,7 +1,7 @@
 import { userState } from "../../../../entities/mainUser/model/UserState";
 import { MessageEntity } from "../../../../entities/message/messageEntity";
 import { messageHistoryApi, sendMessage } from "../api/messages";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Chat } from "../../../../entities/chat/model/types/chat";
 import { useSignalRStore } from "../../../../shared/api/websocket/model/SignalRStore";
 
@@ -24,22 +24,20 @@ export const useDialog = (selectedChat: Chat) => {
     setMessages((prev) => [...prev, newMessage]);
   };
 
-  const addNotifiactionListener = () => {
+  const addNotifiactionListener = useCallback(() => {
     const signalStore = useSignalRStore.getState();
     console.log("я не зайду сюда дважды")
     signalStore.subscribe("ReceiveNotification", (response: any) => {
-      console.log("это id из response", response.chatId);
-      console.log("это id чата", selectedChat.id);
-      if(response.chatId === selectedChat.id){
+      if(response.ChatId === selectedChat.id){
         const newMessage: MessageEntity = {
-        senderId: response.senderId,
-        content: response.message,
-        sentAt: response.createdAt,
+        senderId: response.SenderId,
+        content: response.Message,
+        sentAt: response.CreatedAt,
         };
         setMessages((prev) => [...prev, newMessage]);
       }
     });
-  };
+  }, [selectedChat.id]);
 
   const loadMessages = async () => {
     setLoading(true);
