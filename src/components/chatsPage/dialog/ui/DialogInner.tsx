@@ -25,7 +25,7 @@ const DialogInner: React.FC<{ selectedChat: Chat }> = ({ selectedChat }) => {
         unsubscribe();
       }
     };
-  }, [addNotifiactionListener]);
+  }, [addNotifiactionListener, selectedChat]);
 
   useEffect(() => {
     loadMessages();
