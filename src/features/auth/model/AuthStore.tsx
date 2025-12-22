@@ -18,10 +18,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   isLoading: false,
   error: null,
-  handle: (dto: any) => {
-    console.log("ПРОСТЕЙШИЙ HANDLE ВЫЗВАН!");
-    return "SUCCESS";
-  },
   login: async (data: LoginData) => {
     set({ isLoading: true, error: null });
 
@@ -40,11 +36,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const signalRStore = useSignalRStore.getState();
 
       await signalRStore.connect(userId);
-
-      //signalRStore.subscribe("ReceiveNotification", handle);
-      signalRStore.subscribe("ReceiveNotification", (dto: any) => {
-        console.log("Сигнал получен в подписке", dto);
-      });
 
       console.log("SignalR connection established after login");
     } catch (error: any) {
@@ -67,12 +58,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       } else {
         console.log("SignalR already connected");
       }
-      // signalRStore.subscribe("ReceiveNotification", handle);
-
-      signalRStore.subscribe("ReceiveNotification", (dto: any) => {
-        console.log("📨 Сигнал получен в подписке", dto.message);
-        handle(dto.message);
-      });
 
       set({
         isAuthenticated: true,
@@ -149,6 +134,3 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   clearError: () => set({ error: null }),
 }));
-function handle(dto: any) {
-  throw new Error("Function not implemented.");
-}

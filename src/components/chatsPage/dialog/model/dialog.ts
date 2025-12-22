@@ -26,14 +26,16 @@ export const useDialog = (selectedChat: Chat) => {
 
   const addNotifiactionListener = () => {
     const signalStore = useSignalRStore.getState();
-
+    console.log("я не зайду сюда дважды");
     signalStore.subscribe("ReceiveNotification", (response: any) => {
-      const newMessage: MessageEntity = {
+      if(response.chatId == selectedChat.id){
+        const newMessage: MessageEntity = {
         senderId: response.senderId,
         content: response.message,
         sentAt: response.createdAt,
-      };
-      setMessages((prev) => [...prev, newMessage]);
+        };
+        setMessages((prev) => [...prev, newMessage]);
+      }
     });
   };
 

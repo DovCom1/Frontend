@@ -82,10 +82,12 @@ export class SignalRClient {
       this.onConnectionChange?.(false);
     });
 
-    //это для проверки, оно должно быть 
     this.connection.on("ReceiveNotification", (data : any) => {
-    //console.log("ReceiveNotification пж дойди", data);
-      this.notifySubscribers("ReceiveNotification", [data]); // Оберните data в массив
+      this.notifySubscribers("ReceiveNotification", [data]);
+    })
+
+    this.connection.on("SendInvite", (data : any) => {
+      this.notifySubscribers("SendInvite", [data]);
     })
 
     this.connection.onreconnected((connectionId) => {
