@@ -86,8 +86,8 @@ export class SignalRClient {
       this.notifySubscribers("ReceiveNotification", [data]);
     })
 
-    this.connection.on("SendInvite", (data : any) => {
-      this.notifySubscribers("SendInvite", [data]);
+    this.connection.on("Invite", (data : any) => {
+      this.notifySubscribers("Invite", [data]);
     })
 
     this.connection.onreconnected((connectionId) => {
