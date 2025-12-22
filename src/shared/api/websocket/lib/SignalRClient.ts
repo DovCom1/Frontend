@@ -105,31 +105,31 @@ export class SignalRClient {
 
   private notifySubscribers(methodName: string, args: any[]) {
   const subscribers = this.listeners.get(methodName);
-  if (subscribers) {
-    const subscribersArray = Array.from(subscribers);
-    
-    subscribersArray.forEach((callback, index) => {
-      try {
-        const result = callback(args[0]);
-        
-        // Если результат - Promise
-        if (result && typeof result.then === 'function') {
-          console.log(`   ⚠️ Функция вернула Promise`);
-          result
-            .then((promiseResult: any) => {
-              console.log(`   Promise resolved:`, promiseResult);
-            })
-            .catch((promiseError: any) => {
-              console.error(`   Promise rejected:`, promiseError);
-            });
+    if (subscribers) {
+      const subscribersArray = Array.from(subscribers);
+      
+      subscribersArray.forEach((callback, index) => {
+        try {
+          console.log("я точно не зайду сюда дважды");
+          const result = callback(args[0]);
+          
+          // Если результат - Promise
+          if (result && typeof result.then === 'function') {
+            console.log(`   ⚠️ Функция вернула Promise`);
+            result
+              .then((promiseResult: any) => {
+                console.log(`   Promise resolved:`, promiseResult);
+              })
+              .catch((promiseError: any) => {
+                console.error(`   Promise rejected:`, promiseError);
+              });
+          }
+        } catch (error) {
+          console.error(`   ❌ Ошибка при вызове:`, error);
         }
-      } catch (error) {
-        console.error(`   ❌ Ошибка при вызове:`, error);
-      }
-    });
-  }
+      });
+    }
   
-  console.log(`=== Конец notifySubscribers ===\n`);
 }
 
   subscribe(eventType: string, callback: Function): () => void {
