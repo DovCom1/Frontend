@@ -24,7 +24,7 @@ export const useDialog = (selectedChat: Chat) => {
     setMessages((prev) => [...prev, newMessage]);
   };
 
-  const addNotifiactionListener = useCallback(() => {
+  const addNotifiactionListener = () => {
     const signalStore = useSignalRStore.getState();
     console.log("я не зайду сюда дважды")
     signalStore.subscribe("ReceiveNotification", (response: any) => {
@@ -39,7 +39,7 @@ export const useDialog = (selectedChat: Chat) => {
         setMessages((prev) => [...prev, newMessage]);
       }
     });
-  }, [selectedChat.id]);
+  };
 
   const loadMessages = async () => {
     setLoading(true);
