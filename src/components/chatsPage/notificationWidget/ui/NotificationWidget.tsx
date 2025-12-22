@@ -3,8 +3,9 @@ import Label from "../../../../shared/atoms/labels/Label";
 import Button from "../../../../shared/atoms/buttons/Button";
 import NotificationItem from "./NotificationItem";
 import notificationItemClasses from "./NotificationItem.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInvites } from "../model/useInvites";
+import { userState } from "../../../../entities/mainUser/model/UserState";
 
 interface NotificationWidgetProps {
   isOpen: boolean;
@@ -15,23 +16,19 @@ const NotificationWidget: React.FC<NotificationWidgetProps> = ({
   isOpen,
   onClose,
 }) => {
-  const {
-    invites,
-    acceptInvite,
-    rejectInvite,
-    totalCount,
-  } = useInvites();
+  const { invites, acceptInvite, rejectInvite, totalCount } = useInvites();
+  const [currentUserId, setCurrentUserId] = useState<string>("");
 
-  // Форматирование даты
-  const formatDate = (date: Date) => {
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear().toString().slice(2);
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const userId = await userState.getUserId();
+        setCurrentUserId(userId);
+      } catch (err) {}
+    };
 
-    return `${day}.${month}.${year} ${hours}:${minutes}`;
-  };
+    fetchUserId();
+  }, []);
 
   if (!isOpen) return null;
 
@@ -57,18 +54,26 @@ const NotificationWidget: React.FC<NotificationWidgetProps> = ({
                     <Button
                       className={notificationItemClasses.acceptButton}
                       label={<Label text="Принять" />}
-                      onClick={() => acceptInvite(invite.id)}
+                      onClick={() => acceptInvite(invite.id, currentUserId)}
+                      backgroundColor="#2A3FA7"
+                      borderRadius="12px"
+                      width="100px"
+                      height="30px"
                     />
                     <Button
                       className={notificationItemClasses.rejectButton}
                       label={<Label text="Отклонить" />}
-                      onClick={() => rejectInvite(invite.id)}
+                      onClick={() => rejectInvite(invite.id, currentUserId)}
+                      backgroundColor="#a1402eff"
+                      borderRadius="12px"
+                      width="100px"
+                      height="30px"
                     />
                   </div>
                 }
                 caption={`${invite.senderName} хочет добавить вас в друзья`}
                 avatarUrl={"/images/neuro_dove.png"}
-                date={formatDate(invite.createdAt)}
+                date={invite.createdAt}
               />
             ))
           )}

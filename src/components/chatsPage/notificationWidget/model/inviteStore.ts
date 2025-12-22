@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { SignalRClient } from '../../../../shared/api/websocket/lib/SignalRClient';
+import { friendsApi } from '../api/NotificationApi';
 
 export interface Invite {
   id: string;
@@ -7,7 +8,7 @@ export interface Invite {
   receiverId: string;
   senderName: string;
   receiverName: string;
-  createdAt: Date;
+  createdAt: string;
   type: 'friend' | 'chat' | 'group';
   status: 'pending' | 'accepted' | 'rejected';
 }
@@ -17,8 +18,8 @@ interface InviteStore {
 
   setupSignalRSubscription: (signalRClient: SignalRClient) => () => void;
   
-  acceptInvite: (inviteId: string) => Promise<void>;
-  rejectInvite: (inviteId: string) => Promise<void>;
+  acceptInvite: (inviteId: string, userId: string) => Promise<void>;
+  rejectInvite: (inviteId: string, userId: string) => Promise<void>;
 }
 
 export const useInviteStore = create<InviteStore>((set, get) => ({
@@ -34,7 +35,7 @@ export const useInviteStore = create<InviteStore>((set, get) => ({
         receiverId: event.ReceiverId,
         senderName: event.SenderName,
         receiverName: event.ReceiverName,
-        createdAt: new Date(event.CreatedAt),
+        createdAt: "",
         type: 'friend',
         status: 'pending',
       };
@@ -58,43 +59,28 @@ export const useInviteStore = create<InviteStore>((set, get) => ({
     };
   },
   
-  acceptInvite: async (inviteId: string) => {
+  acceptInvite: async (inviteId: string, userId: string) => {
     console.log(`Принимаем приглашение: ${inviteId}`);
     
+    friendsApi.acceptFriendRequest(userId, inviteId);
+
     set((state) => ({
-      invites: state.invites.map((invite) =>
-        invite.id === inviteId 
-          ? { ...invite, status: 'accepted' }
-          : invite
-      ),
+      invites: state.invites.filter(inv => inv.id !== inviteId),
+      isLoading: false
     }));
+    
   },
   
   // Отклонить приглашение
-  rejectInvite: async (inviteId: string) => {
+  rejectInvite: async (inviteId: string, userId: string) => {
     console.log(`Отклоняем приглашение: ${inviteId}`);
     
-    // Обновляем статус в хранилище
+    friendsApi.rejectFriendRequest(userId, inviteId);
+
     set((state) => ({
-      invites: state.invites.map((invite) =>
-        invite.id === inviteId 
-          ? { ...invite, status: 'rejected' }
-          : invite
-      ),
+      invites: state.invites.filter(inv => inv.id !== inviteId),
+      isLoading: false
     }));
-    
-    setTimeout(() => {
-      set((state) => ({
-        invites: state.invites.filter((invite) => invite.id !== inviteId),
-      }));
-    }, 3000);
-    
-    // Здесь можно добавить API вызов к серверу
-    // try {
-    //   await api.rejectInvite(inviteId);
-    // } catch (error) {
-    //   console.error('Ошибка при отклонении приглашения:', error);
-    // }
   },
 }));
 
