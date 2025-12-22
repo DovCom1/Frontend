@@ -111,6 +111,7 @@ export class SignalRClient {
       subscribersArray.forEach((callback, index) => {
         try {
           console.log("я точно не зайду сюда дважды");
+          console.log(args[0])
           const result = callback(args[0]);
           
           // Если результат - Promise
