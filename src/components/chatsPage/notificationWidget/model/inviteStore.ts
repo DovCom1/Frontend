@@ -30,7 +30,7 @@ export const useInviteStore = create<InviteStore>((set, get) => ({
       console.log('📨 Получено событие приглашения:', event);
       
       const invite: Invite = {
-        id: `${event.SenderId}_${event.ReceiverId}_${Date.now()}`,
+        id: event.SenderId,
         senderId: event.SenderId,
         receiverId: event.ReceiverId,
         senderName: event.SenderName,
