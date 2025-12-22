@@ -28,7 +28,7 @@ export const useDialog = (selectedChat: Chat) => {
     const signalStore = useSignalRStore.getState();
     console.log("я не зайду сюда дважды")
     signalStore.subscribe("ReceiveNotification", (response: any) => {
-      console.log("это id из response", response.chatId);
+      console.log("это id из response", response.ChatId);
       console.log("это id чата", selectedChat.id);
       if(response.ChatId === selectedChat.id){
         const newMessage: MessageEntity = {
