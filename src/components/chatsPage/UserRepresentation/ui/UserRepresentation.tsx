@@ -57,7 +57,7 @@ export const UserRepresentation: React.FC<Props> = ({ onClose, userId }) => {
 
   return (
     <div className="container">
-      <Button
+      {/* <Button
         icon={
           <Icon
             path={"/icons/arrowLeftWhite.svg"}
@@ -68,7 +68,7 @@ export const UserRepresentation: React.FC<Props> = ({ onClose, userId }) => {
         height={"31px"}
         width={"31px"}
         onClick={onClose}
-      />
+      /> */}
       <div className="user-representation-header">
         <Icon
           path={user.avatarUrl || "/images/neuro_dove.png"}
