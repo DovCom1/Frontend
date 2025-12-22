@@ -142,7 +142,11 @@ export const ChatsSidebar = forwardRef<ChatsSidebarRef, ChatsSidebarProps>(
           {currentView === SidebarView.UserProfile && (
             <IconButton
               icon={
-                <Icon path="/icons/arrow-left.svg" height="24px" width="24px" />
+                <Icon
+                  path="/icons/arrowLeftWhite.svg"
+                  height="24px"
+                  width="24px"
+                />
               }
               onClick={handleBackToChats}
               className="chats-sidebar__back-button"
