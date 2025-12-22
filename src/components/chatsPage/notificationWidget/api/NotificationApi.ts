@@ -22,7 +22,7 @@ export const friendsApi = {
     try {
       const response = await baseApi.patch<FriendResponse>(
         `/proxy/users/${userId}/friends/${friendId}/accept`
-      );
+      , null);
       
       console.log('Заявка принята:', response.data);
       return response.data;
@@ -39,7 +39,7 @@ export const friendsApi = {
   ): Promise<FriendResponse> => {
     try {
       const response = await baseApi.patch<FriendResponse>(
-        `/proxy/users/${userId}/friends/${friendId}/reject`
+        `/proxy/users/${userId}/friends/${friendId}/reject`, null
       );
       
       console.log('Заявка отклонена:', response.data);
