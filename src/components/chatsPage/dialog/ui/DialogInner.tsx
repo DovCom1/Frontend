@@ -19,7 +19,7 @@ const DialogInner: React.FC<{ selectedChat: Chat }> = ({ selectedChat }) => {
 
   useEffect(() => {
     addNotifiactionListener();
-  }, []);
+  }, [selectedChat]);
 
   useEffect(() => {
     loadMessages();
