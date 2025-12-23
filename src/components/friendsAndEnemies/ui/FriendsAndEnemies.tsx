@@ -12,6 +12,7 @@ import Label from "../../../shared/atoms/labels/Label";
 import Icon from "../../../shared/atoms/icons/Icon";
 import IconButton from "../../../shared/atoms/buttons/IconButton";
 import { Modal } from "../../../shared/atoms/modal/Modal";
+import Avatar from "../../../shared/atoms/icons/Avatar";
 
 interface Props {
   onClose: () => void;
@@ -244,11 +245,7 @@ export const FriendsAndEnemies: React.FC<Props> = ({
                 {users.map((user) => (
                   <div key={user.id} className="friends-enemies__user-card">
                     <div className="friends-enemies__user-info">
-                      <img
-                        src={user.avatarUrl || "/images/neuro_dove.png"}
-                        alt={user.nickname}
-                        className="friends-enemies__user-avatar"
-                      />
+                      <Avatar path={user.avatarUrl} size={"65px"} />
                       <div className="friends-enemies__user-details">
                         <div className="friends-enemies__user-nickname">
                           {user.nickname}
