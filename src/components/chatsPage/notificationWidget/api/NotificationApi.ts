@@ -14,15 +14,15 @@ export interface InviteActionResponse {
 }
 
 export const friendsApi = {
-  // Принять заявку в друзья
   acceptFriendRequest: async (
     userId: string, 
     friendId: string
   ): Promise<FriendResponse> => {
     try {
       const response = await baseApi.patch<FriendResponse>(
-        `/proxy/users/${userId}/friends/${friendId}/accept`
-      , null);
+        `/proxy/users/${userId}/friends/${friendId}/accept`,
+        {}
+      );
       
       console.log('Заявка принята:', response.data);
       return response.data;
@@ -32,14 +32,14 @@ export const friendsApi = {
     }
   },
 
-  // Отклонить заявку в друзья
   rejectFriendRequest: async (
     userId: string, 
     friendId: string
   ): Promise<FriendResponse> => {
     try {
       const response = await baseApi.patch<FriendResponse>(
-        `/proxy/users/${userId}/friends/${friendId}/reject`, null
+        `/proxy/users/${userId}/friends/${friendId}/reject`,
+        {}
       );
       
       console.log('Заявка отклонена:', response.data);
@@ -48,5 +48,5 @@ export const friendsApi = {
       console.error('Ошибка при отклонении заявки:', error);
       throw error;
     }
-  },
+  }
 };

@@ -27,11 +27,11 @@ export const useDialog = (selectedChat: Chat) => {
   const addNotifiactionListener = () => {
     const signalStore = useSignalRStore.getState();
     const unsubscribe = signalStore.subscribe("ReceiveNotification", (response: any) => {
-      if(response.ChatId === selectedChat.id){
+      if(response.chatId === selectedChat.id){
         const newMessage: MessageEntity = {
         senderId: response.SenderId,
-        content: response.Message,
-        sentAt: response.CreatedAt,
+        content: response.message,
+        sentAt: response.createdAt,
         };
         setMessages((prev) => [...prev, newMessage]);
       }
