@@ -5,6 +5,7 @@ import Icon from "../../../../shared/atoms/icons/Icon";
 import "./UserRepresentation.css";
 import Label from "../../../../shared/atoms/labels/Label";
 import Button from "../../../../shared/atoms/buttons/Button";
+import Avatar from "../../../../shared/atoms/icons/Avatar";
 
 interface Props {
   onClose: () => void;
@@ -57,25 +58,8 @@ export const UserRepresentation: React.FC<Props> = ({ onClose, userId }) => {
 
   return (
     <div className="container">
-      <Button
-        icon={
-          <Icon
-            path={"/icons/arrowLeftWhite.svg"}
-            height={"31px"}
-            width={"31px"}
-          />
-        }
-        height={"31px"}
-        width={"31px"}
-        onClick={onClose}
-      />
       <div className="user-representation-header">
-        <Icon
-          path={user.avatarUrl || "/images/neuro_dove.png"}
-          style={{ borderRadius: "50%", marginBottom: "15px" }}
-          height={"140px"}
-          width={"140px"}
-        />
+        <Avatar path={user.avatarUrl} size={"140px"} />
         <Label text={user.nickname} fontSize={"24px"} color={"#F6F6F6"} />
         <Label text={"@" + user.uid} fontSize={"12px"} color={"#60636A"} />
         <Label

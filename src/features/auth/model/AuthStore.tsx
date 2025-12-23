@@ -18,7 +18,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   isLoading: false,
   error: null,
-
   login: async (data: LoginData) => {
     set({ isLoading: true, error: null });
 
@@ -36,7 +35,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       const signalRStore = useSignalRStore.getState();
 
-      await signalRStore.connect();
+      await signalRStore.connect(userId);
 
       console.log("SignalR connection established after login");
     } catch (error: any) {
@@ -49,31 +48,32 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   checkAuth: async () => {
-    // set({ isLoading: true });
-    // try {
-    //   const userId = await authApi.getCurrentUser();
-    //   userState.setUserId(userId);
-    //   const signalRStore = useSignalRStore.getState();
-    //   if (!signalRStore.isConnected) {
-    //     await signalRStore.connect();
-    //   } else {
-    //     console.log("SignalR already connected");
-    //   }
-    //   set({
-    //     isAuthenticated: true,
-    //     isLoading: false,
-    //   });
-    // } catch (error: any) {
-    //   set({
-    //     isAuthenticated: false,
-    //     isLoading: false,
-    //   });
-    //   // При ошибке проверки аутентификации отключаем SignalR
-    //   const signalRStore = useSignalRStore.getState();
-    //   if (signalRStore.isConnected) {
-    //     await signalRStore.disconnect();
-    //   }
-    // }
+    set({ isLoading: true });
+    try {
+      const userId = await authApi.getCurrentUser();
+      userState.setUserId(userId);
+      const signalRStore = useSignalRStore.getState();
+      if (!signalRStore.isConnected) {
+        await signalRStore.connect(userId);
+      } else {
+        console.log("SignalR already connected");
+      }
+
+      set({
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error: any) {
+      set({
+        isAuthenticated: false,
+        isLoading: false,
+      });
+      // При ошибке проверки аутентификации отключаем SignalR
+      const signalRStore = useSignalRStore.getState();
+      if (signalRStore.isConnected) {
+        await signalRStore.disconnect();
+      }
+    }
   },
 
   register: async (data: RegisterData) => {
@@ -91,7 +91,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       const signalRStore = useSignalRStore.getState();
 
-      await signalRStore.connect();
+      await signalRStore.connect(userId);
 
       userState.setUserId(userId);
 

@@ -5,19 +5,22 @@ import { EmailInput } from "../../../shared/atoms/input-fields/EmailInput";
 import { PasswordInput } from "../../../shared/atoms/input-fields/PasswordInput";
 import Button from "../../../shared/atoms/buttons/Button";
 import Label from "../../../shared/atoms/labels/Label";
+import { ErrorMessage } from "../../../shared/atoms/errorMessage/ErrorMessage";
 import Icon from "../../../shared/atoms/icons/Icon";
 import { useAuthStore } from "../model/AuthStore";
 import { useAuthWidgetStore } from "../model/AuthWidgetStore";
 import { validatePasswordDetailed } from "../model/Validation";
 import LabeledIconButton from "../../../shared/atoms/buttons/LabeledIconButton";
+import axios from "axios";
 
 export const LoginWidget: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [authError, setAuthError] = useState("");
 
-  const { login, isLoading, clearError } = useAuthStore();
+  const { login, isLoading, clearError, error } = useAuthStore();
   const { isLoginOpen, closeAll, switchToRegister } = useAuthWidgetStore();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,9 +31,17 @@ export const LoginWidget: React.FC = () => {
       setPassword("");
       setEmailError("");
       setPasswordError("");
+      setAuthError(""); 
       clearError();
     }
   }, [isLoginOpen, clearError]);
+
+  useEffect(() => {
+    // При изменении ошибки из store, отображаем её
+    if (error) {
+      setAuthError(error);
+    }
+  }, [error]);
 
   const isFormValid = () => {
     const isEmailValid = email.trim() !== "" && emailRegex.test(email);
@@ -43,6 +54,7 @@ export const LoginWidget: React.FC = () => {
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
+    setAuthError(""); // Сбрасываем ошибку при изменении email
 
     if (value.trim() === "") {
       setEmailError("");
@@ -55,6 +67,7 @@ export const LoginWidget: React.FC = () => {
 
   const handlePasswordChange = (value: string) => {
     setPassword(value);
+    setAuthError(""); // Сбрасываем ошибку при изменении пароля
 
     if (value.trim() === "") {
       setPasswordError("Пароль обязателен для заполнения");
@@ -72,11 +85,32 @@ export const LoginWidget: React.FC = () => {
       return;
     }
 
+    setAuthError(""); // Сбрасываем ошибку перед новым запросом
+
     try {
       await login({ email, password });
       closeAll();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Login error:", error);
+
+      // Проверяем тип ошибки и показываем соответствующее сообщение
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+
+        if (status === 401) {
+          setAuthError("Неверный email или пароль");
+        } else if (status === 400) {
+          setAuthError("Неверный формат данных");
+        } else if (status === 404) {
+          setAuthError("Пользователь не найден");
+        } else if (status === 429) {
+          setAuthError("Слишком много попыток. Попробуйте позже");
+        } else {
+          setAuthError("Ошибка авторизации");
+        }
+      } else {
+        setAuthError("Произошла ошибка при входе");
+      }
     }
   };
 
@@ -89,6 +123,10 @@ export const LoginWidget: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+        }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
         }}
       >
         <LabeledIconButton
@@ -104,6 +142,8 @@ export const LoginWidget: React.FC = () => {
           color={"#fff"}
           textAlign="center"
         />
+
+        {authError && <ErrorMessage message={authError} />}
 
         <div style={{ width: "90%", marginBottom: "16px" }}>
           <EmailInput

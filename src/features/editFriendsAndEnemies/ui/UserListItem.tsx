@@ -4,6 +4,7 @@ import { useAuthWidgetStore } from "../model/EditFriendsAndEnemiesStore";
 import Button from "../../../shared/atoms/buttons/Button";
 import Label from "../../../shared/atoms/labels/Label";
 import "./UserListItem.css";
+import Avatar from "../../../shared/atoms/icons/Avatar";
 
 interface UserListItemProps {
   user: UserMainInfo;
@@ -31,11 +32,7 @@ export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
   return (
     <div className="user-list-item">
       <div className="user-list-item__info">
-        <img
-          src={user.avatarUrl || "/images/neuro_dove.png"}
-          alt={user.nickname}
-          className="user-list-item__avatar"
-        />
+        <Avatar path={user.avatarUrl} size={"50px"} />
         <div className="user-list-item__details">
           <div className="user-list-item__nickname">{user.nickname}</div>
           <div className="user-list-item__uid">@{user.uid}</div>
