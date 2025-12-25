@@ -1,12 +1,13 @@
 import React from "react";
-import { User } from "../api/userSearchApi";
+import { UserMainInfo } from "../api/userSearchApi";
 import { useAuthWidgetStore } from "../model/EditFriendsAndEnemiesStore";
 import Button from "../../../shared/atoms/buttons/Button";
 import Label from "../../../shared/atoms/labels/Label";
 import "./UserListItem.css";
+import Avatar from "../../../shared/atoms/icons/Avatar";
 
 interface UserListItemProps {
-  user: User;
+  user: UserMainInfo;
 }
 
 export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
@@ -15,7 +16,6 @@ export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
   const handleAddFriend = async () => {
     try {
       await addNewFriend(user.id);
-      alert(`Пользователь ${user.nickname} добавлен в друзья!`);
     } catch (error) {
       alert("Ошибка при добавлении в друзья");
     }
@@ -24,7 +24,6 @@ export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
   const handleAddEnemy = async () => {
     try {
       await addNewEnemy(user.id);
-      alert(`Пользователь ${user.nickname} добавлен во враги!`);
     } catch (error) {
       alert("Ошибка при добавлении во враги");
     }
@@ -33,11 +32,7 @@ export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
   return (
     <div className="user-list-item">
       <div className="user-list-item__info">
-        <img
-          src={user.avatarUrl}
-          alt={user.nickname}
-          className="user-list-item__avatar"
-        />
+        <Avatar path={user.avatarUrl} size={"50px"} />
         <div className="user-list-item__details">
           <div className="user-list-item__nickname">{user.nickname}</div>
           <div className="user-list-item__uid">@{user.uid}</div>

@@ -45,6 +45,7 @@ export const EditFriendsAndEnemiesWidget: React.FC = () => {
 
   const handleNameSearch = useCallback(
     (value: string) => {
+      console.log("handleNameSearch", value);
       setName(value);
       getUsersByName(value);
     },
@@ -68,22 +69,14 @@ export const EditFriendsAndEnemiesWidget: React.FC = () => {
       <div className="edit-friends-enemies">
         <div className="edit-friends-enemies__search-container">
           <div className="edit-friends-enemies__search-wrapper">
-            <Search
-              value={name}
-              onChange={handleNameSearch}
-              placeholder="Поиск по имени"
-            />
+            <Search onClick={handleNameSearch} placeholder="Поиск по имени" />
           </div>
           <div className="edit-friends-enemies__search-wrapper">
-            <Search
-              value={uid}
-              onChange={handleUidSearch}
-              placeholder="Поиск по UID"
-            />
+            <Search onClick={handleUidSearch} placeholder="Поиск по UID" />
           </div>
         </div>
 
-        {error && <div className="edit-friends-enemies__error">{error}</div>}
+        {/* {error && <div className="edit-friends-enemies__error">{error}</div>} */}
 
         {loading && (
           <div className="edit-friends-enemies__loading">Загрузка...</div>

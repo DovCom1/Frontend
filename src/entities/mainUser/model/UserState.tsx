@@ -1,13 +1,14 @@
+import { User } from "../../../shared/types/User";
 import { userApi } from "../api/UserApi";
-import { MainUser } from "../types/MainUser";
 
 export class UserState {
-  private user: MainUser | null = null;
+  private userId: string = "-";
+  private user: User | null = null;
   private loading: boolean = false;
   private error: string | null = null;
 
   // Получить полную информацию о пользователе
-  async getUser(): Promise<MainUser> {
+  async getUser(): Promise<User> {
     if (this.user && !this.loading) {
       return this.user;
     }
@@ -16,7 +17,7 @@ export class UserState {
     this.error = null;
 
     try {
-      const userData = await userApi.getMyUser();
+      const userData = await userApi.getMyUser(this.userId);
       this.user = userData;
       this.loading = false;
       return userData;
@@ -30,25 +31,30 @@ export class UserState {
 
   // Получить ID пользователя с проверкой существования
   async getUserId(): Promise<string> {
-    console.log("Низабудь ипсравить ID");
-    return "asdasdddddsssssssssssssssssssssssss";
-    // if (this.user) {
-    //   return this.user.id;
-    // }
+    if (this.user) {
+      return this.user.id;
+    }
+    if (this.userId !== "-") {
+      return this.userId;
+    }
 
-    // this.loading = true;
-    // this.error = null;
+    this.loading = true;
+    this.error = null;
 
-    // try {
-    //   const userData = await userApi.getMyUser();
-    //   this.user = userData;
-    //   this.loading = false;
-    //   return userData.id;
-    // } catch (error) {
-    //   this.loading = false;
-    //   this.error = error instanceof Error ? error.message : "Неизвестная ошибка";
-    //   throw error;
-    // }
+    try {
+      const userData = await userApi.getMyUser(this.userId);
+      this.user = userData;
+      this.loading = false;
+      return userData.id;
+    } catch (error) {
+      this.loading = false;
+      this.error =
+        error instanceof Error ? error.message : "Неизвестная ошибка";
+      throw error;
+    }
+  }
+  setUserId(userId: string) {
+    this.userId = userId;
   }
 
   // Синхронное получение ID (если пользователь уже загружен)
@@ -77,12 +83,12 @@ export class UserState {
   }
 
   // Получить полные данные пользователя (без загрузки)
-  getUserData(): MainUser | null {
+  getUserData(): User | null {
     return this.user;
   }
 
   // Обновить данные пользователя
-  updateUser(updates: Partial<MainUser>): void {
+  updateUser(updates: Partial<User>): void {
     if (this.user) {
       this.user = { ...this.user, ...updates };
     }

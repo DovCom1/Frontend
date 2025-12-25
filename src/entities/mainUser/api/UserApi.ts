@@ -1,9 +1,11 @@
 import { baseApi } from "../../../shared/api/http/BaseApi";
-import { MainUser } from "../types/MainUser";
+import { User } from "../../../shared/types/User";
 
 export const userApi = {
-    getMyUser: async (): Promise<MainUser> => {
-        const response = await baseApi.get("/auth/me");
-        return response.data;
-      },
-}
+  getMyUser: async (userId: string): Promise<User> => {
+    console.log("userId" + userId);
+    const response = await baseApi.get(`/proxy/users/${userId}`);
+    
+    return response.data;
+  },
+};

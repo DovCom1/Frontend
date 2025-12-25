@@ -9,7 +9,7 @@ interface SignalRState {
   connectionId: string | null;
   lastError: string | null;
 
-  connect: (token?: string) => Promise<void>;
+  connect: (chatId : string) => Promise<void>;
   disconnect: () => Promise<void>;
   subscribe: (eventType: string, callback: Function) => () => void;
   invoke: (methodName: string, ...args: any[]) => Promise<any>;
@@ -24,7 +24,7 @@ export const useSignalRStore = create<SignalRState>((set, get) => ({
   connectionId: null,
   lastError: null,
 
-  connect: async () => {
+  connect: async (chatId : string) => {
     const { client, isConnecting } = get();
 
     if (isConnecting) {
@@ -38,7 +38,11 @@ export const useSignalRStore = create<SignalRState>((set, get) => ({
 
     set({ isConnecting: true, lastError: null });
 
-    const newClient = new SignalRClient(( process.env.API_URL && process.env.API_URL + "/user/hub") || "http://localhost:8080/user/hub");
+    const newClient = new SignalRClient(
+      (process.env.REACT_APP_API_BASE_URL &&
+        process.env.REACT_APP_API_BASE_URL + "/user/hub") ||
+        "http://localhost:8080/user/hub"
+    );
     // Настраиваем обработчики
     newClient.onConnectionChange = (isConnected: boolean) => {
       set({
@@ -72,7 +76,7 @@ export const useSignalRStore = create<SignalRState>((set, get) => ({
     };
 
     try {
-      await newClient.connect();
+      await newClient.connect(chatId);
       set({
         client: newClient,
         isConnected: true,
@@ -133,5 +137,5 @@ export const useSignalRStore = create<SignalRState>((set, get) => ({
     }
 
     await client.send(methodName, ...args);
-  }
+  },
 }));

@@ -7,8 +7,25 @@ import React, { useEffect } from "react";
 import { useDialog } from "../model/dialog";
 
 const DialogInner: React.FC<{ selectedChat: Chat }> = ({ selectedChat }) => {
-  const { messages, loading, error, loadMessages, handleWrite } =
-    useDialog(selectedChat);
+  const {
+    messages,
+    username,
+    loading,
+    error,
+    loadMessages,
+    handleWrite,
+    addNotifiactionListener,
+  } = useDialog(selectedChat);
+
+  useEffect(() => {
+    const unsubscribe = addNotifiactionListener();
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [addNotifiactionListener, selectedChat]);
 
   useEffect(() => {
     loadMessages();
@@ -35,7 +52,11 @@ const DialogInner: React.FC<{ selectedChat: Chat }> = ({ selectedChat }) => {
   return (
     <div className={classes.container}>
       <DialogHeader selectedChat={selectedChat} />
-      <MessagesField selectedChat={selectedChat} messages={messages} />
+      <MessagesField
+        selectedChat={selectedChat}
+        messages={messages}
+        username={username}
+      />
       <MessageInput onWrite={handleWrite} />
     </div>
   );

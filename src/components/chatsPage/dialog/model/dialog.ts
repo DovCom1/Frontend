@@ -1,13 +1,43 @@
 import { userState } from "../../../../entities/mainUser/model/UserState";
 import { MessageEntity } from "../../../../entities/message/messageEntity";
 import { messageHistoryApi, sendMessage } from "../api/messages";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Chat } from "../../../../entities/chat/model/types/chat";
+import { useSignalRStore } from "../../../../shared/api/websocket/model/SignalRStore";
 
 export const useDialog = (selectedChat: Chat) => {
   const [messages, setMessages] = useState<MessageEntity[]>([]);
+  const [username, setUsername] = useState("user");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const uploadNewMessage = (
+    senderId: string,
+    content: string,
+    sentAt: string,
+  ) => {
+    const newMessage: MessageEntity = {
+      senderId,
+      content,
+      sentAt,
+    };
+    setMessages((prev) => [...prev, newMessage]);
+  };
+
+  const addNotifiactionListener = () => {
+    const signalStore = useSignalRStore.getState();
+    const unsubscribe = signalStore.subscribe("ReceiveNotification", (response: any) => {
+      if(response.chatId === selectedChat.id){
+        const newMessage: MessageEntity = {
+        senderId: response.SenderId,
+        content: response.message,
+        sentAt: response.createdAt,
+        };
+        setMessages((prev) => [...prev, newMessage]);
+      }
+    });
+    return unsubscribe;
+  };
 
   const loadMessages = async () => {
     setLoading(true);
@@ -22,26 +52,22 @@ export const useDialog = (selectedChat: Chat) => {
     }
   };
 
-  const handleWrite = (text: string) => {
-    const userId = userState.getUserIdSync();
+  const handleWrite = async (text: string) => {
+    const userId = await userState.getUserId();
     if (!userId) {
       console.log("No user Id!");
       return;
     }
     // создаём новое сообщение
-    const newMessage: MessageEntity = {
-      senderId: userId,
-      content: text,
-    };
-    setMessages((prev) => [...prev, newMessage]);
-    // Запрос серверу, что сообщение отправлено
+    uploadNewMessage(userId, text, new Date().toISOString());
+    // Запрос сервера на поиск айди
     if (selectedChat) {
-      sendMessage.post(selectedChat.id, text);
+      sendMessage.post(userId, selectedChat.id, text, undefined);
     }
   };
 
   const getMessages = async () => {
-    const userId = userState.getUserIdSync();
+    const userId = await userState.getUserId();
     if (!userId) {
       setError("User id is null!");
       return;
@@ -52,9 +78,10 @@ export const useDialog = (selectedChat: Chat) => {
     }
 
     try {
-      await messageHistoryApi
-        .get(selectedChat.id)
-        .then((res) => setMessages(res.messages));
+      await messageHistoryApi.get(selectedChat.id, userId).then((res) => {
+        setMessages(res.history.messages.reverse());
+        setUsername(res.info.name);
+      });
     } catch (e) {
       setError("Chat not selected!");
     } finally {
@@ -62,5 +89,13 @@ export const useDialog = (selectedChat: Chat) => {
     }
   };
 
-  return { messages, loading, error, loadMessages, handleWrite };
+  return {
+    messages,
+    username,
+    loading,
+    error,
+    loadMessages,
+    handleWrite,
+    addNotifiactionListener,
+  };
 };

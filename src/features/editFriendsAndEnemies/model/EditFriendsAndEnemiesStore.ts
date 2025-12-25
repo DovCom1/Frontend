@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { User, userSearchApi } from "../api/userSearchApi";
+import { UserMainInfo, userSearchApi } from "../api/userSearchApi";
 
 interface AuthWidgetState {
-  users: User[];
+  users: UserMainInfo[];
   loading: boolean;
   error: string | null;
   currentUserId: string | null;

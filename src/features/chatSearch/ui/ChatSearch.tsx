@@ -12,5 +12,5 @@ export const ChatSearch: React.FC<ChatSearchProps> = ({
   onChange,
   placeholder = "Поиск чатов",
 }) => {
-  return <Search value={value} onChange={onChange} placeholder={placeholder} />;
+  return <Search onChange={onChange} placeholder={placeholder} />;
 };
