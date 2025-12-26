@@ -3,10 +3,10 @@ import { SignalRClient } from '../../../../shared/api/websocket/lib/SignalRClien
 import { friendsApi } from '../api/NotificationApi';
 
 export interface Invite {
+  senderName: string;
   id: string;
   senderId: string;
   receiverId: string;
-  senderName: string;
   receiverName: string;
   createdAt: string;
   type: 'friend' | 'chat' | 'group';
@@ -33,9 +33,9 @@ export const useInviteStore = create<InviteStore>((set, get) => ({
         id: event.SenderId,
         senderId: event.SenderId,
         receiverId: event.ReceiverId,
-        senderName: event.SenderName,
-        receiverName: event.ReceiverName,
-        createdAt: "",
+        senderName: event.senderName,
+        receiverName: event.receiverName,
+        createdAt: event.createdAt,
         type: 'friend',
         status: 'pending',
       };

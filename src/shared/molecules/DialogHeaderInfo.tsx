@@ -18,13 +18,15 @@ const DialogHeaderInfo: React.FC<DialogHeaderInfoProps> = ({
   uuid,
   onClick,
 }) => {
+  if (avatarSrc === "default.jpg") {
+    avatarSrc = "/images/neuro_dove.png";
+  }
   return (
     <button
       onClick={onClick}
       className={`${buttonClasses.customButton} ${classes.container}`}
     >
-      {/* <Icon className={classes.avatarWrapper} path={avatarSrc} /> */}
-      <Avatar path={avatarSrc} size="35px" />
+      <Icon className={classes.avatarWrapper} path={avatarSrc} />
       <div className={classes.labelsContainer}>
         <Label className={classes.nicknameWrapper} text={userName}></Label>
         <Label className={classes.uuidWrapper} text={uuid}></Label>

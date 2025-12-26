@@ -2,7 +2,7 @@ import classes from "./NotificationWidget.module.css";
 import Label from "../../../../shared/atoms/labels/Label";
 import Button from "../../../../shared/atoms/buttons/Button";
 import NotificationItem from "./NotificationItem";
-import notificationItemClasses from "./NotificationItem.module.css";
+import "./NotificationWidget.module.css";
 import { useEffect, useState } from "react";
 import { useInvites } from "../model/useInvites";
 import { userState } from "../../../../entities/mainUser/model/UserState";
@@ -50,9 +50,8 @@ const NotificationWidget: React.FC<NotificationWidgetProps> = ({
               <NotificationItem
                 key={invite.id}
                 button={
-                  <div className={notificationItemClasses.buttonsContainer}>
+                  <div className={classes.buttons}>
                     <Button
-                      className={notificationItemClasses.acceptButton}
                       label={<Label text="Принять" />}
                       onClick={() => acceptInvite(invite.id, currentUserId)}
                       backgroundColor="#2A3FA7"
@@ -61,7 +60,6 @@ const NotificationWidget: React.FC<NotificationWidgetProps> = ({
                       height="30px"
                     />
                     <Button
-                      className={notificationItemClasses.rejectButton}
                       label={<Label text="Отклонить" />}
                       onClick={() => rejectInvite(invite.id, currentUserId)}
                       backgroundColor="#a1402eff"

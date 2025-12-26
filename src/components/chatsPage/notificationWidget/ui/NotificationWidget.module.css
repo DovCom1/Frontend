@@ -35,6 +35,10 @@
     scrollbar-color: #c5c5c5 #353535;
 }
 
+.buttons {
+    gap: 10;
+}
+
 
 .notificationsContainer::-webkit-scrollbar {
     width: 8px;
