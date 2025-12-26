@@ -11,21 +11,6 @@ export const VideoCallManager: React.FC = () => {
         addParticipant, removeParticipant, setParticipants, state
     } = useVideoCall();
 
-    // // Демо: автоматическое добавление тестовых участников
-    // useEffect(() => {
-    //     // Симуляция подключения участников через WebRTC
-    //     const timer1 = setTimeout(() => {
-    //         addParticipant({
-    //             id: 'user-1',
-    //             userName: 'Анна Петрова',
-    //             isSpeaking: true,
-    //             isMuted: false
-    //         });
-    //     }, 1000);
-    //     return () => {
-    //         clearTimeout(timer1);
-    //     };
-    // }, [addParticipant]);
     // Функции для ручного управления
     const handleAddRandomParticipant = () => {
         const randomId = `user-${Date.now()}`;

@@ -90,6 +90,10 @@ export class SignalRClient {
       this.notifySubscribers("Invite", [data]);
     })
 
+    this.connection.on("ReceiveSignal", (data: any) => {
+      this.notifySubscribers("ReceiveSignal", [data]);
+    });
+
     this.connection.onreconnected((connectionId) => {
       console.log("SignalR reconnected with connectionId:", connectionId);
       this.reconnectAttempts = 0;

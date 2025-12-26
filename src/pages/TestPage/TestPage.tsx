@@ -19,6 +19,8 @@ import {
 } from "../../shared/atoms/dropdown/options/IconTextOption";
 import { MultipleDropdown } from "../../shared/atoms/dropdown/MultipleDropdown";
 import { createTextOptions } from "../../shared/atoms/dropdown/options/TextOption";
+import { VideoCall } from "../../features/calls/ui/VideoCall";
+import { VideoChatParticipant } from "../../features/calls/ui/VideoChatParticipant";
 
 export const TestPage: React.FC = () => {
   const [meetingTitle, setMeetingTitle] = useState("");

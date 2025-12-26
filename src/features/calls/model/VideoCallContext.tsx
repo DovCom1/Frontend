@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useReducer, useCallback } from 'react';
+import { useWebRTC } from '../api/UseWebRTC';
+import { useUserMedia } from '../../../shared/hooks/UseUserMedia'; // 👈 Импортируем готовый хук
 
+// --- Типы и Интерфейсы ---
 export interface Participant {
     id: string;
     userName: string;
@@ -28,74 +31,92 @@ interface VideoCallContextType {
     updateParticipant: (id: string, updates: Partial<Participant>) => void;
     setParticipants: (participants: Participant[]) => void;
     updateCurrentUser: (updates: Partial<Participant>) => void;
+    // 👇 Добавляем методы управления медиа из хука
+    toggleCamera: () => Promise<void>;
+    toggleMicrophone: () => void;
+    isCameraOn: boolean;
+    isMicrophoneOn: boolean;
 }
 
+// --- Context ---
 const VideoCallContext = createContext<VideoCallContextType | undefined>(undefined);
 
-// Редьюсер для управления состоянием
+// --- Reducer ---
 const videoCallReducer = (state: VideoCallState, action: VideoCallAction): VideoCallState => {
     switch (action.type) {
         case 'ADD_PARTICIPANT':
-            // Проверяем, нет ли уже участника с таким ID
             if (state.participants.some(p => p.id === action.payload.id)) {
-                console.warn(`Participant with id ${action.payload.id} already exists`);
-                return state;
+                return {
+                    ...state,
+                    participants: state.participants.map(p => 
+                        p.id === action.payload.id ? { ...p, ...action.payload } : p
+                    )
+                };
             }
-            return {
-                ...state,
-                participants: [...state.participants, action.payload]
-            };
+            return { ...state, participants: [...state.participants, action.payload] };
 
         case 'REMOVE_PARTICIPANT':
-            return {
-                ...state,
-                participants: state.participants.filter(p => p.id !== action.payload)
-            };
+            return { ...state, participants: state.participants.filter(p => p.id !== action.payload) };
 
         case 'UPDATE_PARTICIPANT':
             return {
                 ...state,
                 participants: state.participants.map(p =>
-                    p.id === action.payload.id
-                        ? { ...p, ...action.payload.updates }
-                        : p
+                    p.id === action.payload.id ? { ...p, ...action.payload.updates } : p
                 )
             };
 
         case 'SET_PARTICIPANTS':
-            return {
-                ...state,
-                participants: action.payload
-            };
+            return { ...state, participants: action.payload };
 
         case 'UPDATE_CURRENT_USER':
-            return {
-                ...state,
-                currentUser: { ...state.currentUser, ...action.payload }
-            };
+            return { ...state, currentUser: { ...state.currentUser, ...action.payload } };
 
         default:
             return state;
     }
 };
 
-// Провайдер контекста
+// --- Provider ---
 interface VideoCallProviderProps {
     children: React.ReactNode;
+    roomId: string;
     initialParticipants?: Participant[];
     currentUser?: Participant;
 }
 
 export const VideoCallProvider: React.FC<VideoCallProviderProps> = ({
     children,
+    roomId,
     initialParticipants = [],
     currentUser = { id: 'current-user', userName: 'Вы', isMuted: false, isSpeaking: false }
 }) => {
-    const [state, dispatch] = useReducer(videoCallReducer, {
-        participants: initialParticipants,
-        currentUser
+    // 👇 Используем готовый хук для медиа
+    const {
+        stream: localStream,
+        error: mediaError,
+        isLoading: mediaLoading,
+        isCameraOn,
+        isMicrophoneOn,
+        startStream,
+        stopStream,
+        toggleCamera,
+        toggleMicrophone
+    } = useUserMedia({
+        video: false, // Начинаем без видео по умолчанию
+        audio: true,  // С микрофоном
+        autoStart: true
     });
 
+    const [state, dispatch] = useReducer(videoCallReducer, {
+        participants: initialParticipants,
+        currentUser: { 
+            ...currentUser, 
+            isMuted: !isMicrophoneOn // 👈 Синхронизируем с реальным состоянием
+        }
+    });
+
+    // --- Actions ---
     const addParticipant = useCallback((participant: Participant) => {
         dispatch({ type: 'ADD_PARTICIPANT', payload: participant });
     }, []);
@@ -116,14 +137,47 @@ export const VideoCallProvider: React.FC<VideoCallProviderProps> = ({
         dispatch({ type: 'UPDATE_CURRENT_USER', payload: updates });
     }, []);
 
-    const value = {
+    // --- Effects ---
+
+    // 1. Синхронизация стрима с текущим пользователем
+    useCallback(() => {
+        updateCurrentUser({ 
+            stream: localStream,
+            isMuted: !isMicrophoneOn
+        });
+    }, [localStream, isMicrophoneOn, updateCurrentUser]);
+
+    // 2. WebRTC логика
+    useWebRTC({
+        roomId,
+        localStream,
+        addParticipant,
+        removeParticipant
+    });
+
+    // --- Value ---
+    const value: VideoCallContextType = {
         state,
         addParticipant,
         removeParticipant,
         updateParticipant,
         setParticipants,
-        updateCurrentUser
+        updateCurrentUser,
+        // 👇 Экспортируем методы управления медиа
+        toggleCamera,
+        toggleMicrophone,
+        isCameraOn,
+        isMicrophoneOn
     };
+
+    // --- Render ---
+    if (mediaLoading) {
+        return <div style={{ color: 'white' }}>Подготовка медиа оборудования...</div>;
+    }
+
+    if (mediaError) {
+        return <div style={{ color: 'white' }}>Ошибка доступа к медиа: {mediaError}</div>;
+    }
 
     return (
         <VideoCallContext.Provider value={value}>
@@ -132,7 +186,7 @@ export const VideoCallProvider: React.FC<VideoCallProviderProps> = ({
     );
 };
 
-// Хук для использования контекста
+// --- Hook ---
 export const useVideoCall = (): VideoCallContextType => {
     const context = useContext(VideoCallContext);
     if (context === undefined) {

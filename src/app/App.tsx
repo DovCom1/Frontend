@@ -5,6 +5,7 @@ import ChatsPage from "../pages/ChatsPage/ChatsPage";
 import { useAuthStore } from "../features/auth/model/AuthStore";
 import { useEffect, useState } from "react";
 import { AuthRedirectHandler } from "../features/auth/hooks/AuthRedirectHandler";
+import CallTestPage from "../pages/CallTestPage/CallTestPage";
 
 function App() {
   const { checkAuth, isLoading: authLoading } = useAuthStore();
@@ -39,6 +40,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/chats" element={<ChatsPage />} />
+        <Route path="/callTest" element={<CallTestPage />} />
       </Routes>
     </BrowserRouter>
   );
